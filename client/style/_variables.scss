@@ -1,0 +1,43 @@
+// this file will be imported to all other sass file that needs variable and function access.
+// This file must have an underscore at the beginning for it to be imported.
+// @import "./variables.scss"; statement must be made without adding _underscore.
+// scss compiler will add the underscore autometically.
+
+// no css value should be added to this file. else everything will be repeated again and again.
+
+// a function to return the nested child variable from the parent object (here $colors) using map-get.
+@function color($key) {
+  @if map-has-key($colors, $key) {
+    @return map-get($colors, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $colors.";
+  @return null;
+};
+// ---- end of function color($key) ----
+
+$colors: (
+  secondary : #41a62a,
+  primary : #f7a800,
+  disable-secondary: #c2d0bc,
+  disable-primary: #fad27e,
+  text-black-g: #3b3b3b,
+  app-background: #e8e8e8,
+  home-photo-background: #f3f3f3,
+  mint-blue: #2eb8b8,
+  white: #fff
+);
+
+$secondary : #41a62a;
+$primary : #f7a800;
+$primary-dark : #8a6d3b;
+$disable-secondary: #c2d0bc;
+$disable-primary: #fad27e;
+$text-black: #0e0e0e;
+$app-background: #e8e8e8;
+$app-background-light: #eee;
+$home-photo-background: #f3f3f3;
+$text-black-g: #3b3b3b;
+$text-white: #fff;
+$mint-blue: #2eb8b8;
+$white: #fff;

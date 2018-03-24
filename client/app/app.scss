@@ -1,0 +1,5 @@
+// App Global Sass
+@import "../style/variables.scss";
+// When importing, leaving out the underscore of the file, and it
+// will autometically look for a file with the underscore. This prevents the SCSS
+// compiler from generating a CSS file from it.
