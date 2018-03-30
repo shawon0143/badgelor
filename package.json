@@ -32,6 +32,7 @@
     "geolib": "^2.0.24",
     "meteor-node-stubs": "~0.3.0",
     "meteor-rxjs": "^0.4.8",
+    "moment": "^2.21.0",
     "mydatepicker": "^2.5.0",
     "ng2-charts": "^1.6.0",
     "ng2-dragula": "^1.5.0",
