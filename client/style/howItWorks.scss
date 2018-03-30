@@ -1,0 +1,75 @@
+@import "variables.scss";
+
+
+.howItWorksContainer {
+
+  .features {
+    padding: 5rem 0;
+
+    h3 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .col-feature {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+
+      .rounded-circle {
+        margin: 0 auto;
+        margin-bottom: 2rem;
+        width: 6rem;
+        height: 6rem;
+        background: $info;
+        border: 0.15rem solid #dfe1e5;
+        color: #ffffff;
+      }
+
+      .justify-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      p {
+        padding: 10px;
+        color: #696b6e;
+        // font-size: .9rem;
+      }
+    }
+  }
+}
+
+
+
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .howItWorksContainer {
+    .headerRow {
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+
+    .features {
+      padding: 0;
+
+      .col-feature {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {  }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) { }
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {  }

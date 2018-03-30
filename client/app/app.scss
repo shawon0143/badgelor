@@ -1,5 +1,9 @@
 // App Global Sass
-@import "../style/variables.scss";
+// to make bootswatch work we have to follow the import sequence as follows -> (1) _variables.scss , (2) bootstrap, (3) _bootswatch.scss
+@import "{}/node_modules/bootswatch/dist/cosmo/_variables.scss";
+@import '{}/node_modules/bootstrap/scss/bootstrap';
+@import "{}/node_modules/bootswatch/dist/cosmo/_bootswatch.scss";
 // When importing, leaving out the underscore of the file, and it
 // will autometically look for a file with the underscore. This prevents the SCSS
 // compiler from generating a CSS file from it.
+@import "../style/variables.scss";

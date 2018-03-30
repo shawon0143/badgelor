@@ -7,11 +7,26 @@ import {AccountsModule} from 'angular2-meteor-accounts-ui';
 import {LocalStorageModule} from 'angular-2-local-storage';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+//==================
 // modules for pages
-import {HomePage} from '/client/pages/home';
+//==================
+// ******* Homepage **********
+import {HomePage} from '/client/pages/homepage/home';
+import {Navbar} from '/imports/components/navbar/navbar';
+import {HomepageBannerTop} from '/client/pages/homepage/homepageBannerTop/homepageBannerTop';
+import {HowItWorks} from '/client/pages/homepage/howBadgelorWorks/howBadgelorWorks';
+import {InfoGraphic} from '/client/pages/homepage/infoGraphic/infoGraphic';
+
+// ********* Component *******
+import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignup';
 
 import {AppComponent} from './app.component';
 
+// ======================
+// Services and Providers
+// ======================
+import {AccountService} from "/imports/service/accountService";
 
 // global imports
 import '/imports/startup/accounts-config.js';
@@ -31,12 +46,20 @@ const appRoutes: Routes = [
             prefix: 'badgelor',
             storageType: 'localStorage'
         }),
-
+        AccountsModule,
         BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
+        // homepage modules
         HomePage,
+        Navbar,
+        HomepageBannerTop,
+        HowItWorks,
+        InfoGraphic,
+
+        LoginAndSignup,
+
 
     ],
     bootstrap: [AppComponent],
@@ -44,7 +67,7 @@ const appRoutes: Routes = [
 
     ],
     providers: [
-
+      AccountService
     ]
 })
 export class AppModule {

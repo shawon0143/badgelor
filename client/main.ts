@@ -1,6 +1,8 @@
 import 'zone.js';
 import 'reflect-metadata';
 import './polyfills';
+import 'bootstrap/dist/js/bootstrap.bundle'; // need to add this line for bootstrap4 to work properly
+
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { MeteorObservable } from 'meteor-rxjs';

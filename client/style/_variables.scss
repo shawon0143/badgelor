@@ -1,3 +1,6 @@
+@import "{}/node_modules/bootswatch/dist/cosmo/_variables.scss";
+@import '{}/node_modules/bootstrap/scss/bootstrap';
+@import "{}/node_modules/bootswatch/dist/cosmo/_bootswatch.scss";
 // this file will be imported to all other sass file that needs variable and function access.
 // This file must have an underscore at the beginning for it to be imported.
 // @import "./variables.scss"; statement must be made without adding _underscore.
