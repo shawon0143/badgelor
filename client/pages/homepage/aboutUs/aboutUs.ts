@@ -5,18 +5,18 @@ import { Accounts } from 'meteor/accounts-base';
 import { MeteorObservable } from "meteor-rxjs";
 
 
-import template from './howBadgelorWorks.html';
+import template from './aboutUs.html';
 
 
 
 @Component({
-  selector: 'howitworks-component',
+  selector: 'about-us',
   template
 })
 
 
 
-export class HowItWorks {
+export class AboutUs {
 
   constructor() {  }
 
@@ -24,4 +24,4 @@ export class HowItWorks {
 
   }
 
-} // end of class HowItWorks
+} // end of class AboutUs

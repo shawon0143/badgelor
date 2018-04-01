@@ -30,4 +30,5 @@ npm-debug.log
 *.stackdump
 .npm
 settings-production.json
+settings-development.json
 /.project

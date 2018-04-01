@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import { Meteor } from 'meteor/meteor';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';

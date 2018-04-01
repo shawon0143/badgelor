@@ -1,6 +1,10 @@
 {
   "public": {
 
+  },
+  "private": {
+    "adminlogin"  : "badgelorIwm#2018",
+    "adminEmail"  : "nizam@uni-koblenz.de"
   }
 
 }

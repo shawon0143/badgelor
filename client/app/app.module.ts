@@ -13,15 +13,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //==================
 // ******* Homepage **********
 import {HomePage} from '/client/pages/homepage/home';
-import {Navbar} from '/imports/components/navbar/navbar';
 import {HomepageBannerTop} from '/client/pages/homepage/homepageBannerTop/homepageBannerTop';
 import {HowItWorks} from '/client/pages/homepage/howBadgelorWorks/howBadgelorWorks';
 import {InfoGraphic} from '/client/pages/homepage/infoGraphic/infoGraphic';
-
+import {ContactUs} from '/client/pages/homepage/contactUs/contactUs';
+import {AboutUs} from '/client/pages/homepage/aboutUs/aboutUs';
+import {Footer} from '/client/pages/homepage/footer/footer';
 // ********* Component *******
+import {AppComponent} from './app.component';
+import {Navbar} from '/imports/components/navbar/navbar';
 import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignup';
 
-import {AppComponent} from './app.component';
+
 
 // ======================
 // Services and Providers
@@ -31,6 +34,7 @@ import {AccountService} from "/imports/service/accountService";
 // global imports
 import '/imports/startup/accounts-config.js';
 import 'font-awesome/css/font-awesome.min.css';
+import 'simple-line-icons/css/simple-line-icons.css';
 
 const appRoutes: Routes = [
     {path: '', component: HomePage},
@@ -57,8 +61,10 @@ const appRoutes: Routes = [
         HomepageBannerTop,
         HowItWorks,
         InfoGraphic,
-
-        LoginAndSignup,
+        ContactUs,
+        AboutUs,
+        Footer,
+        LoginAndSignup
 
 
     ],

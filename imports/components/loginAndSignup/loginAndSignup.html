@@ -14,7 +14,7 @@
       <div class="mb-4">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
+            <span class="input-group-text"><i class="icon-user"></i></span>
           </div>
           <input class="form-control" type="email" placeholder="ronaldo@uni-koblenz.de">
         </div>
@@ -23,7 +23,7 @@
       <div class="mb-4">
         <div class="input-group mb-4">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-lock fa-fw"></i></span>
+            <span class="input-group-text"><i class="icon-lock"></i></span>
           </div>
           <input class="form-control" type="password" placeholder="Password">
         </div>
@@ -62,41 +62,75 @@
     <header class="text-center mb-4">
       <h2 class="text-gray">Signup</h2>
     </header>
-    <form class="pt-2 pb-2m mb-4">
-
+    <form class="pt-2 pb-2 mb-4" #signupForm="ngForm" (ngSubmit)="accountService.signup()" novalidate>
+      <!-- <pre>{{signupForm.value | json}}</pre> -->
+      <!-- <p>Is "myForm" valid? {{signupForm.valid}}</p> -->
       <div class="mb-4">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-university fa-fw"></i></span>
           </div>
-          <select class="form-control text-muted">
-            <option selected="" disabled>Select your campus </option>
-            <option value="1">Koblenz</option>
-            <option value="2">Landau</option>
+          <select class="form-control text-muted" [(ngModel)]="accountService.signupData.organisation" (ngModelChange)="accountService.orgSelection($event)" name="selOrg" required>
+            <!-- <option selected="" disabled value="Select your campus ">Select your campus </option> -->
+            <option selected="" [ngValue]="undefined" disabled> Select your campus </option>
+            <option value="koblenz">Koblenz</option>
+            <option value="landau">Landau</option>
           </select>
         </div>
       </div>
 
       <div class="mb-4">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="icon-user"></i></span>
+            </div>
+            <input class="form-control" type="email" name = "email"
+                   placeholder="ronaldo@uni-koblenz.de"
+                   aria-describedby="emailHelpBlock"
+                   [disabled] = "accountService.signupData.organisation === undefined"
+                   [(ngModel)]="accountService.signupData.email"
+                   required
+                   email
+                   [pattern]="accountService.emailPattern"
+                   #signupEmail="ngModel">
+          </div>
+          <ng-container *ngIf="signupEmail.invalid && (signupEmail.dirty || signupEmail.touched)">
+            <small id="emailHelpBlock" class="form-text text-warning" *ngIf="signupEmail.errors.required">
+               Email is required.
+            </small>
+            <small id="emailHelpBlock" class="form-text text-danger" *ngIf="signupEmail.errors.pattern">
+               Official Email not valid.
+            </small>
+          </ng-container>
+      </div>
+
+      <div class="mb-4">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-user fa-fw"></i></span>
+            <span class="input-group-text"><i class="icon-lock"></i></span>
           </div>
-          <input class="form-control" type="email" placeholder="ronaldo@uni-koblenz.de">
+          <input class="form-control"
+                 type="password"
+                 name="password"
+                 placeholder="Password"
+                 aria-describedby="passwordHelpBlock"
+                 [disabled] = "accountService.signupData.organisation === undefined"
+                 [(ngModel)]="accountService.signupData.password"
+                 required
+                 #signupPassword="ngModel">
         </div>
+        <ng-container *ngIf="signupPassword.invalid && (signupPassword.dirty || signupPassword.touched)">
+          <small id="passwordHelpBlock" class="form-text text-warning" *ngIf="signupPassword.errors.required">
+             Password is required.
+          </small>
+          <!-- <small id="passwordHelpBlock" class="form-text text-danger" *ngIf="signupPassword.errors.pattern">
+             Password is not valid.
+          </small> -->
+        </ng-container>
       </div>
 
       <div class="mb-4">
-        <div class="input-group mb-4">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fa fa-lock fa-fw"></i></span>
-          </div>
-          <input class="form-control" type="password" placeholder="Password">
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <button class="btn btn-lg btn-block btn-success" type="button">Signup</button>
+        <button class="btn btn-lg btn-block btn-success" type="submit" [disabled]="signupForm.valid === false">Signup</button>
       </div>
 
       <footer class="text-center">

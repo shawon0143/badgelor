@@ -1,4 +1,5 @@
 import { Injectable, NgZone, ApplicationRef } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import { Accounts } from 'meteor/accounts-base';
 import { Tracker } from 'meteor/tracker';
 import { Meteor } from 'meteor/meteor';
@@ -6,9 +7,10 @@ import { Random } from 'meteor/random';
 import { MeteorObservable } from "meteor-rxjs";
 
 
-export interface LoginCredentials {
+export interface UserCredentials {
   email: string;
   password: string;
+  organisation?: string; // Optional as other organisation might not have that
 }
 
 
@@ -19,7 +21,7 @@ export class AccountService {
   currentUserId: string;
   isLoggingIn: boolean;
   isUserLoggedIn: boolean;
-  // credentials: LoginCredentials;
+  credentials: UserCredentials;
 
   errors: Array<string>;
 
@@ -27,12 +29,21 @@ export class AccountService {
   showLoginViewOnUI: boolean = false;
   showSignupViewOnUI: boolean = false;
 
+  signupData = {
+    email: "",
+    password: "",
+    organisation: undefined
+  }
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
+
+  resetSignupData;
+
 
 
 
   constructor(public zone: NgZone) {
-    // this.currentUserId = Meteor.userId();
 
+    this.resetSignupData = JSON.stringify(this.signupData);
     this._initAutorun();
 
   } //--- end of constructor ---
@@ -64,7 +75,8 @@ export class AccountService {
   }
   hideLoginAndSignupView() {
     this.showLoginAndSignupViewOnUI = false;
-
+    this.signupData = JSON.parse(this.resetSignupData);
+    this.emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     document.body.classList.remove('hideBodyScoll');
     document.body.classList.add('showBodyScroll');
 
@@ -74,18 +86,28 @@ export class AccountService {
     this.showLoginViewOnUI = true;
     this.showSignupViewOnUI = false;
   }
-  hideLoginView() {
-    this.showLoginViewOnUI = false;
-  }
   showSignupView() {
     this.showSignupViewOnUI = true;
     this.showLoginViewOnUI = false;;
   }
-  hideSignupView() {
-    this.showSignupViewOnUI = false;
+
+  signup() {
+    console.log(this.signupData.email);
+    console.log(this.signupData.organisation);
   }
 
+  orgSelection(campus) {
+    if (campus === undefined) {
+      return;
+    }
+    this.signupData.organisation = campus;
 
+    if (campus === "koblenz") {
+      this.emailPattern = "^[a-z0-9._%+-]+@uni-koblenz+\.de";
+    } else if (campus === "landau") {
+      this.emailPattern = "^[a-z0-9._%+-]+@uni-landau+\.de";
+    }
+  }
 
 
   _initAutorun(): void {
