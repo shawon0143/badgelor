@@ -30,6 +30,7 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 // Services and Providers
 // ======================
 import {AccountService} from "/imports/service/accountService";
+import {AutoLogoutService} from "/imports/service/autoLogout";
 
 // global imports
 import '/imports/startup/accounts-config.js';
@@ -73,7 +74,8 @@ const appRoutes: Routes = [
 
     ],
     providers: [
-      AccountService
+      AccountService,
+      AutoLogoutService
     ]
 })
 export class AppModule {

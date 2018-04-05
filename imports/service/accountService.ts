@@ -1,17 +1,13 @@
 import { Injectable, NgZone, ApplicationRef } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { Accounts } from 'meteor/accounts-base';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Tracker } from 'meteor/tracker';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { MeteorObservable } from "meteor-rxjs";
 
-
-export interface UserCredentials {
-  email: string;
-  password: string;
-  organisation?: string; // Optional as other organisation might not have that
-}
 
 
 @Injectable()
@@ -21,7 +17,15 @@ export class AccountService {
   currentUserId: string;
   isLoggingIn: boolean;
   isUserLoggedIn: boolean;
-  credentials: UserCredentials;
+  isUserTypeAdmin: boolean = false;
+
+
+  loginData = {
+    email : "",
+    password : ""
+  }
+
+  resetLoginData;
 
   errors: Array<string>;
 
@@ -34,17 +38,54 @@ export class AccountService {
     password: "",
     organisation: undefined
   }
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
   resetSignupData;
 
+  // fakePass is required for Meteor.loginWithPassword function
+  // to work. But it has nothing to do with user login.
+  fakepass = "12345";
+
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"; // default regex pattern for email validation
+
+  // a session array to hold rememberMe, lastLogin, if Admin (password)
+  // we clear the password on
+  badgelorMemory: any = {
+    isTheUserAdmin : false,
+    adminSecret : "",
+    rememberMe : false,
+    status : "offline",
+    lastLogin : new Date()
+  };
+
+  resetbadgelorMemory;
 
 
+  // ===============
+  // error messages
+  // ===============
+  isUserAlreadyExist:  boolean = false;
+  userAlreadyExistMsg = "This email already registered in the system.";
 
-  constructor(public zone: NgZone) {
+  isUserCredentialsWrong: boolean = false;
+  userCredentialWrong = "Invalid Credential, Try Again";
+
+  // isSignupSuccessful: boolean = false;
+  // userSignupSuccessful = "Signup Successful";
+
+  isUserRegistered: boolean = true;
+  userNotRegisteredMsg = "This email is not registered in this system";
+
+  constructor(public zone: NgZone, public localStorageService: LocalStorageService, public router: Router) {
+
+    if (this.localStorageService.get('badgelorMemory')) {
+      this.badgelorMemory = this.localStorageService.get('badgelorMemory');
+    }
 
     this.resetSignupData = JSON.stringify(this.signupData);
+    this.resetLoginData = JSON.stringify(this.loginData);
+
     this._initAutorun();
+    this.isUserAdmin();
 
   } //--- end of constructor ---
 
@@ -66,9 +107,24 @@ export class AccountService {
 
   } // --------- end of isLoggedIn ---------
 
+  isUserAdmin(){
+    MeteorObservable.call("isUserTypeAdmin").subscribe((response) => {
+     if(response===100)
+      {
+        this.isUserTypeAdmin=true;
+      }
+      else{
+        this.isUserTypeAdmin=false;
+      }
+    });
+
+  } // end isUserAdmin
+
+
   showLoginAndSignupView() {
     this.showLoginAndSignupViewOnUI = true;
-
+    this.isUserAlreadyExist = false;
+    this.isUserRegistered = true;
     document.body.classList.add('hideBodyScroll');
     document.body.classList.remove('showBodyScroll');
 
@@ -76,25 +132,469 @@ export class AccountService {
   hideLoginAndSignupView() {
     this.showLoginAndSignupViewOnUI = false;
     this.signupData = JSON.parse(this.resetSignupData);
+    this.loginData = JSON.parse(this.resetLoginData);
     this.emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
     document.body.classList.remove('hideBodyScoll');
     document.body.classList.add('showBodyScroll');
-
-
   }
   showLoginView() {
     this.showLoginViewOnUI = true;
     this.showSignupViewOnUI = false;
+    this.signupData = JSON.parse(this.resetSignupData);
+    this.isUserAlreadyExist = false;
+    this.isUserCredentialsWrong = false;
+    this.isUserRegistered = true;
   }
   showSignupView() {
     this.showSignupViewOnUI = true;
-    this.showLoginViewOnUI = false;;
+    this.showLoginViewOnUI = false;
+    this.loginData = JSON.parse(this.resetLoginData);
+    this.isUserAlreadyExist = false;
+    this.isUserCredentialsWrong = false;
+    this.isUserRegistered = true;
   }
 
+
+
+
+  login() {
+
+    MeteorObservable.call('isUserExistInDB',this.loginData.email).subscribe(response => {
+
+      if (response["code"] === 100) {
+        // user registered to badgelor proceed to login process
+        this.isUserRegistered = true;
+        // =========================================
+        // now check login credential in LDAP server
+        // =========================================
+        var username = this.loginData.email.substring(0, this.loginData.email.lastIndexOf("@"));
+        var domain = this.loginData.email.substring(this.loginData.email.lastIndexOf("@") + 1);
+
+        //  ///////////////////////////////////////
+        //  the domain of koblenz user
+        //  ///////////////////////////////////////
+        if (domain === "uni-koblenz.de") {
+          this.loginToKoblenzDomain(username);
+        }
+        //  ///////////////////////////////////////
+        //  the domain of landau user
+        //  ///////////////////////////////////////
+        else if (domain === "uni-landau.de") {
+          this.loginToLandauDomain(username);
+        }
+        //  ///////////////////////////////////////
+        //  other domain users
+        //  ///////////////////////////////////////
+        else {
+          // TODO : implement login for other domain users
+        }
+
+
+      } else if (response["code"] === 999) {
+
+        // ====================================================
+        // user not registered to badgelor -> show warning msg
+           this.isUserRegistered = false;
+        // ====================================================
+
+      }
+    });
+
+  } // END of login()
+
+
+  loginToKoblenzDomain(username) {
+    var dataForLdap = {
+      username       : username,
+      password       : this.loginData.password,
+      searchUserName : username,
+      ou1            : "people",
+      ou2            : "koblenz",
+      ou3            : "people",
+      ou4            : "koblenz"
+    };
+
+
+    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+
+      if (response["name"]) {
+        this.showLoginAndSignupViewOnUI = false;
+        this.setLocalStorageOnLogin();
+        // ldap credentials matched -> login to badgelor now
+        // we used fakepass to mimic the login in meteor
+        // we mainly do our authentication in LDAP server .
+        Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+          if (!error) {
+            // user exist in badgelor
+            console.log("Login successful");
+
+          }
+          else if (error) {
+            console.log(error);
+          }
+        }); // end of Meteor.loginWithPassword
+      } // END of if (response["name"])
+      if (!response["name"]) {
+        // if a registered user enters wrong credentials
+        this.isUserCredentialsWrong = true;
+      }
+    }); // END of MeteorObservable.call("bindAndSearch")
+  } // END of loginToKoblenzDomain(username)
+
+
+
+  loginToLandauDomain(username) {
+    var dataForLdap = {
+      username       : username,
+      password       : this.loginData.password,
+      searchUserName : username,
+      ou1            : "mitarbeiter",
+      ou2            : "landau",
+      ou3            : "mitarbeiter",
+      ou4            : "landau"
+    };
+
+    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+
+      if (response["name"]) {
+          this.showLoginAndSignupViewOnUI = false;
+          this.setLocalStorageOnLogin();
+        // ldap credentials matched -> login to badgelor now
+        // we used fakepass to mimic the login in meteor
+        // we mainly do our authentication in LDAP server .
+        Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+          if (!error) {
+            // user exist in badgelor
+            console.log("Login successful");
+
+          }
+          else if (error) {
+            console.log(error);
+          }
+        }); // end of Meteor.loginWithPassword
+      } // END of if (response["name"])
+      if (!response["name"]) {
+          // ==========================================
+          // Login not successful in the Miterbeiter DB
+          // ==========================================
+
+          var dataForLdap = {
+            username       : username,
+            password       : this.signupData.password,
+            searchUserName : username,
+            ou1            : "stud",
+            ou2            : "landau",
+            ou3            : "stud",
+            ou4            : "landau"
+          };
+
+          MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+            if (response["name"]) {
+                this.showLoginAndSignupViewOnUI = false;
+                this.setLocalStorageOnLogin();
+                // ldap credentials matched -> login to badgelor now
+                // we used fakepass to mimic the login in meteor
+                // we mainly do our authentication in LDAP server .
+                Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+                  if (!error) {
+                    // userLoginAndRout(); // user exist in badgelor
+                    console.log("Login successful");
+
+                  }
+                  else if (error) {
+                    console.log(error);
+                  }
+                }); // end of Meteor.loginWithPassword
+            } // END of if (response["name"])
+            if (!response["name"]) {
+                // if a registered user enters wrong credentials
+                this.isUserCredentialsWrong = true;
+            }
+
+          }); // END of MeteorObservable.call("bindAndSearch")
+
+      }
+    }); // END of MeteorObservable.call("bindAndSearch")
+  } // END of loginToLandauDomain(username)
+
+
+
+  setLocalStorageOnLogin() {
+    // *********************************************************
+    // we have to keep the admin password as we need that
+    // if admin search for user via LDAP and add in Badgelor
+    // update user rememberMe option and lastLogin option in
+    // database via updateStatus() method call.
+    // TODO : implement rememberme and auto logout using localstorage
+    // *********************************************************
+    // if a user close his browser tab                         *
+    // without logging out from the system                     *
+    // if he selected the rememberMe option                    *
+    // his session will not time out                           *
+    // however if he doesn't select that and                   *
+    // tries to log in after 30 minutes he will                *
+    // have to login to the system again                       *
+    // *********************************************************
+    // ==================== >>>>>>>>>>>>>
+    this.zone.run(() => {
+      if (this.localStorageService.get('badgelorMemory')) {
+        this.badgelorMemory = this.localStorageService.get('badgelorMemory');
+      }
+      let adminSecret = "";
+      if (this.isUserTypeAdmin === true) {
+        this.badgelorMemory.isTheUserAdmin = this.isUserTypeAdmin;
+        this.badgelorMemory.adminSecret = this.loginData.password;
+      }
+      this.badgelorMemory.status = "online";
+
+      this.localStorageService.set('badgelorMemory', this.badgelorMemory);
+    });
+    // ==================== >>>>>>>>>
+
+  } // END of setLocalStorageOnLogin()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   signup() {
-    console.log(this.signupData.email);
-    console.log(this.signupData.organisation);
-  }
+
+    // step-1 check if user already exist in the users DB
+    // step-2 account doesn't exist : check ldap credential - if user has an official account
+    // get Name, Occupation
+    // step-3 create new user account : call server method + set user role to Applicant
+
+
+    MeteorObservable.call('isUserExistInDB',this.signupData.email).subscribe(response => {
+
+      if (response["code"] === 100) {
+        this.isUserAlreadyExist = true;
+      } else if (response["code"] === 999) {
+
+        this.isUserAlreadyExist = false;
+        var username = this.signupData.email.substring(0, this.signupData.email.lastIndexOf("@"));
+
+        // =======================
+        // First Koblenz
+        // =======================
+        if (this.signupData.organisation === "koblenz") {
+            this.addNewUserKoblenz(username);
+        } // if (this.signupData.organisation === "koblenz")
+
+        // =======================
+        // Second Landau
+        // =======================
+       if (this.signupData.organisation === "landau") {
+          this.addNewUserLandau(username);
+       } // if (this.signupData.organisation === "landau")
+      } // if (response["code"] === 999)
+    }); // MeteorObservable.call('isUserExistInDB')
+  } // END of signup()
+
+
+  addNewUserKoblenz(username) {
+
+    var dataForLdap = {
+      username       : username,
+      password       : this.signupData.password,
+      searchUserName : username,
+      ou1            : "people",
+      ou2            : "koblenz",
+      ou3            : "people",
+      ou4            : "koblenz"
+    };
+
+    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+
+      if (response["name"]) {
+        // if not registered then create new user account.
+        var registerData = {
+          email    : this.signupData.email,
+          password : this.fakepass,
+          profile  : {
+            name       : response["name"],
+            occupation : response["eduPersonAffiliation"],
+            imageURL   : "",
+            campus     : this.signupData.organisation,
+            lastLogin  : new Date()
+          },
+          role         : "Applicant"
+        }
+
+
+
+        // user doesn't exist in db so we create a new account
+        Accounts.createUser(registerData, (error) => {
+          if (error) {
+            // this.errors.push(error.reason || "Unknown error");
+            console.log(error);
+          }
+          else {
+
+            console.log("Signup Successful");
+            // setting the localstorage
+            this.setLocalStorageOnLogin();
+            // hiding the signup UI now
+            this.showLoginAndSignupViewOnUI = false;
+            MeteorObservable.call("setUserRole",this.signupData.email, registerData.role).subscribe(response => {
+              console.log(response["feedback"]);
+            });
+            // TODO: create a notification for user to show Successful signup message
+            // TODO: response code change based on HTTP response code i.e 200 is OK
+          }
+        }); // Accounts.createUser(registerData)
+      } // if (response["name"])
+
+    if (response["error"] === "Invalid password") {
+        this.isUserCredentialsWrong = true;
+      }
+    });// MeteorObservable.call("bindAndSearch")
+  } // END of addNewUserKoblenz()
+
+
+  addNewUserLandau(username) {
+    var dataForLdap = {
+      username       : username,
+      password       : this.signupData.password,
+      searchUserName : username,
+      ou1            : "mitarbeiter",
+      ou2            : "landau",
+      ou3            : "mitarbeiter",
+      ou4            : "landau"
+    };
+
+    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+      // =================================================
+      // if we get response from miterbeiter database
+      // the following block runs
+      // =================================================
+      if (response["name"]) {
+        // if not registered then create new user account.
+        var registerData = {
+          email    : this.signupData.email,
+          password : this.fakepass,
+          profile  : {
+            name       : response["name"],
+            occupation : response["eduPersonAffiliation"],
+            imageURL   : "",
+            rememberMe : false,
+            status     : "Online",
+            campus     : this.signupData.organisation,
+            lastLogin  : new Date()
+          },
+          role         : "Applicant"
+        }
+
+        // user doesn't exist in db so we create a new account
+        Accounts.createUser(registerData, (error) => {
+          if (error) {
+            // this.errors.push(error.reason || "Unknown error");
+
+          }
+          else {
+
+            console.log("Signup Successful");
+            // setting the localstorage
+            this.setLocalStorageOnLogin();
+            // hiding the signup UI now
+            this.showLoginAndSignupViewOnUI = false;
+            MeteorObservable.call("setUserRole",this.signupData.email, registerData.role).subscribe(response => {
+              console.log(response["feedback"]);
+            });
+            // TODO: create a notification for user to show Successful signup message
+            // TODO: response code change based on HTTP response code i.e 200 is OK
+          }
+        }); // Accounts.createUser(registerData)
+      } // if (response["name"])
+
+      // ==============================================
+      // if user is not a landau miterbeiter
+      // we send request to student database
+      // ==============================================
+      if (response["error"] === "Invalid password") {
+        var dataForLdap = {
+          username       : username,
+          password       : this.signupData.password,
+          searchUserName : username,
+          ou1            : "stud",
+          ou2            : "landau",
+          ou3            : "stud",
+          ou4            : "landau"
+        };
+        MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+          if (response["name"]) {
+            // if not registered then create new user account.
+            var registerData = {
+              email    : this.signupData.email,
+              password : this.fakepass,
+              profile  : {
+                name       : response["name"],
+                occupation : response["eduPersonAffiliation"],
+                imageURL   : "",
+                rememberMe : false,
+                status     : "Online",
+                campus     : this.signupData.organisation,
+                lastLogin  : new Date()
+              },
+              role         : "Applicant"
+            }
+
+            // user doesn't exist in db so we create a new account
+            Accounts.createUser(registerData, (error) => {
+              if (error) {
+                // this.errors.push(error.reason || "Unknown error");
+
+              }
+              else {
+
+                console.log("Signup Successful");
+                // setting the localstorage
+                this.setLocalStorageOnLogin();
+                // hiding the signup UI now
+                this.showLoginAndSignupViewOnUI = false;
+                MeteorObservable.call("setUserRole",this.signupData.email, registerData.role).subscribe(response => {
+                  console.log(response["feedback"]);
+                });
+                // TODO: create a notification for user to show Successful signup message
+                // TODO: response code change based on HTTP response code i.e 200 is OK
+              }
+            }); // Accounts.createUser(registerData)
+          } // if (response["name"])
+        if (response["error"] === "Invalid password") {
+            this.isUserCredentialsWrong = true;
+          }
+        });
+      }
+    });// MeteorObservable.call("bindAndSearch")
+  } // END of addNewUserLandau(username)
+
+
+
+  logout(): void {
+    console.log("logout method called");
+    Meteor.logout();
+    this.signupData = JSON.parse(this.resetSignupData);
+    this.loginData = JSON.parse(this.resetLoginData);
+    this.localStorageService.set('badgelorMemory',"");
+    this.router.navigate(['/']);
+
+  } // --------  end of logout ----------
+
 
   orgSelection(campus) {
     if (campus === undefined) {
@@ -104,6 +604,7 @@ export class AccountService {
 
     if (campus === "koblenz") {
       this.emailPattern = "^[a-z0-9._%+-]+@uni-koblenz+\.de";
+
     } else if (campus === "landau") {
       this.emailPattern = "^[a-z0-9._%+-]+@uni-landau+\.de";
     }
