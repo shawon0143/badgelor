@@ -1,7 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Meteor } from 'meteor/meteor';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
+import { AccountService } from '/imports/service/accountService';
 
 import template from './infoGraphic.html';
 
@@ -13,11 +14,12 @@ import template from './infoGraphic.html';
 
 
 
-export class InfoGraphic implements OnInit {
+export class InfoGraphic {
   // output is used to communicate from child to parent via event emitter
+  // reference - https://www.concretepage.com/angular-2/angular-2-input-and-output-example#input
   @Output() signupButtonClicked = new EventEmitter<{}>();
 
-  constructor() {
+  constructor(public accountService: AccountService,) {
 
   }
 

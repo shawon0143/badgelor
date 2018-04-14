@@ -4,7 +4,60 @@
   },
   "private": {
     "adminlogin"  : "12345",
-    "adminEmail"  : "peter@uni-koblenz.de"
+    "adminEmail"  : "peter@uni-koblenz.de",
+    "obfCertificate" : [
+      "-----BEGIN CERTIFICATE-----",
+      "MIIDDjCCAfYCAgZ8MA0GCSqGSIb3DQEBCwUAMIGBMQswCQYDVQQGEwJGSTEQMA4G",
+      "A1UECBMHRmlubGFuZDENMAsGA1UEBxMET3VsdTEVMBMGA1UEChMMRGlzY2VuZHVt",
+      "IE95MRswGQYDVQQLExJPcGVuIEJhZGdlIEZhY3RvcnkxHTAbBgNVBAMTFG9wZW5i",
+      "YWRnZWZhY3RvcnkuY29tMB4XDTE2MTIxNjE0MjMxNFoXDTE5MTIxNjE0MjMxNFow",
+      "FzEVMBMGA1UEAwwMTk03ME9IZTdIQ2VPMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A",
+      "MIIBCgKCAQEAy0ouxCyQA+q7+v0IiLynhOpEIpG2LujP8pTIJp8JWlHFqS4A5+9d",
+      "u24KGOHzhcraYEd33HdrrnBD/rgWPiL8rfTce8JLC8XzCKgQVJ0G/tPHWESMfeuq",
+      "kqkDTpgnnzEHXvJwQDNP3ZWML6c1VawRYh8XX9KPMDcKS9zzp67fd+vGf2ETnR9X",
+      "tNIZYbRW/XikxYwG8MfiJsku8krFfu6NPvHbrddGoCXbX+j5rHyNqxJSxv5jRYN8",
+      "uZw3rmEQ1i+PHVanZkXFhFlTR/FnUNhtmrbCOSZz9nrZnRivH07rTeSqGN6O2qxD",
+      "sFCKv9UCoYikq0AyaS5T6hRfW9Leh5nA1wIDAQABMA0GCSqGSIb3DQEBCwUAA4IB",
+      "AQAVVF8XRRwQcpmnKpf/xtivvKgO083HnvNsSX/yCg66E1E1qGfmZP1vWBTHeNva",
+      "E6AmHVqN1xl77dIzgjPIz2kylFgjW3Me8z2qRn0DfJOpNZc34hzpbqAj2TCi6GvQ",
+      "bBnTuG13lYq4LFoIVIquqv+7zLSh7afGZoJq7anXkiaAeOrklv0NzHO8SOy+W365",
+      "yVf1fiRly0J5hK6PtsHad5s3PHmYTSMJkz85pO45YhdHJCyGlUSDPE9fP/NDQq4A",
+      "xWsTqNeMw9I1jPX6wZ0CX+rCGFu9JavYUJ9L34z7m1IZ0czqVW8T0QJeLKE1gez2",
+      "4F4nmNDjmnDF8X1KQ+i+LcQA",
+      "-----END CERTIFICATE-----"
+    ]
+    ,
+    "obfKey" :  [
+      "-----BEGIN PRIVATE KEY-----",
+      "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDLSi7ELJAD6rv6",
+      "/QiIvKeE6kQikbYu6M/ylMgmnwlaUcWpLgDn7127bgoY4fOFytpgR3fcd2uucEP+",
+      "uBY+Ivyt9Nx7wksLxfMIqBBUnQb+08dYRIx966qSqQNOmCefMQde8nBAM0/dlYwv",
+      "pzVVrBFiHxdf0o8wNwpL3POnrt9368Z/YROdH1e00hlhtFb9eKTFjAbwx+ImyS7y",
+      "SsV+7o0+8dut10agJdtf6PmsfI2rElLG/mNFg3y5nDeuYRDWL48dVqdmRcWEWVNH",
+      "8WdQ2G2atsI5JnP2etmdGK8fTutN5KoY3o7arEOwUIq/1QKhiKSrQDJpLlPqFF9b",
+      "0t6HmcDXAgMBAAECggEAUtVXWPgPdokfL5YK9Cxq1e3e9XcKFPMoSF/3bkU/Ol43",
+      "fEgSdm9CcizUUG9BGzMc6D42yM6gQePc0N2Rsp/u9bLgZE025wUxkkVo4hFZ2FvS",
+      "zlSgKm7sgfX8MvosquD/b+C5fG9sC430ITawtMf4DVM94v2Y+rxypZbScXD//YyK",
+      "2EsvPwwcC3dAIQEL4J2V21gKIlEwngz+H1nZwfmPH+UZOj2s0u2o4oB/m6U+9v9P",
+      "jvVvknRXxmijlMNjN5Ayrplx+ElmA+nbOtlEw2uVX2zXR8zgIC8+Ry/GjRjyTf6D",
+      "nu9Rl5hIWmhVgomiXfxootCQmlw+cdN13lNCrzLPgQKBgQDnClEBe3++ybSO7ej0",
+      "S+3kQj0RegjvI5ulciXVfQEw5b69GO8IsBQ3MTZr1hoWWk7wN33Z+XB9c/NMKvPY",
+      "wKp8LhvD6WkQ7jUXMngaTyOYyoE7TkiJar2KvMd4QzzInLzo8Op+yDGUFLMSoBPR",
+      "9vQsMN5e3dSow+NSgYpLsABLbQKBgQDhQGTSElRVDKzYSvuUEVErpMQ+/U9BtNIn",
+      "+4sBOgjOYF5JYerIIdGRAfjwCn0074iTWolLGbnvhhPjGiM1/C2zFIou78rGju8E",
+      "qqywR1cHUy3LISAaRuAkLGo83ySza9E60KYjVRtvKQec1RBxealrwShtcDs2v48A",
+      "aU3uskYu0wKBgQDSnjT6hPsPkhFnurqC+jUDwN6q7/T1DCD30fdrh2luigI3oGNI",
+      "KDxFlDdoVuWxOuJ7WhsAesRxmSJSbVWeYwUH74CgOEfvhzgezYNveHWa9ACbb+Hw",
+      "Y74mm7G7kI/40enk8LrUmOuZcsVMVWG8JsSxBFuzX8ZdkzXIIQ9RsECUgQKBgHse",
+      "5Xzlw+7RBNEc+zJN3N5MK3B6qQ2zNoPgPHSpMhMMHb1ipiBKS/BE8brTIOkEXNSe",
+      "UhkYsMc5tDkYGlLxylDuUzGgpGevzPnyCH46IFnCn28+Zfu27eEX3eHz3m2r6yuI",
+      "zKbXaC10cdLJqzk7VN2vMNfQ1qzwO8vvw0dLbo09AoGABbq+7BYl6ygU92bdTrFh",
+      "wNwza72cqMVom1L69YTFcaqNFKcqkTn/KJBsTtUE96XpgDKCbIpZ+84yJVjfat5Q",
+      "/2lp80Jm5bVgmj30SoHam1nL2NNCfKmkj7NBbX4GV1KLu4Mt0PosFh+M2FgLCWJY",
+      "K27otLjp46zhtQWyWfmNhAQ=",
+      "-----END PRIVATE KEY-----"
+    ]
+
   }
 
 }

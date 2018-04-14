@@ -18,6 +18,7 @@ export class AccountService {
   isLoggingIn: boolean;
   isUserLoggedIn: boolean;
   isUserTypeAdmin: boolean = false;
+  isUserTypeApplicant: boolean = false;
 
 
   loginData = {
@@ -86,6 +87,7 @@ export class AccountService {
 
     this._initAutorun();
     this.isUserAdmin();
+    this.isUserApplicant();
 
   } //--- end of constructor ---
 
@@ -119,6 +121,19 @@ export class AccountService {
     });
 
   } // end isUserAdmin
+
+  isUserApplicant(){
+    MeteorObservable.call("isUserTypeApplicant").subscribe((response) => {
+     if(response===100)
+      {
+        this.isUserTypeApplicant=true;
+      }
+      else{
+        this.isUserTypeApplicant=false;
+      }
+    });
+
+  } // end isUserApplicant
 
 
   showLoginAndSignupView() {
@@ -215,18 +230,22 @@ export class AccountService {
     };
 
 
-    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
 
-      if (response["name"]) {
+    MeteorObservable.call("onlyLogin",dataForLdap).subscribe(response => {
+
+      if (response["error"] === "Login successful") {
         this.showLoginAndSignupViewOnUI = false;
-        this.setLocalStorageOnLogin();
+
         // ldap credentials matched -> login to badgelor now
         // we used fakepass to mimic the login in meteor
         // we mainly do our authentication in LDAP server .
-        Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+        Meteor.loginWithPassword(this.loginData.email, this.fakepass, (error) => {
           if (!error) {
             // user exist in badgelor
+            this.setLocalStorageOnLogin();
             console.log("Login successful");
+            document.body.classList.remove('hideBodyScoll');
+            document.body.classList.add('showBodyScroll');
 
           }
           else if (error) {
@@ -234,13 +253,23 @@ export class AccountService {
           }
         }); // end of Meteor.loginWithPassword
       } // END of if (response["name"])
-      if (!response["name"]) {
+      if (response["error"] === "Invalid password") {
         // if a registered user enters wrong credentials
         this.isUserCredentialsWrong = true;
       }
     }); // END of MeteorObservable.call("bindAndSearch")
   } // END of loginToKoblenzDomain(username)
 
+
+  // Meteor.loginWithPassword(this.loginForm.value.email, this.loginForm.value.password, (err) => {
+  //        this.zone.run(() => {
+  //          if (err) {
+  //            this.error = err;
+  //          } else {
+  //            this.router.navigate(['/']);
+  //          }
+  //        });
+  //      });
 
 
   loginToLandauDomain(username) {
@@ -254,18 +283,21 @@ export class AccountService {
       ou4            : "landau"
     };
 
-    MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
+    MeteorObservable.call("onlyLogin",dataForLdap).subscribe(response => {
 
-      if (response["name"]) {
+      if (response["error"] === "Login successful") {
           this.showLoginAndSignupViewOnUI = false;
-          this.setLocalStorageOnLogin();
+
         // ldap credentials matched -> login to badgelor now
         // we used fakepass to mimic the login in meteor
         // we mainly do our authentication in LDAP server .
-        Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+        Meteor.loginWithPassword(this.loginData.email, this.fakepass, (error) => {
           if (!error) {
             // user exist in badgelor
+            this.setLocalStorageOnLogin();
             console.log("Login successful");
+            document.body.classList.remove('hideBodyScoll');
+            document.body.classList.add('showBodyScroll');
 
           }
           else if (error) {
@@ -273,7 +305,7 @@ export class AccountService {
           }
         }); // end of Meteor.loginWithPassword
       } // END of if (response["name"])
-      if (!response["name"]) {
+      if (response["error"] === "Invalid password") {
           // ==========================================
           // Login not successful in the Miterbeiter DB
           // ==========================================
@@ -288,25 +320,27 @@ export class AccountService {
             ou4            : "landau"
           };
 
-          MeteorObservable.call("bindAndSearch",dataForLdap).subscribe(response => {
-            if (response["name"]) {
+          MeteorObservable.call("onlyLogin",dataForLdap).subscribe(response => {
+            if (response["error"] === "Login successful") {
                 this.showLoginAndSignupViewOnUI = false;
-                this.setLocalStorageOnLogin();
+
                 // ldap credentials matched -> login to badgelor now
                 // we used fakepass to mimic the login in meteor
                 // we mainly do our authentication in LDAP server .
-                Meteor.loginWithPassword(this.loginData.email, this.fakepass, function(error) {
+                Meteor.loginWithPassword(this.loginData.email, this.fakepass, (error) => {
                   if (!error) {
-                    // userLoginAndRout(); // user exist in badgelor
+                    // user exist in badgelor
+                    this.setLocalStorageOnLogin();
                     console.log("Login successful");
-
+                    document.body.classList.remove('hideBodyScoll');
+                    document.body.classList.add('showBodyScroll');
                   }
                   else if (error) {
                     console.log(error);
                   }
                 }); // end of Meteor.loginWithPassword
-            } // END of if (response["name"])
-            if (!response["name"]) {
+            } // END of if (response["error"] === "Login successful")
+            if (response["error"] === "Invalid password") {
                 // if a registered user enters wrong credentials
                 this.isUserCredentialsWrong = true;
             }
@@ -322,10 +356,10 @@ export class AccountService {
   setLocalStorageOnLogin() {
     // *********************************************************
     // we have to keep the admin password as we need that
-    // if admin search for user via LDAP and add in Badgelor
+    // if admin search for user via LDAP and add in Badgelor.
     // update user rememberMe option and lastLogin option in
     // database via updateStatus() method call.
-    // TODO : implement rememberme and auto logout using localstorage
+
     // *********************************************************
     // if a user close his browser tab                         *
     // without logging out from the system                     *
@@ -336,7 +370,7 @@ export class AccountService {
     // have to login to the system again                       *
     // *********************************************************
     // ==================== >>>>>>>>>>>>>
-    this.zone.run(() => {
+
       if (this.localStorageService.get('badgelorMemory')) {
         this.badgelorMemory = this.localStorageService.get('badgelorMemory');
       }
@@ -348,7 +382,7 @@ export class AccountService {
       this.badgelorMemory.status = "online";
 
       this.localStorageService.set('badgelorMemory', this.badgelorMemory);
-    });
+
     // ==================== >>>>>>>>>
 
   } // END of setLocalStorageOnLogin()
@@ -433,7 +467,7 @@ export class AccountService {
             campus     : this.signupData.organisation,
             lastLogin  : new Date()
           },
-          role         : "Applicant"
+          role         : "applicant"
         }
 
 
@@ -447,6 +481,8 @@ export class AccountService {
           else {
 
             console.log("Signup Successful");
+            document.body.classList.remove('hideBodyScoll');
+            document.body.classList.add('showBodyScroll');
             // setting the localstorage
             this.setLocalStorageOnLogin();
             // hiding the signup UI now
@@ -509,6 +545,8 @@ export class AccountService {
           else {
 
             console.log("Signup Successful");
+            document.body.classList.remove('hideBodyScoll');
+            document.body.classList.add('showBodyScroll');
             // setting the localstorage
             this.setLocalStorageOnLogin();
             // hiding the signup UI now
@@ -563,6 +601,9 @@ export class AccountService {
               else {
 
                 console.log("Signup Successful");
+                // shoe body scroll
+                document.body.classList.remove('hideBodyScoll');
+                document.body.classList.add('showBodyScroll');
                 // setting the localstorage
                 this.setLocalStorageOnLogin();
                 // hiding the signup UI now
@@ -619,7 +660,8 @@ export class AccountService {
         this.isLoggingIn = Meteor.loggingIn();
         // setting the values for user-type flags during each logins
         this.isLoggedIn();
-        // this.isUserAdmin();
+        this.isUserApplicant();
+        this.isUserAdmin();
 
       })
     });

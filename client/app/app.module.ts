@@ -1,4 +1,5 @@
 import {NgModule, ErrorHandler} from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
@@ -15,10 +16,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HomePage} from '/client/pages/homepage/home';
 import {HomepageBannerTop} from '/client/pages/homepage/homepageBannerTop/homepageBannerTop';
 import {HowItWorks} from '/client/pages/homepage/howBadgelorWorks/howBadgelorWorks';
-import {InfoGraphic} from '/client/pages/homepage/infoGraphic/infoGraphic';
+import {InfoGraphic} from '/imports/components/infoGraphic/infoGraphic';
 import {ContactUs} from '/client/pages/homepage/contactUs/contactUs';
 import {AboutUs} from '/client/pages/homepage/aboutUs/aboutUs';
 import {Footer} from '/client/pages/homepage/footer/footer';
+
+// ===============
+// Applicant pages
+// ===============
+import {ApplicantProfile} from '/client/pages/applicant/applicantProfile';
+
 // ********* Component *******
 import {AppComponent} from './app.component';
 import {Navbar} from '/imports/components/navbar/navbar';
@@ -29,8 +36,9 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 // ======================
 // Services and Providers
 // ======================
-import {AccountService} from "/imports/service/accountService";
-import {AutoLogoutService} from "/imports/service/autoLogout";
+import { AccountService } from "/imports/service/accountService";
+import { AutoLogoutService } from "/imports/service/autoLogout";
+import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
 
 // global imports
 import '/imports/startup/accounts-config.js';
@@ -39,6 +47,7 @@ import 'simple-line-icons/css/simple-line-icons.css';
 
 const appRoutes: Routes = [
     {path: '', component: HomePage},
+    {path: 'myprofile', component: ApplicantProfile}
 ];
 
 @NgModule({
@@ -65,7 +74,9 @@ const appRoutes: Routes = [
         ContactUs,
         AboutUs,
         Footer,
-        LoginAndSignup
+        LoginAndSignup,
+        // Applicant modules
+        ApplicantProfile
 
 
     ],
@@ -75,7 +86,8 @@ const appRoutes: Routes = [
     ],
     providers: [
       AccountService,
-      AutoLogoutService
+      AutoLogoutService,
+      AuthService // no longer in use, we might use it if we can use angular httpClient
     ]
 })
 export class AppModule {

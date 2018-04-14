@@ -1,3 +1,7 @@
+// The purpose of this service is to logout user
+// once they don't check the remember me checkbox
+// and they are idle for more than 30 minutes
+// the user will automatically logout from the system
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';

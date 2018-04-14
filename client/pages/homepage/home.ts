@@ -12,6 +12,8 @@ import { AutoLogoutService } from '/imports/service/autoLogout';
 import template from './home.html';
 
 
+
+
 @Component({
   selector: 'home-page',
   template
@@ -22,7 +24,10 @@ import template from './home.html';
 export class HomePage implements OnInit {
 
 
-  constructor( private route: ActivatedRoute, private router: Router, public accountService: AccountService, private autoLogoutService: AutoLogoutService) {
+  constructor( private route: ActivatedRoute,
+               private router: Router,
+               public accountService: AccountService,
+               private autoLogoutService: AutoLogoutService) {
 
   }
 
@@ -45,6 +50,23 @@ export class HomePage implements OnInit {
     });
 
   } // end of ngOnInit
+
+getAllEarnableBadges() {
+  MeteorObservable.call('getEarnableBadges').subscribe((response) => {
+    console.log(response);
+  });
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 } // end of class homePage

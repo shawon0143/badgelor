@@ -1,0 +1,103 @@
+@import "variables.scss";
+
+.breadcrumbContainer {
+  margin-top: 5.5rem;
+  margin-bottom: 2.0rem;
+
+  .u-list-inline {
+    padding-left: 0;
+
+    .list-inline-item {
+      a {
+        color: #818182;
+        text-decoration: none;
+      }
+      a:hover {
+        cursor: pointer;
+        color: #19ba9b;
+      }
+      span {
+        color: #19ba9b;
+      }
+    }
+  }
+}
+
+
+.applicantProfileContainer {
+
+  .profilePic {
+    position: relative;
+
+    .removeProfilePicButton {
+      top: 0.5rem;
+      position: absolute;
+      right: 0.8rem;
+      opacity: 0;
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.5s ease;
+    }
+
+    .imageUploadIcon {
+      position: absolute;
+      left: 1rem;
+      top: 13.5rem;
+      opacity: 0;
+      transition: opacity .35s ease;
+      i {
+        font-size: 1.6rem;
+        color: #ffffff;
+      }
+      a {
+        z-index: 1;
+        cursor: pointer;
+        color: #ffffff;
+      }
+    }
+
+  }
+
+  .profilePic:hover {
+    cursor: pointer;
+    .overlay {
+      display: block;
+      background: rgba(0, 0, 0, .3);
+    }
+    .imageUploadIcon {
+      opacity: 1;
+    }
+    .removeProfilePicButton {
+      opacity: 1;
+    }
+  }
+
+  .list-group-item-action.active {
+    color: #fff;
+    background-color: #19ba9b;
+    border-color: #19ba9b;
+  }
+
+  // icon classes
+  .gradIcon {
+    font-size: 1.1rem;
+  }
+  .uniIcon {
+    font-size: 0.87rem;
+  }
+  .courseIcon {
+    font-size: 0.86rem;
+  }
+  .topBadgeIcon {
+    position: relative;
+    top: 0.147rem;
+  }
+
+}

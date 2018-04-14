@@ -1,0 +1,127 @@
+<navbar-top></navbar-top>
+
+
+
+
+<ng-container *ngIf = "accountService.isUserLoggedIn && accountService.isUserTypeApplicant">
+
+  <div class="container breadcrumbContainer">
+      <ul class="u-list-inline">
+        <li class="list-inline-item">
+          <a class="mr-2" routerLink="/">Home</a>
+          <i class="fa fa-angle-right mr-1"></i>
+        </li>
+        <li class="list-inline-item">
+          <span>My Profile</span>
+        </li>
+      </ul>
+  </div>
+
+
+  <div class="container applicantProfileContainer">
+    <div class="row">
+      <!-- =========================== -->
+      <!-- ======= sidebar =========== -->
+      <!-- =========================== -->
+      <div class="col-md-5 col-lg-4 col-xl-3 mb-5">
+        <div class="profilePic">
+          <!-- <img src="http://via.placeholder.com/400x450/9b6bcc/ffffff" alt="" class="img-fluid"> -->
+          <img src="images/avatar.png" alt="" class="img-fluid">
+          <!-- TODO: the remove pic icon will show if user has any pic in the database -->
+          <!-- Just uncomment the button below and write method for delete profile picture -->
+          <!-- <button type="button" class="close float-right removeProfilePicButton" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+          <div class="overlay"></div>
+          <div class="imageUploadIcon">
+            <a ><i class="icon-camera"></i></a>
+          </div>
+        </div>
+
+        <!-- List group -->
+        <div class="list-group" id="myList" role="tablist">
+          <a class="list-group-item list-group-item-action active" data-toggle="list" href="#list-profile" role="tab"><i class="icon-cursor mr-2"></i>Profile</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#list-application" role="tab"><i class="icon-note mr-2"></i>Badge Application <span class="badge badge-secondary badge-pill ml-2">14</span></a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#list-earned" role="tab"><i class="icon-badge mr-2"></i>Earned Badges <span class="badge badge-warning badge-pill ml-2">2</span></a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#list-shared" role="tab"><i class="icon-share-alt mr-2"></i>Share Badge <span class="badge badge-success badge-pill ml-2">2</span></a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#list-wishlist" role="tab"><i class="icon-heart mr-2"></i>Wishlist <span class="badge badge-info badge-pill ml-2">10</span></a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#list-settings" role="tab"><i class="icon-settings mr-2"></i>Settings</a>
+        </div>
+      </div> <!-- ////// END OF sidebar //////// -->
+      <!-- ============================= -->
+      <!-- ======== main content ======= -->
+      <!-- ============================= -->
+      <div class="col-md-7 col-lg-8 col-xl-9 mb-5">
+          <!-- Tab panes -->
+          <div class="tab-content border p-4">
+            <!-- ====================================== -->
+            <!-- ======== My Profile ================== -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade show active" id="list-profile" role="tabpanel">
+                <div class="row">
+                  <div class="col">
+                    <h2 class="mb-3">Mohammad Nizam Uddin</h2>
+                    <div class="text-muted mb-1"><i class="icon-graduation mr-2 gradIcon"></i>Student</div>
+                    <div class="text-muted mb-1"><i class="fa fa-university mr-2 uniIcon"></i>University of Koblenz-Landau</div>
+                    <div class="text-muted mb-1"><i class="icon-book-open mr-2 courseIcon"></i> MSc in Web Science</div>
+                    <div class="text-muted mb-3"><i class="icon-directions mr-2 mapIcon"></i> Koblenz, Germany</div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col">
+                    <div class="card border-0 rounded-0">
+                      <div class="card-header border-0"><h6 class="mb-0"><i class="icon-energy topBadgeIcon"></i> Top 5 Badges</h6></div>
+                      <div class="card-body">
+                        <div class="row no-gutters m-auto">
+                          <div class="col-md-6 col-lg-2 text-center">
+                            <img src="http://via.placeholder.com/75x75/9b6bcc/ffffff" alt="..." class="rounded-circle">
+                            <div class="text-muted mt-2">Badge 1</div>
+                          </div>
+                          <div class="col-md-6 col-lg-2  text-center">
+                            <img src="http://via.placeholder.com/75x75/29d6e6/ffffff" alt="..." class="rounded-circle">
+                            <div class="text-muted mt-2">Badge 1</div>
+                          </div>
+                          <div class="col-md-6 col-lg-2  text-center">
+                            <img src="http://via.placeholder.com/75x75/e81c62/ffffff" alt="..." class="rounded-circle">
+                            <div class="text-muted mt-2">Badge 1</div>
+                          </div>
+                          <div class="col-md-6 col-lg-2  text-center">
+                            <img src="http://via.placeholder.com/75x75/527bcc/ffffff" alt="..." class="rounded-circle">
+                            <div class="text-muted mt-2">Badge 1</div>
+                          </div>
+                          <div class="col-md-6 col-lg-2  text-center">
+                            <img src="http://via.placeholder.com/75x75/72c02c/ffffff" alt="..." class="rounded-circle">
+                            <div class="text-muted mt-2">Badge 1</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!-- ====================================== -->
+            <!-- ======== END OF My Profile =========== -->
+            <!-- ====================================== -->
+
+            <div class="tab-pane fade" id="list-application" role="tabpanel">Badge Application</div>
+            <div class="tab-pane fade" id="list-earned" role="tabpanel">Badge earned</div>
+            <div class="tab-pane fade" id="list-shared" role="tabpanel">Share Badge</div>
+            <div class="tab-pane fade" id="list-wishlist" role="tabpanel">Wishlist</div>
+            <div class="tab-pane fade" id="list-settings" role="tabpanel">Settings</div>
+          </div>
+
+      </div><!-- ////// END OF main content -->
+    </div> <!-- END OF row -->
+  </div> <!-- END OF applicantProfileContainer -->
+
+</ng-container>
+
+
+
+
+
+
+
+
+<app-footer></app-footer>

@@ -1,3 +1,4 @@
+// to make bootswatch work we have to follow the import sequence as follows -> (1) _variables.scss , (2) bootstrap, (3) _bootswatch.scss
 @import "{}/node_modules/bootswatch/dist/cosmo/_variables.scss";
 @import '{}/node_modules/bootstrap/scss/bootstrap';
 @import "{}/node_modules/bootswatch/dist/cosmo/_bootswatch.scss";

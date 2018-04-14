@@ -20,7 +20,7 @@ if (Meteor.isServer) {
 
     // ///////////////////////////////////////
     //=========== LDAP access Method =========
-    // This method is used for login and search user
+    // This method is used for search user
     // of University of Koblenz and Landau
     // Files using this method : accountService.ts
     // ///////////////////////////////////////
@@ -45,8 +45,8 @@ if (Meteor.isServer) {
       var opts = {
           filter: '(objectclass=*)',
           scope: 'base',
-          attributes: ['mail', 'cn', 'eduPersonAffiliation'],
-          //attributes: [],
+          // attributes: ['mail', 'cn', 'eduPersonAffiliation'],
+          attributes: [],
           sizeLimit: 0 //0=unlimited
       };
 
@@ -72,7 +72,7 @@ if (Meteor.isServer) {
                     assert.ifError(err);
                     response.on('searchEntry', function callback(result) {
                       // console.log('entry: ' + JSON.stringify(result.object));
-                      //console.log(result.object);
+                      console.log(result.object);
                       console.log("Hello : " + result.object.cn); // extract Full Name
                       console.log(result.object.mail); // extract email address
                       clientFeedback.name = result.object.cn;
@@ -100,7 +100,52 @@ if (Meteor.isServer) {
 
         return future.wait();
 
-    } // end of bindAndSearch() method
+    }, // end of bindAndSearch() method
+
+    // we are going to use onlyLogin method for login purpose
+    // instead of bind and search method. It performs faster
+    // ///////////////////////////////////////
+    //=========== LDAP access Method =========
+    // This method is used for login user
+    // of University of Koblenz and Landau
+    // Files using this method : accountService.ts
+    // ///////////////////////////////////////
+
+    'onlyLogin'(data) {
+
+      // Create our future instance.
+      var Future = Npm.require( 'fibers/future' );
+      var future = new Future();
+
+      var clientFeedback= {
+          error  : "error",
+          name   : "",
+          eduPersonAffiliation : ""
+        };
+      var ldap = require('ldapjs');
+      var client = ldap.createClient({
+          url: 'ldap://ldap.uni-koblenz.de:389'
+      });
+
+        client.bind('uid=' + data.username + ',ou='+data.ou1+',ou='+data.ou2+',dc=Uni-Koblenz-landau,dc=de',  data.password ,
+          function callback(err,response) {
+              // assert.ifError(err);
+              // console.log(response);
+              if(err) {
+                console.log('bind unsuccessful, in error block');
+                clientFeedback.error = "Invalid password";
+                future.return( clientFeedback );
+              }
+              if(!err) {
+                if(response) {
+                  clientFeedback.error = "Login successful";
+                  future.return( clientFeedback );
+                }
+              }
+        });
+        return future.wait();
+    }
+
 
   }); // end Meteor.methods
 

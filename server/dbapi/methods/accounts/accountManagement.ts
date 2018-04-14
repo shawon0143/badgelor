@@ -62,6 +62,24 @@ if (Meteor.isServer) {
         }
     }, // --- end of isUserTypeAdmin ---
 
+    'isUserTypeApplicant'() {
+        // this method is needed for client to know if a user type is applicant or not
+        // user role will never be published to  client
+        // codes :
+        // 100 = user is an applicant
+        // 999 = not applicant
+        if (!this.userId) {
+            return 999;
+        }
+        var dbAccessChecker = new Checkdbaccess();
+        if (dbAccessChecker.isRoleApplicant(this.userId) === true) {
+            return 100;
+        }
+        else {
+            return 999;
+        }
+    }, // --- end of isUserTypeAdmin ---
+
 
 
     'addNewUserByAdmin'(data) {

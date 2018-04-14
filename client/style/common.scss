@@ -28,7 +28,7 @@
   }
 
 
-// overlay blur --------
+// overlay blur for any modal --------
 
 .windowOverlayBlur {
   background:rgba(55, 58, 60, 0.5);
@@ -48,3 +48,8 @@
   overflow-y: visible;
 }
 // -------------------------
+
+// margin-top for navbar
+.topNavbarPush {
+  margin-top: 54px;
+}

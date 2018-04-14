@@ -6,11 +6,14 @@ import {Meteor} from 'meteor/meteor';
 export class AppConfig {
     adminPassword : string;
     adminEmail : string;
+    obfCertificate : string;
+    obfKey : string;
 
     constructor() {
       this.adminPassword = Meteor["settings"]["private"]["adminlogin"];
       this.adminEmail = Meteor["settings"]["private"]["adminEmail"];
-
+      this.obfCertificate = Meteor["settings"]["private"]["obfCertificate"].join('\n');
+      this.obfKey = Meteor["settings"]["private"]["obfKey"].join('\n');
     }
 
 

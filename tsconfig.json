@@ -26,6 +26,7 @@
     "./client/**/*.ts",
     "./server/**/*.ts",
     "./imports/**/*.ts",
+    "./shared/**/*.ts",
     "./*.d.ts"
   ],
   "exclude": [
