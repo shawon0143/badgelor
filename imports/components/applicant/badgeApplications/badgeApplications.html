@@ -6,12 +6,21 @@
         <h6 class="mb-0"><i class="icon-layers mr-2 topBadgeIcon"></i> Badge Applications</h6>
       </div>
       <div class="card-body">
-        <div class="row">
+        <div class="row" *ngFor ="let application of myApplications; index as i">
           <div class="col-2">
-            <img src="" alt="Badge Image">
+            <span>{{i+1}}</span>
           </div>
-          <div class="col-10">
-            <span>Badge Name</span> <span class="pull-right"> <button class="btn btn-sm btn-outline-success">Approved</button> </span>
+          <div class="col-2">
+            <img class="img-fluid img-thumbnail rounded badgeIcon" src="https://openbadgefactory.com/v1/badge/_/{{application?.badge_id}}.png" alt="Img">
+          </div>
+          <div class="col-8 border-bottom">
+            <span class="h5 align-middle">{{application?.name}}</span>
+            <span class="badge badge-pill pull-right"
+                  [ngClass] = "{'badge-success': application?.status === 'approved',
+                                'badge-danger': application?.status === 'rejected',
+                                'badge-primary': application?.status === 'pending' }"
+                  >{{application?.status}}
+            </span>
           </div>
         </div>
       </div>
