@@ -27,13 +27,9 @@ export class AutoLogoutService {
       this.badgelorMemory = this.localStorageService.get('badgelorMemory');
     }
 
-    if (this.badgelorMemory !== undefined) {
-      if (this.badgelorMemory["rememberMe"] !== true ) {
-        this.check();
-        this.initListener();
-        this.initInterval();
-      }
-    }
+      this.check();
+      this.initListener();
+      this.initInterval();
 
   }
 
@@ -57,15 +53,19 @@ export class AutoLogoutService {
   }
 
   check() {
-    const now = Date.now();
-    const timeleft = this.getLastAction() + MINUTES_UNITL_AUTO_LOGOUT * 60 * 1000;
-    const diff = timeleft - now;
-    const isTimeout = diff < 0;
+    if (this.badgelorMemory !== undefined) {
+      if (this.badgelorMemory["rememberMe"] !== true ) {
+          const now = Date.now();
+          const timeleft = this.getLastAction() + MINUTES_UNITL_AUTO_LOGOUT * 60 * 1000;
+          const diff = timeleft - now;
+          const isTimeout = diff < 0;
 
-    if (isTimeout) {
-      Meteor.logout();
-      localStorage.clear();
-      this.router.navigate(['/']);
+          if (isTimeout) {
+            Meteor.logout();
+            localStorage.clear();
+            this.router.navigate(['/']);
+          }
+      }
     }
   }
 }

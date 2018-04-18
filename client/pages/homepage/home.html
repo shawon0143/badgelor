@@ -2,8 +2,16 @@
 
 <homepage-banner></homepage-banner>
 
-<button (click) = "getAllEarnableBadges() ">Click Me</button>
+<!-- API clall test buttons -->
+<button class="btn btn-primary"(click) = "getAllEarnableBadges() ">earnable Badges</button>
+<input type="text" placeholder="Email" [(ngModel)]="myEmail">
+<button class="btn btn-warning" (click)="getMyApplication()">My badge Application</button>
+<div *ngFor = "let application of myApplications">
 
+<span>{{application?.applicant}} - {{application?.status}}</span>
+</div>
+
+<!-- ====================== -->
 <howitworks-component></howitworks-component>
 
 <infoGraphic-component (signupButtonClicked) = "showSignupView()"></infoGraphic-component>

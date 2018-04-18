@@ -52,8 +52,124 @@ if (Meteor.isServer) {
         response = response.join(',');
         response = "[" + response + "]";
         response = JSON.parse(response);
-        return response;
+
+        // =================== for earnable badge_id =======
+        // var a = [];
+        // for (let key in response) {
+        //   a.push(response[key].badge_id);
+        // }
+        // let b = a.join("|");
+        // console.log(b);
+        // return b;
+        // ==================================================
+
+        // ================ for earnable_id =================
+          var a = [];
+          for (let key in response) {
+            a.push(response[key].id);
+          }
+
+          return a;
+
+
+
+
       },
+
+
+      // **********************************
+      //  get list of badges by id
+      // **********************************
+      'getBadgesByID'(listOfBadgeID) {
+
+            this.unblock();
+            var badgelorAppConfig = new AppConfig();
+
+            var apiUrlToGetListOfBadgeData = apiUrl + "/?id="+ listOfBadgeID;
+            // console.log(apiUrlToGetListOfBadgeData);
+
+            let apiCall = function (apiUrlToGetListOfBadgeData, callback) {
+              try {
+                let response = HTTP.call(
+                  "GET",
+                  apiUrlToGetListOfBadgeData,
+                  {npmRequestOptions: {
+                    key: badgelorAppConfig.obfKey,
+                    cert: badgelorAppConfig.obfCertificate,
+                  }},
+                ).content;
+                callback(null, response);
+              } catch (error) {
+                let errorCode;
+                let errorMessage;
+                if (error.response) {
+                  errorCode = error.response.data.code;
+                  errorMessage = error.response.data.message;
+                } else {
+                  errorCode = 500;
+                  errorMessage = 'Cannot access the API';
+                }
+                let myError = new Meteor.Error(errorCode, errorMessage);
+                callback(myError, null);
+              }
+            }
+
+            // let apiUrl = 'https://openbadgefactory.com/v1/badge/NM70OHe7HCeO';
+            let response = Meteor.wrapAsync(apiCall)(apiUrlToGetListOfBadgeData);
+            response = response.trim();
+            response = response.split(/\r\n/);
+            response = response.join(',');
+            response = "[" + response + "]";
+            response = JSON.parse(response);
+            return response;
+      },
+
+      'getAllBadgeApplication'(earnableID) {
+        
+        this.unblock();
+        var badgelorAppConfig = new AppConfig();
+
+        var apiUrlforBadgeApplication = "https://openbadgefactory.com/v1/earnablebadge/NM70OHe7HCeO" + "/"+ earnableID + "/application" ;
+        // console.log(apiUrlToGetListOfBadgeData);
+
+        let apiCall = function (apiUrlforBadgeApplication, callback) {
+          try {
+            let response = HTTP.call(
+              "GET",
+              apiUrlforBadgeApplication,
+              {npmRequestOptions: {
+                key: badgelorAppConfig.obfKey,
+                cert: badgelorAppConfig.obfCertificate,
+              }},
+            ).content;
+            callback(null, response);
+          } catch (error) {
+            let errorCode;
+            let errorMessage;
+            if (error.response) {
+              errorCode = error.response.data.code;
+              errorMessage = error.response.data.message;
+            } else {
+              errorCode = 500;
+              errorMessage = 'Cannot access the API';
+            }
+            let myError = new Meteor.Error(errorCode, errorMessage);
+            callback(myError, null);
+          }
+        }
+
+        // let apiUrl = 'https://openbadgefactory.com/v1/badge/NM70OHe7HCeO';
+        let response = Meteor.wrapAsync(apiCall)(apiUrlforBadgeApplication);
+        response = response.trim();
+        response = response.split(/\r\n/);
+        response = response.join(',');
+        response = "[" + response + "]";
+        response = JSON.parse(response);
+
+        return response;
+
+      },
+
 
 
 

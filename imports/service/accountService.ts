@@ -1,5 +1,5 @@
 import { Injectable, NgZone, ApplicationRef } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Accounts } from 'meteor/accounts-base';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -91,6 +91,20 @@ export class AccountService {
 
   } //--- end of constructor ---
 
+  // The function below is used in the onlyLoggedInUsersGuard service
+  // where we need to check whether the use is logged in and
+  // he has right to access the route via canActivate
+  //
+  isAuthenticated() {
+    const promise = new Promise(
+      (resolve, reject) => {
+        setTimeout(() => {
+          resolve(this.isLoggedIn());
+        }, 800);
+      }
+    );
+    return promise;
+  } // END OF isAuthenticated
 
 // this function will have two use case:
 // (i) set the value of isUserLoggedIn var reactively on each login/logout action by user.

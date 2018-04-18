@@ -7,33 +7,32 @@ import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { MeteorObservable } from "meteor-rxjs";
 import { AccountService } from '/imports/service/accountService';
-import { AutoLogoutService } from '/imports/service/autoLogout';
 
 
-import template from './applicantProfile.html';
+
+import template from './earnedBadges.html';
 
 
 
 @Component({
-  selector: 'applicant-profile',
+  selector: 'earned-badges',
   template
 })
 
 
 
-export class ApplicantProfile implements OnInit {
+export class EarnedBadges implements OnInit {
 
   constructor( private route: ActivatedRoute,
                private router: Router,
-               public accountService: AccountService,
-               private autoLogoutService: AutoLogoutService) {
+               public accountService: AccountService) {
 
   }
 
   ngOnInit() {
-    localStorage.setItem('lastAction', Date.now().toString());
+
   }
 
 
 
-} // end of class ApplicantProfile
+} // end of class EarnedBadges
