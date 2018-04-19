@@ -49,6 +49,7 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 // ======================
 import { AccountService } from "/imports/service/accountService";
 import { AutoLogoutService } from "/imports/service/autoLogout";
+import { ApplicantProfileService } from "/imports/service/applicantProfileService";
 import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
 import { OnlyLoggedInUsersGuard } from "/imports/service/onlyLoggedInUsersGuard";
 
@@ -128,6 +129,7 @@ const appRoutes: Routes = [
     providers: [
       AccountService,
       AutoLogoutService,
+      ApplicantProfileService,
       AuthService, // no longer in use, we might use it if we can use angular httpClient
       OnlyLoggedInUsersGuard
     ]

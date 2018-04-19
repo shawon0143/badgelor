@@ -107,4 +107,67 @@
     margin: 5px auto;
   }
 
+  .badgeFigure {
+    hr {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    ul li a {
+      cursor: pointer;
+      .icon-size-fullscreen {
+        font-size: 0.8rem;
+      }
+    }
+    ul li .viewLink:hover {
+      color: #e81c62 !important;
+    }
+    ul li .shareLink:hover {
+      color: #72c02c !important;
+    }
+  }
+
+  .badgeFigure:hover {
+    border-color: #9a69cb !important;
+    transition-duration: .2s;
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+  }
+
+  // earnedbadges tab styling
+  .badgeImgAndTitle {
+    padding-top: 2.55714rem !important;
+    padding-bottom: 2.55714rem !important;
+    padding-left: 1.22857rem !important;
+    padding-right: 1.22857rem !important;
+
+    img {
+      width: 80px !important;
+      height: 80px !important;
+    }
+  }
+
+
+
+}
+
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .applicantProfileContainer {
+    // earnedbadges tab styling
+    .badgeImgAndTitle {
+      padding-top: 2.85714rem !important;
+      padding-bottom: 2.85714rem !important;
+      // padding-left: 1.42857rem !important;
+      // padding-right: 1.42857rem !important;
+
+      img {
+        width: 50px !important;
+        height: 50px !important;
+      }
+    }
+
+  }
 }

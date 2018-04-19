@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { MeteorObservable } from "meteor-rxjs";
 import { AccountService } from '/imports/service/accountService';
+import { ApplicantProfileService } from "/imports/service/applicantProfileService";
 
 
 
@@ -25,7 +26,8 @@ export class EarnedBadges implements OnInit {
 
   constructor( private route: ActivatedRoute,
                private router: Router,
-               public accountService: AccountService) {
+               public accountService: AccountService,
+               public applicantProfile: ApplicantProfileService) {
 
   }
 

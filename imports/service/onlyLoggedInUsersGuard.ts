@@ -26,18 +26,27 @@ export class OnlyLoggedInUsersGuard implements CanActivate {
               state: RouterStateSnapshot) : Observable<boolean> | Promise<boolean> | boolean {
 
                if (this.isPageRefresh()) {
+
+                 if (route.params["id"] === this.accountService.currentUserId) {
                  return this.accountService.isAuthenticated()
                     .then(
                       (authenticated : boolean) => {
-                        if (authenticated && route.params["id"] === this.accountService.currentUserId) {
+                        if (authenticated) {
                           return true;
                         } else {
                           window.alert("You don't have permission to view this page");
                           this.router.navigate(['/']);
                           return false;
-                        }
-                      }
-                    );
+                        } // END OF if else authenticated
+                      } // END OF (authenticated : boolean)
+                    ); // END OF .then
+                  } // END OF if (route.params["id"] === this.accountService.currentUserId)
+                  else {
+                    window.alert("You don't have permission to view this page");
+                    this.router.navigate(['/']);
+                    return false;
+                  }
+
                } else {
                  if (this.accountService.isLoggedIn() && route.params["id"] === this.accountService.currentUserId) {
                      return true;

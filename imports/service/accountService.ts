@@ -170,6 +170,7 @@ export class AccountService {
     this.showLoginViewOnUI = true;
     this.showSignupViewOnUI = false;
     this.signupData = JSON.parse(this.resetSignupData);
+    this.loginData = JSON.parse(this.resetLoginData);
     this.isUserAlreadyExist = false;
     this.isUserCredentialsWrong = false;
     this.isUserRegistered = true;
@@ -177,6 +178,7 @@ export class AccountService {
   showSignupView() {
     this.showSignupViewOnUI = true;
     this.showLoginViewOnUI = false;
+    this.signupData = JSON.parse(this.resetSignupData);
     this.loginData = JSON.parse(this.resetLoginData);
     this.isUserAlreadyExist = false;
     this.isUserCredentialsWrong = false;

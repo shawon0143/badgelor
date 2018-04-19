@@ -23,7 +23,7 @@
       <!-- =========================== -->
       <!-- ======= sidebar =========== -->
       <!-- =========================== -->
-      <div class="col-md-5 col-lg-4 col-xl-3 mb-5">
+      <div class="col-md-4 col-lg-3 col-xl-3 mb-5">
         <div class="profilePic">
           <!-- <img src="http://via.placeholder.com/400x450/9b6bcc/ffffff" alt="" class="img-fluid"> -->
           <img src="images/avatar.png" alt="" class="img-fluid">
@@ -55,7 +55,7 @@
              data-toggle="list"
              href="#list-application"
              role="tab">
-             <i class="icon-note mr-2"></i>Badge Application <span class="badge badge-secondary badge-pill pull-right">14</span>
+             <i class="icon-note mr-2"></i>Badge Application <span class="badge badge-secondary badge-pill pull-right">{{applicantProfile.myApplications?.length}}</span>
           </a>
           <a class="list-group-item list-group-item-action"
              [routerLink] = "['earnedbadges']"
@@ -63,16 +63,16 @@
              data-toggle="list"
              href="#list-earned"
              role="tab">
-             <i class="icon-badge mr-2"></i>Earned Badges <span class="badge badge-warning badge-pill pull-right">2</span>
+             <i class="icon-badge mr-2"></i>Earned Badges <span class="badge badge-warning badge-pill pull-right">{{applicantProfile.myApprovedApplications?.length}}</span>
           </a>
-          <a class="list-group-item list-group-item-action"
+          <!-- <a class="list-group-item list-group-item-action"
              [routerLink] = "['shareBadge']"
              routerLinkActive="active"
              data-toggle="list"
              href="#list-shared"
              role="tab">
              <i class="icon-share-alt mr-2"></i>Share Badge <span class="badge badge-success badge-pill pull-right">2</span>
-          </a>
+          </a> -->
           <a class="list-group-item list-group-item-action"
              [routerLink] = "['wishlist']"
              routerLinkActive="active"
@@ -94,9 +94,9 @@
       <!-- ============================= -->
       <!-- ======== main content ======= -->
       <!-- ============================= -->
-      <div class="col-md-7 col-lg-8 col-xl-9 mb-5">
+      <div class="col-md-8 col-lg-9 col-xl-9 mb-5">
           <!-- Tab panes -->
-          <div class="tab-content border p-4">
+          <div class="tab-content">
             <!-- ====================================== -->
             <!-- ======== Overview ================== -->
             <!-- ====================================== -->
@@ -130,9 +130,9 @@
             <!-- ====================================== -->
             <!-- ======== Share Badge Earned ========== -->
             <!-- ====================================== -->
-            <div class="tab-pane fade" id="list-shared" role="tabpanel">
+            <!-- <div class="tab-pane fade" id="list-shared" role="tabpanel">
               <share-badge></share-badge>
-            </div>
+            </div> -->
             <!-- ====================================== -->
             <!-- === END OF Share Badge Earned ======== -->
             <!-- ====================================== -->
