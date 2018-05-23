@@ -65,11 +65,50 @@ if (Meteor.isServer) {
         // return b;
         // ==================================================
 
-
-
-
-
       },
+
+      // **********************************
+      //  get a single badge
+      // **********************************
+
+      'getSingleBadge'(badge_id) {
+        this.unblock();
+
+        let badgelorAppConfig = new AppConfig();
+        let apiUrlForSingleBadge = apiUrl+'/'+badge_id;
+
+        let apiCall = function (apiUrlForSingleBadge, callback) {
+          try {
+            let response = HTTP.call( "GET", apiUrlForSingleBadge,
+              {npmRequestOptions: {
+                key: badgelorAppConfig.obfKey,
+                cert: badgelorAppConfig.obfCertificate,
+              }},
+            ).content;
+            callback(null, response);
+          } catch (error) {
+            let errorCode;
+            let errorMessage;
+            if (error.response) {
+              errorCode = error.response.data.code;
+              errorMessage = error.response.data.message;
+            } else {
+              errorCode = 500;
+              errorMessage = 'Cannot access the API';
+            }
+            let myError = new Meteor.Error(errorCode, errorMessage);
+            callback(myError, null);
+          }
+        }
+
+        let response = Meteor.wrapAsync(apiCall)(apiUrlForSingleBadge);
+        response = response.trim();
+        response = response.split(/\r\n/);
+        response = response.join(',');
+        response = JSON.parse(response);
+
+        return response;
+        },
 
 
       // **********************************

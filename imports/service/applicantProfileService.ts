@@ -20,33 +20,27 @@ constructor( public zone: NgZone,
              public router: Router,
              public accountService: AccountService) {
 
-          this.getAllEarnableIdList();
-          // we can implement a reload function in the front-end
-          // for the user to load changes rather than reloading
-          // the whole page.
-          // So we can just call the getAllEarnableIdList function
+
+          this.meteorBadgeApplicationSubscription = MeteorObservable.call('getEarnableIdList').subscribe((response) => {
+
+              if (response != undefined || response != "") {
+                for (let key in response) {
+                  this.allEarnableBadges.push(response[key]);
+                  this.earnableIDlist.push(response[key]["earnable_id"]);
+                }
+                if (this.earnableIDlist.length >=1) {
+                  this.myProfile = this.getMyProfile();
+                  this.getAllBadgeApplications();
+                }
+              }
+              //  else {
+              //   // TODO: handle error
+              // }
+
+            });
+
 }
 
-
-  getAllEarnableIdList() {
-
-    this.meteorBadgeApplicationSubscription = MeteorObservable.call('getEarnableIdList').subscribe((response) => {
-
-        if (response != undefined || response != "") {
-          for (let key in response) {
-            this.allEarnableBadges.push(response[key]);
-            this.earnableIDlist.push(response[key]["earnable_id"]);
-          }
-            this.myProfile = this.getMyProfile();
-            this.getAllBadgeApplications();
-        }
-        //  else {
-        //   // TODO: handle error
-        // }
-
-      });
-
-  } // END OF getAllEarnableIdList()
 
 
   getMyProfile() {
@@ -59,7 +53,7 @@ constructor( public zone: NgZone,
 
       // MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], this.myProfile.emails[0].address).subscribe((response) => {
         MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], "gektor@uni-koblenz.de").subscribe((response) => {
-
+        console.log(response);
         if (response != undefined || response != "") {
           this.getMyApplications(response);
         }

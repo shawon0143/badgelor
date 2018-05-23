@@ -127,7 +127,10 @@ if (Meteor.isServer) {
             return (el.email === userEmail);
         });
 
-        return response;
+
+          return response;
+        
+
       },
 
   }); // end Meteor.methods

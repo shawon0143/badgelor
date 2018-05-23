@@ -1,0 +1,27 @@
+<div class="windowOverlayBlur" (click)="badgeService.hideApplyBadgeModalOnUI()" [@fadeInAnimation]></div>
+
+<div class="applyBadgeModalContainer rounded pt-4 pb-4 pl-5 pr-5" [@flyFromTop] = 'in'>
+
+  <!-- close icon -->
+  <header class="mb-5">
+    <button type="button" class="close" aria-label="Close" (click)="badgeService.hideApplyBadgeModalOnUI()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </header>
+  <!-- END of close icon -->
+
+    <div class="embed-container">
+      <iframe
+        id="iframeId"
+        (load)="iframeLoaded()"
+        [src]="badgeService.applyBadgeUrl | safe"
+        frameborder="0"
+        scrolling="auto"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+        >
+      </iframe>
+    </div>
+
+</div>

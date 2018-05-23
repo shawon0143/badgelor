@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { MarkdownModule } from 'angular2-markdown';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -32,6 +33,12 @@ import { ShareBadge } from '/imports/components/applicant/shareBadge/shareBadge'
 import { BadgeWishList } from '/imports/components/applicant/badgeWishlist/badgeWishlist';
 import { ProfileSettings } from '/imports/components/applicant/profileSettings/profileSettings';
 
+// =====================
+// Badge related pages
+// =====================
+import { EarnableBadges } from '/client/pages/badges/earnableBadges';
+import { SingleBadgeModal } from "/imports/components/badge/singleBadgeModal/singleBadgeModal";
+import { ApplyBadgeModal } from "/imports/components/badge/applyBadgeModal/applyBadgeModal";
 // ===============
 // 404 not found
 // ===============
@@ -44,14 +51,23 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 
 
 
+
 // ======================
 // Services and Providers
 // ======================
 import { AccountService } from "/imports/service/accountService";
+import { OnlyLoggedInUsersGuard } from "/imports/service/onlyLoggedInUsersGuard";
 import { AutoLogoutService } from "/imports/service/autoLogout";
 import { ApplicantProfileService } from "/imports/service/applicantProfileService";
+import { BadgeService } from "/imports/service/badgeService";
 import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
-import { OnlyLoggedInUsersGuard } from "/imports/service/onlyLoggedInUsersGuard";
+
+
+// ========================
+// Custom Pipes ===========
+// ========================
+import { SafePipe } from "/imports/pipes/fixIframe.pipe.ts";
+
 
 // global imports
 import '/imports/startup/accounts-config.js';
@@ -76,6 +92,10 @@ const appRoutes: Routes = [
         { path: 'wishlist', component: BadgeWishList },
         { path: 'settings', component: ProfileSettings }
     ] },
+    // =============================
+    // All badge related routes ====
+    // =============================
+    { path: 'earnableBadges', component: EarnableBadges },
 
     // =============================
     // 404 Component
@@ -95,7 +115,8 @@ const appRoutes: Routes = [
             storageType: 'localStorage'
         }),
         AccountsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MarkdownModule.forRoot(),
     ],
     declarations: [
         AppComponent,
@@ -109,6 +130,10 @@ const appRoutes: Routes = [
         AboutUs,
         Footer,
         LoginAndSignup,
+        // badge related module
+        EarnableBadges,
+        SingleBadgeModal,
+        ApplyBadgeModal,
         // Applicant modules
         ApplicantProfile,
         AccountOverview,
@@ -117,6 +142,8 @@ const appRoutes: Routes = [
         ShareBadge,
         BadgeWishList,
         ProfileSettings,
+        //Pipes
+        SafePipe,
         // 404
         Four04Component
 
@@ -128,10 +155,12 @@ const appRoutes: Routes = [
     ],
     providers: [
       AccountService,
+      OnlyLoggedInUsersGuard,
       AutoLogoutService,
       ApplicantProfileService,
+      BadgeService,
       AuthService, // no longer in use, we might use it if we can use angular httpClient
-      OnlyLoggedInUsersGuard
+
     ]
 })
 export class AppModule {

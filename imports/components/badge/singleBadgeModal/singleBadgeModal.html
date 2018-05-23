@@ -1,0 +1,55 @@
+<!-- ========================================================================= -->
+<!-- ==================== Start of SINGLE BADGE VIEW ========================= -->
+<!-- ========================================================================= -->
+
+<div class="windowOverlayBlur" (click)="badgeService.hideSingleBadgeModalOnUI()" [@fadeInAnimation]></div>
+
+<div class="singleBadgeModalContainer rounded pt-4 pb-4 pl-5 pr-5" [@flyFromTop] = 'in'>
+
+  <!-- close icon -->
+  <header class="mb-5">
+    <button type="button" class="close" aria-label="Close" (click)="badgeService.hideSingleBadgeModalOnUI()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </header>
+  <!-- END of close icon -->
+  <ng-container *ngIf = "badgeService.singleBadgeDataLoading === false">
+    <div class="badgeImageRow text-center rounded mb-4">
+      <img src="{{badgeService.singleBadge?.image}}" class="img-fluid rounded">
+    </div>
+    <div class="badgeInfoRow">
+      <h3>{{badgeService.singleBadge?.name}}</h3>
+      <hr>
+      <!-- <h6>DESCRIPTION</h6> -->
+      <p class="text-muted">
+        {{badgeService.singleBadge?.description}}
+      </p>
+      <hr>
+      <h6>CRITERIA</h6>
+      <markdown [data]="badgeService.singleBadge?.criteria_html" class="text-muted markdown"></markdown>
+
+    </div>
+  </ng-container>
+
+  <ng-container  *ngIf = "badgeService.singleBadgeDataLoading === true">
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
+  </ng-container>
+
+</div>
+
+<!-- ========================================================================= -->
+<!-- ==================== END of SINGLE BADGE VIEW =========================== -->
+<!-- ========================================================================= -->

@@ -16,7 +16,7 @@
         <li class="nav-item" routerLinkActive = "active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" routerLink="/"><i class="fa fa-home fa-fw"></i>Home</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" routerLinkActive="active" [routerLink]="['/earnableBadges']">
           <a class="nav-link"><i class="fa fa-shield fa-fw"></i>Badges</a>
         </li>
         <li class="nav-item" routerLinkActive="active" *ngIf="accountService.isUserLoggedIn && accountService.isUserTypeAdmin">
@@ -29,7 +29,7 @@
           <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showLoginView()"><i class="fa fa-sign-in fa-fw"></i>Login</a>
         </li>
         <li class="nav-item" routerLinkActive="active" *ngIf="accountService.isUserLoggedIn">
-          <a class="nav-link" [routerLink]="['/myprofile',accountService.currentUserId] " ><i class="fa fa-user fa-fw"></i>  My Profile</a>
+          <a class="nav-link" [routerLink]="['/myprofile',accountService.currentUserId]" ><i class="fa fa-user fa-fw"></i>  My Profile</a>
         </li>
         <li class="nav-item" *ngIf="accountService.isUserLoggedIn">
           <a class="nav-link" (click)="accountService.logout()"><i class="fa fa-sign-out fa-fw"></i>Logout</a>

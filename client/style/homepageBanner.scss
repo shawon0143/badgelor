@@ -15,7 +15,7 @@
     //   rgba(20, 20, 20, 0.5)
     // ),
     /* bottom, image */
-    url('/images/rsz_banner4.jpg');
+    url('/images/image.jpg');
 
   /* Position and center the image to scale nicely on all screens */
   background-position: center;
@@ -26,11 +26,13 @@
   -o-background-size: cover;
   background-repeat: no-repeat !important;
   position: relative;
-  color: #868e96;
+  color: #f6f6f6;
   // opacity: 0.8;
 
   p {
-    color: #373a3c;
+    // color: #373a3c;
+    color: #f6f6f6;
+    width: 40%
   }
 
 

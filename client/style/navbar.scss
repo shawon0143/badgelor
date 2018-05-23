@@ -5,4 +5,9 @@
   ul>li>a:hover {
     cursor: pointer;
   }
+
+  ul>li:focus {
+    outline: 0;
+    border: none;
+  }
 }
