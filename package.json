@@ -32,6 +32,7 @@
     "fibers": "^2.0.2",
     "font-awesome": "^4.7.0",
     "geolib": "^2.0.24",
+    "hoek": "^5.0.3",
     "jquery": "^3.3.1",
     "ldapjs": "^1.0.2",
     "meteor-node-stubs": "^0.3.3",
