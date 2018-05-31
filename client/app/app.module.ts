@@ -39,6 +39,18 @@ import { ProfileSettings } from '/imports/components/applicant/profileSettings/p
 import { EarnableBadges } from '/client/pages/badges/earnableBadges';
 import { SingleBadgeModal } from "/imports/components/badge/singleBadgeModal/singleBadgeModal";
 import { ApplyBadgeModal } from "/imports/components/badge/applyBadgeModal/applyBadgeModal";
+
+
+// =====================
+// Dashboard Panel =====
+// =====================
+import { DashboardOverview } from '/client/pages/dashboard/overview/dashboard-overview';
+import { UserManagement } from '/client/pages/dashboard/userManagement/userManagement';
+
+import { DashboardStatistics } from '/imports/components/dashboard/statistics/statistics';
+import { DashboardSidebar } from '/imports/components/dashboard/sidebar/sidebar';
+
+
 // ===============
 // 404 not found
 // ===============
@@ -57,6 +69,7 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 // ======================
 import { AccountService } from "/imports/service/accountService";
 import { OnlyLoggedInUsersGuard } from "/imports/service/onlyLoggedInUsersGuard";
+import { OnlyAuthorisedUserGuard } from "/imports/service/onlyAuthorisedUserGuard";
 import { AutoLogoutService } from "/imports/service/autoLogout";
 import { ApplicantProfileService } from "/imports/service/applicantProfileService";
 import { BadgeService } from "/imports/service/badgeService";
@@ -96,6 +109,30 @@ const appRoutes: Routes = [
     // All badge related routes ====
     // =============================
     { path: 'earnableBadges', component: EarnableBadges },
+
+    // =============================
+    // All Dashboard related routes
+    // =============================
+    { path: 'dashboard',
+      component: DashboardOverview,
+      canActivate: [OnlyAuthorisedUserGuard],
+      children: [
+        { path: '', redirectTo: 'overview', pathMatch: 'full' },
+        { path: 'overview', component: DashboardStatistics },
+        { path: 'users', component: UserManagement },
+        // { path: 'issuerTools', component: IssuerTools },
+        // { path: 'reports', component: Reports },
+        // { path: 'campus', component: CampusManagement },
+        // { path: 'faculty', component: FacultyManagement },
+        // { path: 'institutes', component: InstitutesManagement },
+        // { path: 'courses', component: CoursesManagement },
+        // { path: 'levels', component: LevelsManagement },
+        // { path: 'competency', component: CompetencyManagement },
+        // { path: 'tools', component: ToolsManagement },
+        // { path: 'createNewBadge', component: AddNewBadge },
+        // { path: 'importBadge', component: ImportBadge },
+        // { path: 'viewAllBadge', component: ViewAllBadge }
+      ] },
 
     // =============================
     // 404 Component
@@ -142,6 +179,11 @@ const appRoutes: Routes = [
         ShareBadge,
         BadgeWishList,
         ProfileSettings,
+        // Dashboard modules
+        DashboardOverview,
+        UserManagement,
+        DashboardStatistics,
+        DashboardSidebar,
         //Pipes
         SafePipe,
         // 404
@@ -156,6 +198,7 @@ const appRoutes: Routes = [
     providers: [
       AccountService,
       OnlyLoggedInUsersGuard,
+      OnlyAuthorisedUserGuard,
       AutoLogoutService,
       ApplicantProfileService,
       BadgeService,

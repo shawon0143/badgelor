@@ -26,7 +26,6 @@ import template from './applyBadgeModal.html';
 
 
 export class ApplyBadgeModal implements OnInit {
-  isIframeLoaded :boolean = false;
   constructor( private route: ActivatedRoute,
                private router: Router,
                public accountService: AccountService,

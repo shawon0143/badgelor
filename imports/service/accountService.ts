@@ -100,7 +100,7 @@ export class AccountService {
       (resolve, reject) => {
         setTimeout(() => {
           resolve(this.isLoggedIn());
-        }, 800);
+        }, 1000);
       }
     );
     return promise;
@@ -263,6 +263,8 @@ export class AccountService {
             document.body.classList.remove('hideBodyScoll');
             document.body.classList.add('showBodyScroll');
 
+            // admin / issuer / creator should redirect to dashboard after successful login
+            this.routeUserToDashboard();
           }
           else if (error) {
             console.log(error);
@@ -276,16 +278,6 @@ export class AccountService {
     }); // END of MeteorObservable.call("bindAndSearch")
   } // END of loginToKoblenzDomain(username)
 
-
-  // Meteor.loginWithPassword(this.loginForm.value.email, this.loginForm.value.password, (err) => {
-  //        this.zone.run(() => {
-  //          if (err) {
-  //            this.error = err;
-  //          } else {
-  //            this.router.navigate(['/']);
-  //          }
-  //        });
-  //      });
 
 
   loginToLandauDomain(username) {
@@ -314,6 +306,8 @@ export class AccountService {
             console.log("Login successful");
             document.body.classList.remove('hideBodyScoll');
             document.body.classList.add('showBodyScroll');
+            // admin / issuer / creator should redirect to dashboard after successful login
+            this.routeUserToDashboard();
 
           }
           else if (error) {
@@ -350,6 +344,8 @@ export class AccountService {
                     console.log("Login successful");
                     document.body.classList.remove('hideBodyScoll');
                     document.body.classList.add('showBodyScroll');
+                    // admin / issuer / creator should redirect to dashboard after successful login
+                    this.routeUserToDashboard();
                   }
                   else if (error) {
                     console.log(error);
@@ -406,7 +402,14 @@ export class AccountService {
 
 
 
-
+  routeUserToDashboard() {
+    // if user is an applicant the route remains the same
+    console.log(this.isUserTypeAdmin);
+    if (this.isUserTypeAdmin === true) {
+      // user is admin route to dashboard
+      this.router.navigate(['dashboard']);
+    }
+  }
 
 
 

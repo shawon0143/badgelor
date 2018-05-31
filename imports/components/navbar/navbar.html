@@ -1,40 +1,40 @@
 
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
     <div class="container">
-    <a class="navbar-brand" routerLink="/"><i class="fa fa-graduation-cap"></i> BADGELOR</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <a class="navbar-brand" routerLink="/"><i class="fa fa-graduation-cap"></i> BADGELOR</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav ml-auto" [@fadeInAnimation]>
-        <!-- routerlink active option is used to change the active status of home button
-             as home button always remain active even though we change the routerlink
-             that's because home component is always part of the router (i.e localhost:3000)
-            But the other routerlink works fine as they are different
-        -->
-        <li class="nav-item" routerLinkActive = "active" [routerLinkActiveOptions]="{exact: true}">
-          <a class="nav-link" routerLink="/"><i class="fa fa-home fa-fw"></i>Home</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active" [routerLink]="['/earnableBadges']">
-          <a class="nav-link"><i class="fa fa-shield fa-fw"></i>Badges</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active" *ngIf="accountService.isUserLoggedIn && accountService.isUserTypeAdmin">
-          <a class="nav-link"><i class="fa fa-tachometer fa-fw"></i>Dashboard</a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.isUserLoggedIn === false">
-          <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showSignupView()"><i class="fa fa-user-plus fa-fw"></i> Sign Up</a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.isUserLoggedIn === false">
-          <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showLoginView()"><i class="fa fa-sign-in fa-fw"></i>Login</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active" *ngIf="accountService.isUserLoggedIn">
-          <a class="nav-link" [routerLink]="['/myprofile',accountService.currentUserId]" ><i class="fa fa-user fa-fw"></i>  My Profile</a>
-        </li>
-        <li class="nav-item" *ngIf="accountService.isUserLoggedIn">
-          <a class="nav-link" (click)="accountService.logout()"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
-        </li>
-      </ul>
-    </div>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav ml-auto" [@fadeInAnimation]>
+          <!-- routerlink active option is used to change the active status of home button
+               as home button always remain active even though we change the routerlink
+               that's because home component is always part of the router (i.e localhost:3000)
+              But the other routerlink works fine as they are different
+          -->
+          <li class="nav-item" routerLinkActive = "active" [routerLinkActiveOptions]="{exact: true}">
+            <a class="nav-link" routerLink="/"><i class="fa fa-home fa-fw"></i>Home</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" [routerLink]="['/earnableBadges']">
+            <a class="nav-link"><i class="fa fa-shield fa-fw"></i>Badges</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" [routerLink]="['/dashboard']" *ngIf="accountService.isUserLoggedIn && accountService.isUserTypeAdmin">
+            <a class="nav-link"><i class="fa fa-tachometer fa-fw"></i>Dashboard</a>
+          </li>
+          <li class="nav-item" *ngIf="accountService.isUserLoggedIn === false">
+            <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showSignupView()"><i class="fa fa-user-plus fa-fw"></i> Sign Up</a>
+          </li>
+          <li class="nav-item" *ngIf="accountService.isUserLoggedIn === false">
+            <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showLoginView()"><i class="fa fa-sign-in fa-fw"></i>Login</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" [routerLink]="['/myprofile',accountService.currentUserId]" *ngIf="accountService.isUserLoggedIn && accountService.isUserTypeApplicant">
+            <a class="nav-link"><i class="fa fa-user fa-fw"></i>  My Profile</a>
+          </li>
+          <li class="nav-item" *ngIf="accountService.isUserLoggedIn">
+            <a class="nav-link" (click)="accountService.logout()"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>

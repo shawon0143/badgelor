@@ -8,9 +8,12 @@
 
   <!-- close icon -->
   <header class="mb-5">
-    <button type="button" class="close" aria-label="Close" (click)="badgeService.hideSingleBadgeModalOnUI()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <div class="close-modal" (click)='badgeService.hideSingleBadgeModalOnUI()'>
+        <div class="lr">
+            <div class="rl">
+            </div>
+        </div>
+    </div>
   </header>
   <!-- END of close icon -->
   <ng-container *ngIf = "badgeService.singleBadgeDataLoading === false">
