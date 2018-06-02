@@ -201,7 +201,7 @@
           <div class="row">
 
               <div class="col-6 col-md-3 badgeItemColumn" *ngFor = "let badge of badgeService.earnableBadges">
-                <figure class="text-center border badgeFigure" [@fadeInAnimation]><!-- figure starts here  -->
+                <figure class="text-center border rounded badgeFigure" [@fadeInAnimation]><!-- figure starts here  -->
                   <div class="badgeImgAndTitle"  (click) = "badgeService.showSingleBadgeModal(badge.badge_id)" [@fadeInAnimation]>
                     <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge.badge_id}}.png" alt="">
                     <h4 class="h5 text-capitalize">{{badge.name}}</h4>

@@ -1,4 +1,4 @@
-@import "./variables.scss";
+// @import "./variables.scss";
 
 
 // ================================
@@ -43,7 +43,7 @@ app-root:empty + .loading {
 }
 
 .cube1, .cube2 {
-  background-color: $info;
+  background-color: #9954BB;
   width: 15px;
   height: 15px;
   position: absolute;
