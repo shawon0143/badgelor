@@ -1,0 +1,15 @@
+
+<ng-container *ngIf='accountService.showLoginAndSignupViewOnUI'>
+  <login-signup></login-signup>
+</ng-container>
+
+<ng-container *ngIf = "badgeService.showSingleBadgeModalOnUI === true">
+  <singleBadge-modal></singleBadge-modal>
+</ng-container>
+
+<ng-container *ngIf = "badgeService.showApplyBadgeModalOnUI === true">
+  <applyBadge-modal></applyBadge-modal>
+</ng-container>
+
+<router-outlet></router-outlet>
+<!-- Routed views go here -->

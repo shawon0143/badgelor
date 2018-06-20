@@ -1,0 +1,139 @@
+<div class="campusManagementContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW CAMPUS ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Campus </h2>
+    </div>
+    <div class="body">
+
+      <form #addNewCampusForm="ngForm" (ngSubmit)="campusService.campusCRUD()" novalidate>
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input
+                   id="campusManagementName"
+                   class="form-control"
+                   [ngClass]="{'g-state-not-empty': campusService.newCampusData.name !== ''}"
+                   name="campus-name"
+                   aria-describedby="createNewCampusHelpBlock"
+                   type="text"
+                   [(ngModel)]="campusService.newCampusData.name"
+                   required
+                   #campusName="ngModel">
+            <label for="campusManagementName" class="text-muted">Campus name</label>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <textarea
+                      id="campusManagementDesc"
+                      class="form-control resize-none g-state-not-empty"
+                      [ngClass]="{'g-state-not-empty': campusService.newCampusData.description !== ''}"
+                      name="campus-details"
+                      [(ngModel)]="campusService.newCampusData.description"
+                      rows="3">
+            </textarea>
+            <label for="campusManagementDesc" class="text-muted">Details</label>
+          </div>
+        </div>
+        <!-- ========================================================= -->
+        <!-- ============== Validation error message ================= -->
+        <!-- ========================================================= -->
+        <ng-container *ngIf="campusService.isNewCampusCreatedSuccessful === false && campusService.isEditCampusSuccessful === false">
+          <ng-container *ngIf="campusName.invalid && (campusName.dirty || campusName.touched)">
+            <small id="createNewCampusHelpBlock" class="form-text text-danger mb-2" *ngIf="campusName.errors.required">
+               Name is required.
+            </small>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf = "campusService.isCampusAlreadyExistInDB === true">
+          <small id="createNewCampusHelpBlock" class="form-text text-danger mb-2">
+             This campus name already exist in the system!
+          </small>
+        </ng-container>
+        <!-- ========================================================= -->
+        <!-- ============ END OF Validation error message ============ -->
+        <!-- ========================================================= -->
+        <div class="form-group">
+          <button *ngIf = "campusService.isEditCampusEnabled === false" class="btn btn-primary" type="submit">Add Campus</button>
+          <button *ngIf = "campusService.isEditCampusEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "campusService.isEditCampusEnabled === true" class="btn btn-secondary" (click) = "campusService.resetCampusForm()">Cancel</button>
+        </div>
+      </form>
+
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+
+  <!-- =================================================== -->
+  <!-- ========= END OF FORM ADD NEW CAMPUS ============== -->
+  <!-- =================================================== -->
+
+  <!-- =================================== -->
+  <!-- ==== START OF success messages ====== -->
+  <!-- =================================== -->
+
+  <ng-container *ngIf="campusService.isNewCampusCreatedSuccessful === true && campusService.showNewCampusCreationMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Campus creation successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "campusService.isEditCampusSuccessful === true && campusService.showUpdateCampusMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Campus update successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "campusService.isCampusDeleteSuccessful === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Campus delete successfull!
+    </div>
+  </ng-container>
+
+  <!-- ================================= -->
+  <!-- ==== END OF success messages ====== -->
+  <!-- ================================= -->
+
+
+
+  <!-- =================================================== -->
+  <!-- ========= START OF ALL CAMPUS TABLE =============== -->
+  <!-- =================================================== -->
+
+  <div class="card">
+    <div class="header">
+        <h2><strong>All</strong> Campuses </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let campus of allCampuses | async; let i=index ">
+            <tr [@list1]>
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{campus?.name}}</td>
+              <td>{{campus?.description}}</td>
+              <td>{{campus?.createdBy}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisCampus(campus)"><i class="icon-pencil"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline" (click) = "campusService.deleteThisCampus(campus)"><i class="icon-trash"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+  <!-- =================================================== -->
+  <!-- ========= END OF ALL CAMPUS TABLE ================= -->
+  <!-- =================================================== -->
+
+</div> <!-- END OF campusManagementContainer -->

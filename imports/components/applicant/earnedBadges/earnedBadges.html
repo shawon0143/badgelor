@@ -1,0 +1,42 @@
+<div class="row mb-3">
+  <div class="col">
+    <div class="card border-0 rounded-0">
+      <div class="card-header border-0">
+        <h6 class="mb-0"><i class="icon-trophy mr-2 topBadgeIcon"></i> Earned Badges</h6>
+      </div> <!-- END OF card-header -->
+    </div> <!-- END OF card -->
+  </div> <!-- END OF col -->
+</div> <!--  END OF row-->
+
+<div class="row mb-3">
+  <div class="col-md-6 col-lg-4" *ngFor = "let badge of applicantProfile.myApprovedApplications">
+    <!-- figure starts here  -->
+    <figure class="text-center border badgeFigure">
+      <div class="badgeImgAndTitle">
+        <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge?.badge_id}}.png" alt="">
+        <h4 class="h5 mb-3 text-capitalize">{{badge?.name}}</h4>
+        <div class="">
+          <span class="text-info mr-1">
+            <i class="icon-check topBadgeIcon"></i>
+          </span>
+          <span class="text-muted">Earned</span>
+        </div>
+        <!-- <button class="btn btn-sm btn-outline-danger" disabled><i class="icon-like mr-2"></i> Earned</button> -->
+      </div>
+      <hr>
+      <ul class="row list-inline pt-3 pb-3 m-0">
+        <li class="col border-right">
+          <a class="text-muted viewLink">
+            <i class="icon-size-fullscreen mr-1"></i> View
+          </a>
+        </li>
+        <li class="col">
+          <a class="text-muted shareLink">
+            <i class="icon-share-alt mr-1"></i> Share
+          </a>
+        </li>
+      </ul>
+    </figure>
+    <!-- figure ends here -->
+  </div>
+</div>

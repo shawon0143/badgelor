@@ -1,0 +1,29 @@
+// @import "variables.scss";
+
+.infoGraphicSection {
+  background: #f8f9fa;
+  padding-bottom: 5rem;
+  padding-top: 5rem;
+
+  i {
+    font-size: 15rem;
+    color: #868e96;
+  }
+
+  .justify-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+}
+
+
+
+@media (max-width: 575.98px) {
+  .infoGraphicSection {
+    i {
+      font-size: 10rem;
+    }
+
+  }
+}

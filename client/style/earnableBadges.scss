@@ -1,0 +1,231 @@
+// @import "variables.scss";
+
+
+.topSearchArea {
+  position: relative;
+  overflow: hidden;
+  .headerImage {
+
+    img {
+      width: 100%;
+      position: absolute;
+      height: 140%;
+    }
+  }
+
+  .headerImage::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #f8f9fa 30%, rgba(255, 255, 255, 0.3) 100%);
+    background-repeat: repeat-x;
+  }
+
+  .searchFormContainer  {
+    position: relative;
+    overflow: hidden;
+    padding-top: 5.14286rem !important;
+    padding-bottom: 5.14286rem !important;
+
+    form {
+      width: 60% !important;
+
+      .form-control {
+        box-shadow: none;
+        outline: 0;
+        border-color: transparent;
+      }
+
+      .form-control:focus {
+        box-shadow: none;
+        outline: 0;
+        border-color: transparent;
+      }
+
+      .form-text {
+        opacity: .8 !important;
+        font-size: 1rem;
+      }
+
+      .input-group {
+
+        .input-group-addon {
+            padding: 0.02026rem !important;
+            min-width: 38px;
+            background-color: transparent;
+            border-color: #ccc;
+            transition: border-color .15s ease-in-out 0s;
+
+            button {
+              padding-top: 1.07143rem !important;
+              padding-bottom: 1.07143rem !important;
+              padding-left: 1.42857rem !important;
+              padding-right: 1.42857rem !important;
+            }
+        }
+
+        input {
+          padding-top: 1.07143rem !important;
+          padding-bottom: 1.07143rem !important;
+        }
+        box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.09);
+        transition-property: all;
+        transition-timing-function: ease;
+        transition-delay: 0s;
+        transition-duration: .3s;
+      }
+    }
+  }
+}
+
+.searchResultSection {
+  .searchResultContainer {
+    .filterHeading {
+      line-height: 1.4;
+      color: #495057;
+      font-size: 1.25rem;
+      font-weight: 500;
+    } // END of filterHeading
+
+    hr {
+      margin-top: 1.07143rem !important;
+      margin-bottom: 1.07143rem !important;
+      border-color: #eee !important;
+    }
+
+    form {
+      .form-group {
+        margin-bottom: 0.71429rem !important;
+        color: #555;
+        .u-check {
+          position: relative;
+          cursor: pointer;
+          padding-left: 2.14286rem !important;
+          width: 100%;
+
+          input {
+            display: none !important;
+            left: 0;
+            top: 0;
+            position: absolute !important;
+          }
+
+          .u-check-icon-checkbox {
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            border: solid 1px #ccc;
+            position: absolute !important;
+            top: 50% !important;
+            left: 0;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            -webkit-backface-visibility: hidden;
+          }
+
+          input[type="checkbox"]:checked + .u-check-icon-checkbox {
+              color: #9b6bcc;
+              border-color: #9b6bcc;
+          }
+
+          input[type="checkbox"]:checked + .u-check-icon-checkbox i::before {
+            content: attr(data-check-icon);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+          }
+
+          .badge {
+            padding: 0.45em 0.8em;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 3px;
+          }
+        }
+
+        .u-check:hover {
+          color: #9954BB;
+        }
+      }
+    } // END of form
+
+    .topBadgeIcon {
+      position: relative;
+      top: 0.147rem;
+    }
+    .badgeFigure {
+      hr {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+      ul li a {
+        cursor: pointer;
+        .icon-size-fullscreen {
+          font-size: 0.8rem;
+        }
+      }
+      ul li .viewLink:hover {
+        color: #e81c62 !important;
+      }
+      ul li .shareLink:hover {
+        color: #72c02c !important;
+      }
+    }
+
+    .badgeFigure:hover {
+      // border-color: #9a69cb !important;
+      // transition-duration: .2s;
+      // transition-property: all;
+      // transition-timing-function: ease;
+      // transition-delay: 0s;
+      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.09);
+      transition-property: all;
+      transition-timing-function: ease;
+      transition-delay: 0s;
+      transition-duration: .3s;
+    }
+
+    // earnedbadges tab styling
+    .badgeImgAndTitle {
+      padding-top: 2.55714rem !important;
+      padding-bottom: 2.55714rem !important;
+      padding-left: 1.22857rem !important;
+      padding-right: 1.22857rem !important;
+      background: #f8f9fa;
+      cursor: pointer;
+
+      img {
+        width: 70px !important;
+        height: 70px !important;
+      }
+
+      h4 {
+        display: block;
+        width: 100%;
+        // height: 40px;
+        // padding: 10px;
+        text-decoration: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .searchResultBodyWrapper {
+      // padding-left: 1.07143rem !important;
+
+      .badgeItemColumn {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+
+  } // END of searchResultContainer
+}

@@ -1,0 +1,185 @@
+// @import "variables.scss";
+
+
+// the separator class will create a hr line
+.separator {
+    width: 100%;
+    margin: 20px auto 15px;
+    position: relative;
+    height: 1px;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1, 1);
+}
+
+.separator:after {
+    height: 1px;
+    background: #e8e8e8;
+    background: -moz-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.09) 70%, transparent 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, transparent), color-stop(35%, rgba(0, 0, 0, 0.09)), color-stop(70%, rgba(0, 0, 0, 0.09)), color-stop(100%, transparent));
+    background: -webkit-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.09) 70%, transparent 100%);
+    background: -o-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.09) 70%, transparent 100%);
+    background: -ms-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.09) 70%, transparent 100%);
+    background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.09) 35%, rgba(0, 0, 0, 0.09) 70%, transparent 100%);
+    position: absolute;
+    bottom: -1px;
+    content: "";
+    width: 100%;
+    left: 0;
+  }
+
+
+// overlay blur for any modal --------
+
+.windowOverlayBlur {
+  background:rgba(55, 58, 60, 0.5);
+  width:100%;
+  height: 100%;
+  z-index:1040;
+  opacity: 0.9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+// scroll issue for modal ----------
+.hideBodyScroll {
+  overflow-y: hidden;
+}
+
+.showBodyScroll {
+  overflow-y: visible;
+}
+// -------------------------
+
+// margin-top for navbar
+.topNavbarPush {
+  margin-top: 54px;
+}
+
+
+
+
+/************ iframe *******************/
+.iframe-row {
+  margin-top: 50px;
+}
+
+
+.embed-container {
+  position: relative;
+  padding-bottom: 66.25%; /* ratio 16x9 */
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  background:url(/images/loader.gif) center center no-repeat;
+}
+.embed-container iframe {
+
+  position: absolute;
+  // top: -100px;
+  left: 0;
+  bottom: -50px;
+  width: 100%;
+  height: 100%;
+}
+/* ratio 4x3 */
+.embed-container.ratio4x3 {
+  padding-bottom: 75%;
+}
+
+/*********** iFrame ends *****************/
+
+// ==== close button styling =======
+.close-modal {
+position: absolute;
+width: 35px;
+height: 35px;
+background-color: transparent;
+top: 25px;
+right: 25px;
+cursor: pointer;
+}
+.close-modal:hover {
+opacity: 0.3;
+}
+.close-modal .lr {
+height: 35px;
+width: 1px;
+margin-left: 15px;
+background-color: #2C3E50;
+transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+/* IE 9 */
+-webkit-transform: rotate(45deg);
+/* Safari and Chrome */
+z-index: 1051;
+}
+.close-modal .lr .rl {
+height: 35px;
+width: 1px;
+background-color: #2C3E50;
+transform: rotate(90deg);
+-ms-transform: rotate(90deg);
+/* IE 9 */
+-webkit-transform: rotate(90deg);
+/* Safari and Chrome */
+z-index: 1052;
+}
+// ======== end close button styling =====
+
+
+
+// ============== CARD STYLING FOR DASHBOARD PANELS ============
+
+// TODO: I have commented out the styling below because I might use card stylind in front
+// I will solve this later
+
+// .card {
+//   background: #fff;
+//   margin-bottom: 30px;
+//   transition: .5s;
+//   border: 0;
+//   border-radius: .55rem;
+//   position: relative;
+//   width: 100%;
+//   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+//
+//   .header {
+//     color: #424242;
+//     padding: 20px;
+//     position: relative;
+//     box-shadow: none;
+//
+//     h2 {
+//       font-size: 15px;
+//       color: #757575;
+//       font-weight: 400;
+//       position: relative;
+//
+//       strong {
+//           color: #49c5b6;
+//           font-weight: 600;
+//       }
+//     }
+//   } // END OF .header
+//
+//   .body {
+//     font-size: 14px;
+//     color: #424242;
+//     padding: 20px;
+//     font-weight: 400;
+//   } // END OF .body
+// } // END OF .card
+//
+// .card .header h2::before {
+//   position: absolute;
+//   width: 20px;
+//   height: 1px;
+//   left: 0;
+//   top: -20px;
+//   content: '';
+//   background: #49c5b6;
+// }
+
+// =========== END OD CARD STYLING FOR DASHBOARD panel =============

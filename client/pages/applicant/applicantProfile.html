@@ -1,0 +1,175 @@
+<navbar-top></navbar-top>
+
+
+
+
+<ng-container *ngIf = "accountService.isUserLoggedIn && accountService.isUserTypeApplicant">
+
+  <div class="container breadcrumbContainer">
+      <ul class="u-list-inline">
+        <li class="list-inline-item">
+          <a class="mr-2" routerLink="/">Home</a>
+          <i class="fa fa-angle-right mr-1"></i>
+        </li>
+        <li class="list-inline-item">
+          <span>My Profile</span>
+        </li>
+      </ul>
+  </div>
+
+
+  <div class="container applicantProfileContainer">
+    <div class="row">
+      <!-- =========================== -->
+      <!-- ======= sidebar =========== -->
+      <!-- =========================== -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mb-5">
+        <div class="profilePic">
+          <!-- <img src="http://via.placeholder.com/400x450/9b6bcc/ffffff" alt="" class="img-fluid"> -->
+          <img src={{applicantProfileService.myProfile?.imageURL}} alt="" class="img-fluid">
+          <!-- TODO: the remove pic icon will show if user has any pic in the database -->
+          <!-- Just uncomment the button below and write method for delete profile picture -->
+          <!-- <button type="button" class="close float-right removeProfilePicButton" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+          <div class="overlay"></div>
+          <div class="imageUploadIcon">
+            <a ><i class="icon-camera"></i></a>
+          </div>
+        </div>
+
+        <!-- List group -->
+        <div class="list-group" id="myList" role="tablist">
+          <a class="list-group-item list-group-item-action"
+             [routerLink] = "['overview']"
+             routerLinkActive = "active"
+             [routerLinkActiveOptions]="{exact: true}"
+             href="#list-overview"
+             data-toggle="list"
+             role="tab">
+             <i class="icon-cursor mr-2"></i>Overview
+          </a>
+          <a class="list-group-item list-group-item-action"
+             [routerLink] = "['applications']"
+             routerLinkActive="active"
+             data-toggle="list"
+             href="#list-application"
+             role="tab">
+             <i class="icon-note mr-2"></i>Badge Application <span class="badge badge-secondary badge-pill pull-right">{{applicantProfileService.myApplications?.length}}</span>
+          </a>
+          <a class="list-group-item list-group-item-action"
+             [routerLink] = "['earnedbadges']"
+             routerLinkActive="active"
+             data-toggle="list"
+             href="#list-earned"
+             role="tab">
+             <i class="icon-badge mr-2"></i>Earned Badges <span class="badge badge-warning badge-pill pull-right">{{applicantProfileService.myApprovedApplications?.length}}</span>
+          </a>
+          <!-- <a class="list-group-item list-group-item-action"
+             [routerLink] = "['shareBadge']"
+             routerLinkActive="active"
+             data-toggle="list"
+             href="#list-shared"
+             role="tab">
+             <i class="icon-share-alt mr-2"></i>Share Badge <span class="badge badge-success badge-pill pull-right">2</span>
+          </a> -->
+          <a class="list-group-item list-group-item-action"
+             [routerLink] = "['wishlist']"
+             routerLinkActive="active"
+             data-toggle="list"
+             href="#list-wishlist"
+             role="tab">
+             <i class="icon-heart mr-2"></i>Wishlist <span class="badge badge-info badge-pill pull-right">10</span>
+          </a>
+          <a class="list-group-item list-group-item-action"
+             [routerLink] = "['settings']"
+             routerLinkActive="active"
+             data-toggle="list"
+             href="#list-settings"
+             role="tab">
+             <i class="icon-settings mr-2"></i>Settings
+          </a>
+        </div>
+      </div> <!-- ////// END OF sidebar //////// -->
+      <!-- ============================= -->
+      <!-- ======== main content ======= -->
+      <!-- ============================= -->
+      <div class="col-md-8 col-lg-9 col-xl-9 mb-5">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <!-- ====================================== -->
+            <!-- ======== Overview ================== -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade show active" id="list-overview" role="tabpanel">
+              <router-outlet></router-outlet>
+            </div>
+            <!-- ====================================== -->
+            <!-- ======== END OF Overview =========== -->
+            <!-- ====================================== -->
+
+            <!-- ====================================== -->
+            <!-- ======== Badge Applications ========== -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade" id="list-application" role="tabpanel">
+              <badge-applications></badge-applications>
+            </div>
+            <!-- ====================================== -->
+            <!-- == END OF Badge Applications ========= -->
+            <!-- ====================================== -->
+
+            <!-- ====================================== -->
+            <!-- ======== Badge Earned ================ -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade" id="list-earned" role="tabpanel">
+              <earned-badges></earned-badges>
+            </div>
+            <!-- ====================================== -->
+            <!-- ======== END OF Badge Earned ========= -->
+            <!-- ====================================== -->
+
+            <!-- ====================================== -->
+            <!-- ======== Share Badge Earned ========== -->
+            <!-- ====================================== -->
+            <!-- <div class="tab-pane fade" id="list-shared" role="tabpanel">
+              <share-badge></share-badge>
+            </div> -->
+            <!-- ====================================== -->
+            <!-- === END OF Share Badge Earned ======== -->
+            <!-- ====================================== -->
+
+            <!-- ====================================== -->
+            <!-- ======== WishList ==================== -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade" id="list-wishlist" role="tabpanel">
+              <badge-wishlist></badge-wishlist>
+            </div>
+            <!-- ====================================== -->
+            <!-- ======== END OF Wishlist ============= -->
+            <!-- ====================================== -->
+
+            <!-- ====================================== -->
+            <!-- ======== WishList ==================== -->
+            <!-- ====================================== -->
+            <div class="tab-pane fade" id="list-settings" role="tabpanel">
+              <profile-settings></profile-settings>
+            </div>
+            <!-- ====================================== -->
+            <!-- ======== WishList ==================== -->
+            <!-- ====================================== -->
+
+          </div>
+
+      </div><!-- ////// END OF main content -->
+    </div> <!-- END OF row -->
+  </div> <!-- END OF applicantProfileContainer -->
+
+</ng-container>
+
+
+
+
+
+
+
+
+<app-footer></app-footer>
