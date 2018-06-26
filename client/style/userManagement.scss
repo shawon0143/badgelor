@@ -1,4 +1,4 @@
-// @import "variables.scss";
+@import "variables.scss";
 
 .addNewUserBadgelorContainer {
   .card {
@@ -80,6 +80,117 @@
     content: '';
     background: #49c5b6;
   }
+
+  // Form styling starts here ========
+
+  .form-control {
+    line-height: 1.75rem;
+    padding: 10px 15px;
+    border-color: #eee;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+  }
+
+  select.form-control:not([size]):not([multiple]) {
+    height: inherit;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 4 5'%3E%3Cpath fill='%23373a3c' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 8px 10px;
+    text-transform: capitalize;
+  }
+
+  .table th, .table td {
+    vertical-align: middle;
+  }
+
+  .table td {
+    img {
+      height: 40px;
+      cursor: pointer;
+    }
+    .profileName {
+      cursor: pointer;
+    }
+  }
+
+  [class*="input-group"] {
+    // min-width: 38px;
+    background-color: transparent;
+    border-color: #ccc;
+    transition: border-color .15s ease-in-out 0s;
+  }
+  .my-input-group {
+    position: relative;
+    display: flex; // this line of code is required if we use input-group-append
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]),
+  .my-input-group textarea {
+    line-height: 1.75rem;
+    padding: 10px 15px;
+  }
+
+
+  [class*="input-group"] > * {
+    // white-space: normal;
+  }
+
+
+  .my-input-group textarea + label {
+    top: 20px;
+  }
+
+  .resize-none {
+    resize: none;
+  }
+
+
+  .my-input-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+    margin-bottom: 0;
+    transition-property: top, font-size;
+    transition-duration: .2s;
+    transition-timing-function: ease;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .form-control:focus {
+    border-color: $secondary;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+
+  .form-control, .form-control:focus {
+    color: #555;
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]):focus + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[value] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[placeholder] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]).g-state-not-empty + label,
+  .my-input-group textarea:focus + label,
+  .my-input-group textarea[value] + label,
+  .my-input-group textarea[placeholder] + label,
+  .my-input-group textarea.g-state-not-empty + label,
+  .my-input-group [class*="u-select"]:focus + label,
+  .my-input-group [class*="u-select"][value] + label,
+  .my-input-group [class*="u-select"][placeholder] + label,
+  .my-input-group [class*="u-select"].g-state-not-empty + label {
+    top: 0;
+    font-size: 90%;
+  }
+
+  // END OF Form styling
+
+
 } // END OF addNewUserBadgelorContainer
 
 

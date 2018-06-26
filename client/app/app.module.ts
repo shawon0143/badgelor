@@ -69,6 +69,7 @@ import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignu
 // Services and Providers
 // ======================
 import { AccountService } from "/imports/service/accountService";
+import { SearchUserService } from "/imports/service/searchUserService";
 import { TranslatorService } from "/imports/service/translatorService";
 import { OnlyLoggedInUsersGuard } from "/imports/service/onlyLoggedInUsersGuard";
 import { OnlyAuthorisedUserGuard } from "/imports/service/onlyAuthorisedUserGuard";
@@ -203,6 +204,7 @@ const appRoutes: Routes = [
     ],
     providers: [
       AccountService,
+      SearchUserService,
       TranslatorService,
       OnlyLoggedInUsersGuard,
       OnlyAuthorisedUserGuard,

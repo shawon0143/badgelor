@@ -44,6 +44,50 @@ if (Meteor.isServer) {
       }
     },
 
+    'getExistingUserData'(email) {
+      // --------------------------------------------------------------
+      // the response object for client with feedback and data
+      // codes :
+      // 999 = unknown email address.
+      // 404 = Datbase level problem or Unknown error or exceptions
+      // 200 = user already exists;
+      // ---------------------------------------------------------------
+      var response: any = {
+        feedback: "Unknown error while processing request. Please try again.",
+        code: 404,
+        userData: undefined
+      }
+      var user = Meteor.users.findOne({ "emails.address": email });
+
+      if (user !== undefined) {
+        // console.log("user found");
+        //user found now we get user data from profileDB
+        let userData = ProfileDB.findOne({"userAccountID": user._id});
+
+        response.userData = {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          occupation: userData.occupation,
+          campus: userData.campus,
+          role: user["role"],
+          lastLogin: user["profile"]["lastLogin"]
+        }
+        response.code = 200;
+        response.feedback = "User exist in Badgelor";
+        return response;
+      }
+      else if (user == undefined) {
+        // console.log("user not found");
+        //user not found
+        response.code = 999;
+        response.feedback = "This email doesn't exist in DB";
+        return response;
+      }
+      else {
+        return response;
+      }
+    },
+
     'isUserTypeAdmin'() {
       // this method is needed for client to know if a user type is admin or not
       // user role will never be published to  client
@@ -81,7 +125,7 @@ if (Meteor.isServer) {
     }, // --- end of isUserTypeAdmin ---
 
 
-    'updateUserProfileData'(data) {
+    'createMyProfile'(data) {
       // add new user profile via signup form ( user: applicant )
 
       // TODO : this function is called when the user create new account and instanctly logs in for the first time.
@@ -134,39 +178,88 @@ if (Meteor.isServer) {
 
 
 
-    'addNewUserByAdmin'(data) {
+    'addNewUserByAdmin'(registerData, profileData) {
+
+
+      // --------------------------------------------------------------
+      // the response object for client with feedback and data
+      // codes :
+      // 999 = access denied.
+      // 404 = Datbase level problem or Unknown error or exceptions
+      // 200 = success;
+      // ---------------------------------------------------------------
 
       var response: any = {
-        feedback: "Unknown error while processing reset. Please try again.",
+        feedback: "Unknown error while processing. Please try again.",
         code: 404
       }
 
-      try {
-
-        Accounts.createUser({
-          email: data.email,
-          password: data.password,
-          profile: {
-            name: data.profile.name,
-            occupation: data.profile.occupation,
-            imageURL: data.profile.imageURL,
-            rememberMe: data.profile.rememberMe,
-            status: data.profile.status,
-            campus: data.profile.campus,
-            lastLogin: new Date()
-          }
-        });
-
-        setUserRole(data.email, data.role);
-        response.code = 100;
-        response.feedback = "new account created";
-        return response;
-      }
-      catch (e) {
+      // -------------------------------------------------------
+      // access rules :
+      // admin can add any number of user
+      // other type of users will have no access to this feature
+      // --------------------------------------------------------
+      // step 1: request validation, basic filtering
+      if (!this.userId) {
         response.code = 999;
-        response.feedback = "Error: " + e;
+        response.feedback = "Access denied";
         return response;
       }
+      check(registerData, Object);
+
+      // step 2 : checking DB access rights
+
+      // a flag to make sure this requesting user has the right access to modify this data
+      var userHasAccessRights = false;
+
+      var userIsAdmin = false;
+
+      var dbAccessChecker = new Checkdbaccess();
+
+      userIsAdmin = dbAccessChecker.isRoleAdmin(this.userId); //returns true if admin
+      userHasAccessRights = userIsAdmin;
+
+
+
+      if (userHasAccessRights === true) {
+        try {
+
+          var userId = Accounts.createUser({
+            email: registerData.email,
+            password: registerData.password,
+            profile: {
+              lastLogin: 'Never'
+            }
+          });
+          // now setting up user role
+          setUserRole(registerData.email, registerData.role);
+          // next create a profile for the new user
+          var profileID = ProfileDB.collection.insert({
+            userAccountID: userId,
+            firstName: profileData.firstName,
+            lastName: profileData.lastName,
+            campus: profileData.campus,
+            occupation: profileData.occupation,
+            imageURL: profileData.imageURL
+          });
+
+          response.code = 200;
+          response.feedback = "new account created";
+          return response;
+        }
+        catch (e) {
+          response.code = 999;
+          response.feedback = "Error: " + e;
+          return response;
+        }
+
+      } // end if if(userHasAccessRights === true)
+      else {
+        // no Access right
+        response.code = 999;
+        response.feedback = "Access denied";
+      }
+
 
       function setUserRole(email, role) {
         var userDB = Meteor.users.findOne({ "emails.address": email });
@@ -182,7 +275,82 @@ if (Meteor.isServer) {
       }
 
 
+      return response;
+
+
     }, // 'addNewUserByAdmin'(data) ends here
+
+    'deleteUserByAdmin'(profile) {
+
+      // --------------------------------------------------------------
+      // the response object for client with feedback and data
+      // codes :
+      // 999 = access denied.
+      // 404 = Datbase level problem or Unknown error or exceptions
+      // 200 = success;
+      // ---------------------------------------------------------------
+
+      var response: any = {
+        feedback: "Unknown error while processing. Please try again.",
+        code: 404
+      }
+
+      // -------------------------------------------------------
+      // access rules :
+      // admin can add any number of user
+      // other type of users will have no access to this feature
+      // --------------------------------------------------------
+      // step 1: request validation, basic filtering
+      if (!this.userId) {
+        response.code = 999;
+        response.feedback = "Access denied";
+        return response;
+      }
+
+      check(profile, Object);
+
+      // step 2 : checking DB access rights
+
+      // a flag to make sure this requesting user has the right access to modify this data
+      var userHasAccessRights = false;
+
+      var userIsAdmin = false;
+
+      var dbAccessChecker = new Checkdbaccess();
+
+      userIsAdmin = dbAccessChecker.isRoleAdmin(this.userId); //returns true if admin
+      userHasAccessRights = userIsAdmin;
+
+
+
+      if (userHasAccessRights === true) {
+        try {
+
+          Meteor.users.remove(profile.userAccountID);
+
+          ProfileDB.remove(profile._id);
+
+          response.code = 200;
+          response.feedback = "User Deleted";
+          return response;
+        }
+        catch (e) {
+          response.code = 999;
+          response.feedback = "Error: " + e;
+          return response;
+        }
+      }
+      else {
+        // no Access right
+        response.code = 999;
+        response.feedback = "Access denied";
+      }
+
+      return response;
+
+    },
+
+
 
     'setUserRole'(email, role) {
       var response: any = {
@@ -200,45 +368,13 @@ if (Meteor.isServer) {
             }
           }
         )
-        response.feedback = "New Applicant added";
+        response.feedback = role + " role assigned";
         response.code = 200;
         return response;
       }
 
       return response;
-    },
-
-
-    // ///////////////////////////////////////
-    // update lastLogin and rememberMe
-    // ///////////////////////////////////////
-
-    'updateStatus'(data) {
-      Meteor.users.update(
-        { _id: data.id },
-        {
-          $set: {
-            "profile.lastLogin": data.lastLogin,
-            "profile.rememberMe": data.rememberMe
-          }
-        }
-      );
-    },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 

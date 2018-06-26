@@ -22,6 +22,11 @@ if (Meteor.isServer) {
 
   // --- End of myProfileDB ---
 
+  Meteor.publish("publishAllUserProfileForAdmin", function() {
+    return ProfileDB.find({});
+  });
+
+
 
 
 } //end of if (Meteor.isServer)

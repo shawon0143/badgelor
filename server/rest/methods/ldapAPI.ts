@@ -87,7 +87,7 @@ if (Meteor.isServer) {
                   future.return(clientFeedback);
                 });
                 response.on('error', function(err) {
-                  clientFeedback.error = "error";
+                  clientFeedback.error = "User not found in the database!";
                   console.error('error: ' + err.message);
                   future.return(clientFeedback);
                 });

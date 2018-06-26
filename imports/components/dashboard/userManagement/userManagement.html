@@ -1,36 +1,249 @@
 <div class="addNewUserBadgelorContainer">
   <div class="card">
     <div class="header">
-        <h2><strong>User</strong> Management </h2>
+      <h2><strong>User</strong> Management </h2>
     </div>
     <div class="body">
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
-          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#addUserBadgelor" aria-expanded="true">BADGELOR</a></li>
-          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#addUserObf" aria-expanded="false">OBF</a></li>
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#addUserBadgelor" aria-expanded="true" (click) = "searchUserService.showAllBadgelorUserCardOnUI()">BADGELOR</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#addUserObf" aria-expanded="false" (click) = "searchUserService.hideAllBadgelorUserCardOnUI()">OBF</a></li>
       </ul>
       <!-- Tab panes -->
       <div class="tab-content mt-5 px-3">
+        <!-- ======================================================================= -->
+        <!-- ========= START OF OBF ADD/EDIT USER FORM TAB ========================= -->
+        <!-- ======================================================================= -->
+        <div role="tabpanel" class="tab-pane in active" id="addUserBadgelor" aria-expanded="true">
+          <!-- start of search user form -->
+          <ng-container *ngIf ="searchUserService.showUserAddEditForm === false">
+            <form #searchUserForm="ngForm" (ngSubmit)="searchUserService.searchUser()" novalidate>
+              <div class="form-group mb-3">
+                <div class="my-input-group">
+                  <input id="userManagementSearchEmail"
+                         class="form-control"
+                         name="user-email"
+                         aria-describedby="addEditUserEmail"
+                         type="email"
+                         [(ngModel)]="searchUserService.emailAddressToSearch"
+                         [ngClass]="{'g-state-not-empty': searchUserService.emailAddressToSearch !== ''}"
+                         required
+                         email
+                         [pattern]="emailPattern"
+                         #emailToSearch = "ngModel">
+                  <label for="userManagementSearchEmail" class="text-muted">Search Email ...</label>
+                  <div class="input-group-append">
+                    <button class="btn btn-md btn-primary rounded-0 px-md-5" type="submit">Find User</button>
+                  </div>
+                </div>
+                <ng-container *ngIf="emailToSearch.invalid && (emailToSearch.dirty || emailToSearch.touched)">
+                  <small id="addEditUserEmail" class="form-text text-danger" *ngIf="emailToSearch.errors.pattern">
+                     Invalid Email address.
+                  </small>
+                </ng-container>
+              </div>
+            </form>
+          </ng-container>
+          <!-- END of search user form -->
+          <ng-container *ngIf ="searchUserService.showUserAddEditForm === true">
+            <!-- Name -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <input id="userManagementuserName"
+                       class="form-control"
+                       name="user-name"
+                       type="text"
+                       readonly
+                       [ngClass]="{'g-state-not-empty': searchUserService.searchResultUserData.firstName !== ''}"
+                       [value] = "searchUserService.searchResultUserData?.firstName +' '+ searchUserService.searchResultUserData?.lastName"
+                       >
+                <label for="userManagementuserName" class="text-muted">Name</label>
+              </div>
+            </div>
 
-        <div role="tabpanel" class="tab-pane in active" id="addUserBadgelor" aria-expanded="true"> <b>Home Content</b>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions o</p>
+            <!-- Occupation -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <input id="userManagementuserOccupation"
+                       class = "form-control text-capitalize"
+                       name = "user-occupation"
+                       type = "text"
+                       readonly
+                       [ngClass] = "{'g-state-not-empty': searchUserService.searchResultUserData.occupation !== ''}"
+                       [value] = "searchUserService.searchResultUserData?.occupation"
+                       >
+                <label for="userManagementuserOccupation" class="text-muted">Occupation</label>
+              </div>
+            </div>
+
+            <!-- Campus -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <input id="userManagementuserCampus"
+                       class="form-control text-capitalize"
+                       name="user-campus"
+                       type="text"
+                       readonly
+                       [ngClass] = "{'g-state-not-empty': searchUserService.searchResultUserData.campus !== ''}"
+                       [value] = "searchUserService.searchResultUserData?.campus"
+                       >
+                <label for="userManagementuserCampus" class="text-muted">Campus</label>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <input id="userManagementuserCampus"
+                       class="form-control"
+                       name="user-email"
+                       type="text"
+                       readonly
+                       [ngClass] = "{'g-state-not-empty': searchUserService.emailAddressToSearch !== ''}"
+                       [value] = "searchUserService.emailAddressToSearch"
+                       >
+                <label for="userManagementuserCampus" class="text-muted">Email Address</label>
+              </div>
+            </div>
+
+            <!-- Last Active -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <input id="userManagementuserCampus"
+                       class="form-control"
+                       name="user-lastActive"
+                       type="text"
+                       readonly
+                       [ngClass] = "{'g-state-not-empty': searchUserService.searchResultUserData.lastLogin !== ''}"
+                       [value] = "searchUserService.searchResultUserData?.lastLogin"
+                       >
+                <label for="userManagementuserCampus" class="text-muted">Last Active</label>
+              </div>
+            </div>
+
+            <!-- Role -->
+            <div class="form-group mb-3">
+              <div class="my-input-group">
+                <select class="form-control text-muted"  name="selRole" required (change)="searchUserService.selectedRole($event.target.value)">
+                  <option selected="" [ngValue]="undefined" disabled> Select role </option>
+                  <option [ngValue]='admin' [selected]="searchUserService.searchResultUserData.role === 'admin'">Admin</option>
+                  <option [ngValue]='creator' [selected]="searchUserService.searchResultUserData.role === 'creator'">Creator</option>
+                  <option [ngValue]='issuer' [selected]="searchUserService.searchResultUserData.role === 'issuer'">Issuer</option>
+                  <option [ngValue]='applicant' [selected]="searchUserService.searchResultUserData.role === 'applicant'">Applicant</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit" *ngIf = "searchUserService.isThisAnewUser === true" (click)="searchUserService.addNewUser()">Add User</button>
+              <button class="btn btn-success" type="submit" *ngIf = "searchUserService.isThisAnewUser === false" (click)= "searchUserService.updateUserRole()">Save</button>
+              <button class="btn btn-warning" (click) = "searchUserService.resetSearchUserForm()">Cancel</button>
+              <button class="btn btn-outline-danger float-right" type="submit" *ngIf = "searchUserService.isThisAnewUser === false">Delete User</button>
+            </div>
+          </ng-container>
+
         </div>
+        <!-- ======================================================================= -->
+        <!-- ========= END OF OBF ADD/EDIT USER FORM TAB =========================== -->
+        <!-- ======================================================================= -->
 
 
+        <!-- =========================================================== -->
+        <!-- ========= START OF OBF iFRAME TAB ========================= -->
+        <!-- =========================================================== -->
         <div role="tabpanel" class="tab-pane" id="addUserObf" aria-expanded="false">
           <div class="embed-container">
-            <iframe
-              src="https://openbadgefactory.com/c/user/invite?client_id=NM70OHe7HCeO"
-              frameborder="0"
-              scrolling="auto"
-              marginheight="0"
-              marginwidth="0"
-              allowfullscreen
-              >
-            </iframe> <!-- END OF iFrame -->
-          </div> <!-- END OF embed-container -->
-        </div> <!-- END OF addUserObf tab panel -->
-      </div><!-- END OF tab content -->
-    </div> <!-- END OF card body -->
-  </div> <!-- END OF card -->
-</div> <!-- END OF addNewUserBadgelorContainer -->
+            <iframe src="https://openbadgefactory.com/c/user/invite?client_id=NM70OHe7HCeO"
+                    frameborder="0"
+                    scrolling="auto"
+                    marginheight="0"
+                    marginwidth="0"
+                    allowfullscreen>
+            </iframe>
+            <!-- END OF iFrame -->
+          </div>
+          <!-- END OF embed-container -->
+        </div>
+        <!-- END OF addUserObf tab panel -->
+        <!-- =========================================================== -->
+        <!-- ========= END OF OBF iFRAME TAB =========================== -->
+        <!-- =========================================================== -->
+      </div>
+      <!-- END OF tab content -->
+    </div>
+    <!-- END OF card body -->
+  </div>
+  <!-- END OF card -->
+
+  <!-- ========================================================== -->
+  <!-- ============== Start of Success message ==================== -->
+  <!-- ========================================================== -->
+  <ng-container *ngIf = "searchUserService.successMsg !== ''">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      {{searchUserService.successMsg}}
+    </div>
+  </ng-container>
+  <!-- ========================================================== -->
+  <!-- ============== END of Success message ==================== -->
+  <!-- ========================================================== -->
+
+  <!-- ========================================================== -->
+  <!-- ============== Start of Error message ==================== -->
+  <!-- ========================================================== -->
+  <ng-container *ngIf = "searchUserService.errorMsg !== ''">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+      {{searchUserService.errorMsg}}
+    </div>
+  </ng-container>
+  <!-- ========================================================== -->
+  <!-- ============== END of Error message ====================== -->
+  <!-- ========================================================== -->
+
+
+  <!-- =========================================================== -->
+  <!-- ========= START OF ALL BADGELOR USERS TABLE =============== -->
+  <!-- =========================================================== -->
+
+  <div class="card" *ngIf = "searchUserService.hideAllBadgelorUserCard === false">
+    <div class="header">
+      <h2><strong>All Badgelor</strong> Users </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col" class="d-none d-sm-table-cell">Campus</th>
+            <th scope="col" class="d-none d-sm-table-cell">Occupation</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let profile of allProfiles | async; let i=index ">
+            <tr [@list1]>
+              <td>{{i+1}}</td>
+              <td><img class="img-fluid rounded "src="{{profile?.imageURL}}" alt="profilePic" (click) ="searchUserService.viewUser(profile)"></td>
+              <td class="text-capitalize"><span class="profileName" (click) ="searchUserService.viewUser(profile)">{{profile?.firstName}} {{profile?.lastName}}</span></td>
+              <td class="d-none d-sm-table-cell">{{profile?.campus}}</td>
+              <td class="d-none d-sm-table-cell">{{profile?.occupation}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) ="searchUserService.viewUser(profile)"><i class="icon-pencil"></i></button>
+                <button type="button"
+                        class="btn btn-sm btn-outline-danger d-inline"
+                        (click) = "searchUserService.deleteUser(profile)"
+                        [disabled] = "profile.userAccountID === accountService.currentUserId">
+                        <i class="icon-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- =========================================================== -->
+  <!-- ========= END OF ALL BADGELOR USERS TABLE ================= -->
+  <!-- =========================================================== -->
+</div>
+<!-- END OF addNewUserBadgelorContainer -->

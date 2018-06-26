@@ -93,7 +93,7 @@ export class AccountService {
   } //--- end of constructor ---
 
   // The function below is used in the onlyLoggedInUsersGuard service
-  // where we need to check whether the use is logged in and
+  // where we need to check whether the user is logged in and
   // he has right to access the route via canActivate
   //
   isAuthenticated() {
@@ -185,7 +185,6 @@ export class AccountService {
     this.isLoginFormEmpty = false;
     this.isUserRegistered = true;
   }
-
 
 
 
@@ -381,11 +380,6 @@ export class AccountService {
 
 
   setLocalStorageOnLogin() {
-    // *********************************************************
-    // we have to keep the admin password as we need that
-    // if admin search for user via LDAP and add in Badgelor.
-    // update user rememberMe option and lastLogin option in
-    // database via updateStatus() method call.
 
     // *********************************************************
     // if a user close his browser tab                         *
@@ -401,14 +395,25 @@ export class AccountService {
     if (this.localStorageService.get('badgelorMemory')) {
       this.badgelorMemory = this.localStorageService.get('badgelorMemory');
     }
-    let adminSecret = "";
-    if (this.isUserTypeAdmin === true) {
-      this.badgelorMemory.isTheUserAdmin = this.isUserTypeAdmin;
-      this.badgelorMemory.adminSecret = this.loginData.password;
-    }
-    this.badgelorMemory.status = "online";
 
-    this.localStorageService.set('badgelorMemory', this.badgelorMemory);
+    let adminSecret = "";
+
+    MeteorObservable.call("isUserTypeAdmin").subscribe((response) => {
+      if (response === 100) {
+        this.badgelorMemory.isTheUserAdmin = true;
+        this.badgelorMemory.adminSecret = this.loginData.password;
+        this.badgelorMemory.status = "online";
+        this.localStorageService.set('badgelorMemory', this.badgelorMemory);
+      }
+      if (response === 999) {
+        this.badgelorMemory.isTheUserAdmin = false;
+        this.badgelorMemory.adminSecret = "";
+        this.badgelorMemory.status = "online";
+        this.localStorageService.set('badgelorMemory', this.badgelorMemory);
+      }
+    });
+
+
 
     // ==================== >>>>>>>>>
 
@@ -419,11 +424,11 @@ export class AccountService {
 
   routeUserToDashboard() {
     // if user is an applicant the route remains the same
-    // console.log(this.isUserTypeAdmin);
-    if (this.isUserTypeAdmin === true) {
-      // user is admin route to dashboard
-      this.router.navigate(['dashboard']);
-    }
+    MeteorObservable.call("isUserTypeAdmin").subscribe((response) => {
+      if (response === 100) {
+        this.router.navigate(['dashboard']);
+      }
+    });
   }
 
 
@@ -536,7 +541,7 @@ export class AccountService {
           occupation: response["eduPersonAffiliation"],
           imageURL: "/images/avatar.png"
         }
-        MeteorObservable.call("updateUserProfileData", profileData).subscribe((response) => {
+        MeteorObservable.call("createMyProfile", profileData).subscribe((response) => {
           console.log(response);
           console.log("new profile created")
         }, (err) => {
@@ -613,7 +618,7 @@ export class AccountService {
           occupation: response["eduPersonAffiliation"],
           imageURL: "/images/avatar.png"
         }
-        MeteorObservable.call("updateUserProfileData", profileData).subscribe((response) => {
+        MeteorObservable.call("createMyProfile", profileData).subscribe((response) => {
           console.log(response);
           console.log("new profile created")
         }, (err) => {
@@ -682,7 +687,7 @@ export class AccountService {
               occupation: response["eduPersonAffiliation"],
               imageURL: "/images/avatar.png"
             }
-            MeteorObservable.call("updateUserProfileData", profileData).subscribe((response) => {
+            MeteorObservable.call("createMyProfile", profileData).subscribe((response) => {
               console.log(response);
               console.log("new profile created")
             }, (err) => {
