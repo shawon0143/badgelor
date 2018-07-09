@@ -59,7 +59,7 @@
         <div class="form-group">
           <button *ngIf = "campusService.isEditCampusEnabled === false" class="btn btn-primary" type="submit">Add Campus</button>
           <button *ngIf = "campusService.isEditCampusEnabled === true" class="btn btn-success" type="submit">Save</button>
-          <button *ngIf = "campusService.isEditCampusEnabled === true" class="btn btn-secondary" (click) = "campusService.resetCampusForm()">Cancel</button>
+          <button *ngIf = "campusService.isEditCampusEnabled === true" class="btn btn-warning" (click) = "campusService.resetCampusForm()">Cancel</button>
         </div>
       </form>
 
@@ -94,6 +94,17 @@
   <!-- ==== END OF success messages ====== -->
   <!-- ================================= -->
 
+  <!-- =================================== -->
+  <!-- ==== START OF Failed messages ====== -->
+  <!-- =================================== -->
+  <ng-container *ngIf = "campusService.isCampusDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the corresponding faculties first!
+    </div>
+  </ng-container>
+  <!-- ================================= -->
+  <!-- ==== END OF failed messages ====== -->
+  <!-- ================================= -->
 
 
   <!-- =================================================== -->

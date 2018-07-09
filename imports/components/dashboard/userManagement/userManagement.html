@@ -137,7 +137,12 @@
               <button class="btn btn-primary" type="submit" *ngIf = "searchUserService.isThisAnewUser === true" (click)="searchUserService.addNewUser()">Add User</button>
               <button class="btn btn-success" type="submit" *ngIf = "searchUserService.isThisAnewUser === false" (click)= "searchUserService.updateUserRole()">Save</button>
               <button class="btn btn-warning" (click) = "searchUserService.resetSearchUserForm()">Cancel</button>
-              <button class="btn btn-outline-danger float-right" type="submit" *ngIf = "searchUserService.isThisAnewUser === false">Delete User</button>
+              <button class="btn btn-outline-danger float-right"
+                      type="submit"
+                      *ngIf = "searchUserService.isThisAnewUser === false"
+                      [disabled] = "accountService.currentUser.emails[0].address === searchUserService.emailAddressToSearch"
+                      (click) = "searchUserService.deleteUser(searchUserService.searchResultUserData)">Delete User
+              </button>
             </div>
           </ng-container>
 

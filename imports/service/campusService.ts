@@ -31,9 +31,10 @@ export class CampusService {
   showUpdateCampusMessage: boolean = false;
 
   isCampusDeleteSuccessful: boolean = false;
+  isCampusDeleteFailed: boolean = false;
 
 
-  usernameList;
+  // usernameList;
 
   //  END of campus mangement variables and flags
 
@@ -48,6 +49,14 @@ export class CampusService {
       return campus;
     });
   } // END OF getAllCampuses --------
+
+  // this method is used in facultymanagement component
+  getCampusByID(campusID) {
+    var thisCampus = CampusDB.findOne({"_id":campusID});
+    if (thisCampus !== undefined) {
+      return thisCampus.name;
+    }
+  } // END of getCampusByID
 
 
   // The campus CRUD method does both add and update of campus
@@ -160,15 +169,38 @@ export class CampusService {
 
 
   deleteThisCampus(campus) {
-    MeteorObservable.call("deleteCampus", campus).subscribe((response) => {
-      if (response["code"] === 200) {
-        this.isCampusDeleteSuccessful = true;
+    // first check if this campus has any faculty
+    // if yes show message to user that it is not possible to delete this campus
+    // unless you delete the correspondent faculty
+    // TODO: implement delete after faculty availability check for this campus
+
+    MeteorObservable.call("isCampusHasFaculty", campus._id).subscribe((response) => {
+      if (response["code"] === 999) {
+        this.isCampusDeleteFailed = true;
         setTimeout(() => {
-          this.isCampusDeleteSuccessful = false;
+          this.isCampusDeleteFailed = false;
         }, 3000);
-        this.resetCampusForm();
+
       }
+
+      if (response["code"] === 200) {
+        // the campus doesn't have any faculty so delete possible
+        MeteorObservable.call("deleteCampus", campus).subscribe((response) => {
+          if (response["code"] === 200) {
+            this.isCampusDeleteSuccessful = true;
+            setTimeout(() => {
+              this.isCampusDeleteSuccessful = false;
+            }, 3000);
+            this.resetCampusForm();
+          }
+        });
+      }
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
     });
+
+
   } // END OF deleteThisCampus ------------
 
   resetCampusForm() {

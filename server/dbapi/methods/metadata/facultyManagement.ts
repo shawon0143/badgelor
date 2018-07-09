@@ -5,7 +5,7 @@ import { Mongo } from 'meteor/mongo';
 import { MeteorObservable } from 'meteor-rxjs';
 import { check } from 'meteor/check';
 import { Checkdbaccess } from '/server/dbapi/tools/checkdbaccess.ts';
-import { CampusDB, ProfileDB, FacultyDB } from "/imports/api/index";
+import { FacultyDB, ProfileDB } from "/imports/api/index";
 
 
 if (Meteor.isServer) {
@@ -13,30 +13,30 @@ if (Meteor.isServer) {
   Meteor.methods({
 
 
-    'isCampusExistInDB'(campusName) {
+    'isFacultyExistInDB'(facultyName, campusID) {
       // --------------------------------------------------------------
       // the response object for client with feedback and data
       // codes :
       // 999 = unknown name.
       // 404 = Datbase level problem or Unknown error or exceptions
-      // 200 = campus name already exists;
+      // 200 = faculty name already exists;
       // ---------------------------------------------------------------
       var response: any = {
         feedback: "Unknown error while processing request. Please try again.",
         code: 404
       }
 
-      var campusNameinDB = CampusDB.findOne({ "name": campusName });
+      var faclutyNameinDB = FacultyDB.findOne({ "name": facultyName, "campusID": campusID });
 
 
-      if (campusNameinDB !== undefined) {
+      if (faclutyNameinDB !== undefined) {
         response.code = 200;
-        response.feedback = "This Campus is already registered in the system";
+        response.feedback = "This Faculty is already registered in the system";
         return response;
       }
-      else if (campusNameinDB === undefined) {
+      else if (faclutyNameinDB === undefined) {
         response.code = 999;
-        response.feedback = "This Campus is not registered in the system";
+        response.feedback = "This Faculty is not registered in the system";
         return response;
       }
       else {
@@ -44,7 +44,7 @@ if (Meteor.isServer) {
       }
     },
 
-    'addNewCampus'(data) {
+    'addNewFaculty'(data) {
       // --------------------------------------------------------------
       // the response object for client with feedback and data
       // codes :
@@ -60,7 +60,7 @@ if (Meteor.isServer) {
 
       // -------------------------------------------------------
       // access rules :
-      // admin can add any number of campus
+      // admin can add any number of faculty
       // other type of users will have no access to this feature
       // --------------------------------------------------------
       // step 1: request validation, basic filtering
@@ -86,16 +86,17 @@ if (Meteor.isServer) {
       if (userHasAccessRights === true) {
 
         // step : 3 updating data into the DB
-        CampusDB.collection.insert({
+        FacultyDB.collection.insert({
 
           name: data.name,
           description: data.description,
+          campusID: data.campusID,
           createdBy: Meteor.user().emails[0].address,
           createdAt: new Date(),
 
         }); //end insert
         response.code = 200;
-        response.feedback = "New Campus Creation successfull!";
+        response.feedback = "New Faculty Creation successfull!";
         return response;
       } // end if if(userHasAccessRights === true)
       else {
@@ -109,7 +110,7 @@ if (Meteor.isServer) {
 
     },
 
-    'updateCampus'(data) {
+    'updateFaculty'(data) {
       // --------------------------------------------------------------
       // the response object for client with feedback and data
       // codes :
@@ -151,13 +152,14 @@ if (Meteor.isServer) {
       if (userHasAccessRights === true) {
 
         // step : 3 updating data into the DB
-        CampusDB.collection.update(
+        FacultyDB.collection.update(
           data._id,
           {
             $set:
               {
                 name: data.name,
                 description: data.description,
+                campusID: data.campusID,
                 createdBy: Meteor.user().emails[0].address,
                 createdAt: new Date(),
               }
@@ -176,38 +178,7 @@ if (Meteor.isServer) {
       return response;
     },
 
-    'isCampusHasFaculty'(campusID) {
-      // --------------------------------------------------------------
-      // the response object for client with feedback and data
-      // codes :
-      // 999 = campus has no faculty.
-      // 404 = Datbase level problem or Unknown error or exceptions
-      // 200 = campus has faculty
-      // ---------------------------------------------------------------
-
-      var response: any = {
-        feedback: "Unknown error while processing request. Please try again.",
-        code: 404
-      }
-
-      var noOfFaculty = FacultyDB.collection.find({ "campusID": campusID }).count();
-
-      if (noOfFaculty !== undefined && noOfFaculty > 0) {
-        response.code = 999;
-        response.feedback = "This Campus has faculty. Delete faculties of this campus first.";
-        return response;
-      }
-      else if (noOfFaculty === undefined || noOfFaculty === 0) {
-        response.code = 200;
-        response.feedback = "This Campus doesn't have any faculty";
-        return response;
-      }
-      else {
-        return response;
-      }
-    },
-
-    'deleteCampus'(data) {
+    'deleteFaculty'(data) {
       // --------------------------------------------------------------
       // the response object for client with feedback and data
       // codes :
@@ -247,7 +218,7 @@ if (Meteor.isServer) {
       userHasAccessRights = userIsAdmin;
 
       if (userHasAccessRights === true) {
-        CampusDB.collection.remove(data._id);
+        FacultyDB.collection.remove(data._id);
 
         response.code = 200;
         response.feedback = "Campus delete successfull!";
@@ -261,8 +232,8 @@ if (Meteor.isServer) {
       return response;
     },
 
-    'getAllCampusName'() {
-      return CampusDB.find({}).fetch();
+    'getAllFacultyName'() {
+      return FacultyDB.find({}).fetch();
     }
 
 

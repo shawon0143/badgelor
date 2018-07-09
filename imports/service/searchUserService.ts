@@ -27,7 +27,8 @@ export class SearchUserService {
     occupation: "",
     campus: "",
     role: "",
-    email: "",
+    userAccountID: "",
+    _id: "",
     lastLogin: ""
   };
 
@@ -68,6 +69,7 @@ export class SearchUserService {
   deleteUser(profile) {
     MeteorObservable.call('deleteUserByAdmin', profile).subscribe((response) => {
       if (response["code"] === 200) {
+        this.resetSearchUserForm();
         this.successMsg = response["feedback"];
         setTimeout(() => {
           this.successMsg = "";
@@ -107,6 +109,8 @@ export class SearchUserService {
         this.searchResultUserData.occupation = response["userData"]["occupation"];
         this.searchResultUserData.campus = response["userData"]["campus"];
         this.searchResultUserData.role = response["userData"]["role"];
+        this.searchResultUserData.userAccountID = response["userData"]["userAccountID"];
+        this.searchResultUserData._id = response["userData"]["profileID"]
         // dealing with the last activity
         if (response["userData"]["lastLogin"] !== 'Never') {
           this.searchResultUserData.lastLogin = response["userData"]["lastLogin"].toJSON().substring(0,19).replace('T',' ');

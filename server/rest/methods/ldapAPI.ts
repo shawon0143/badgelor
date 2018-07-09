@@ -119,7 +119,7 @@ if (Meteor.isServer) {
       var future = new Future();
 
       var clientFeedback = {
-        error: "error",
+        feedback: "error",
         name: "",
         eduPersonAffiliation: ""
       };
@@ -134,12 +134,12 @@ if (Meteor.isServer) {
           // console.log(response);
           if (err) {
             console.log('bind unsuccessful, in error block');
-            clientFeedback.error = "Invalid password";
+            clientFeedback.feedback = "Invalid password";
             future.return(clientFeedback);
           }
           if (!err) {
             if (response) {
-              clientFeedback.error = "Login successful";
+              clientFeedback.feedback = "Login successful";
               future.return(clientFeedback);
             }
           }

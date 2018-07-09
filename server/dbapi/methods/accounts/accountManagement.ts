@@ -70,7 +70,9 @@ if (Meteor.isServer) {
           occupation: userData.occupation,
           campus: userData.campus,
           role: user["role"],
-          lastLogin: user["profile"]["lastLogin"]
+          lastLogin: user["profile"]["lastLogin"],
+          userAccountID: user._id,
+          profileID: userData._id
         }
         response.code = 200;
         response.feedback = "User exist in Badgelor";
@@ -374,7 +376,37 @@ if (Meteor.isServer) {
       }
 
       return response;
-    }
+    },
+
+    'updateLastLoginStatus'() {
+
+      var response: any = {
+        feedback: "Unknown error while processing. Please try again.",
+        code: 404
+      }
+
+      try {
+        Meteor.users.update(
+          {_id: this.userId},
+          {
+            $set:
+            {
+              "profile.lastLogin": new Date()
+            }
+          }
+        );
+        response.code = 200;
+        response.feedback = "last login time updated";
+        return response;
+
+      }
+      catch (e) {
+        response.code = 999;
+        response.feedback = "Error: " + e;
+        return response;
+      }
+      // console.log("user status updated");
+    },
 
 
 

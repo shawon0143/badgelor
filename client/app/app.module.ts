@@ -50,6 +50,7 @@ import { DashboardSidebar } from '/imports/components/dashboard/sidebar/sidebar'
 
 import { UserManagement } from '/imports/components/dashboard/userManagement/userManagement';
 import { CampusManagement } from '/imports/components/dashboard/campusManagement/campusManagement';
+import { FacultyManagement } from '/imports/components/dashboard/facultyManagement/facultyManagement';
 
 
 // ===============
@@ -77,6 +78,7 @@ import { AutoLogoutService } from "/imports/service/autoLogout";
 import { ApplicantProfileService } from "/imports/service/applicantProfileService";
 import { BadgeService } from "/imports/service/badgeService";
 import { CampusService } from "/imports/service/campusService";
+import { FacultyService } from "/imports/service/facultyService";
 import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
 
 
@@ -127,7 +129,7 @@ const appRoutes: Routes = [
         // { path: 'issuerTools', component: IssuerTools },
         // { path: 'reports', component: Reports },
         { path: 'campus', component: CampusManagement },
-        // { path: 'faculty', component: FacultyManagement },
+        { path: 'faculty', component: FacultyManagement },
         // { path: 'institutes', component: InstitutesManagement },
         // { path: 'courses', component: CoursesManagement },
         // { path: 'levels', component: LevelsManagement },
@@ -190,7 +192,7 @@ const appRoutes: Routes = [
 
         UserManagement,
         CampusManagement,
-
+        FacultyManagement,
         //Pipes
         SafePipe,
         // 404
@@ -212,6 +214,7 @@ const appRoutes: Routes = [
       ApplicantProfileService,
       BadgeService,
       CampusService,
+      FacultyService,
       AuthService, // no longer in use, we might use it if we can use angular httpClient
 
     ]

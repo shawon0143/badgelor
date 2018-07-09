@@ -257,7 +257,7 @@ export class AccountService {
 
     MeteorObservable.call("onlyLogin", dataForLdap).subscribe(response => {
 
-      if (response["error"] === "Login successful") {
+      if (response["feedback"] === "Login successful") {
         this.showLoginAndSignupViewOnUI = false;
 
         // ldap credentials matched -> login to badgelor now
@@ -268,6 +268,7 @@ export class AccountService {
             // user exist in badgelor
             this.setLocalStorageOnLogin();
             console.log("Login successful");
+            this.updateLastLoginInDB();
             // this.showLoggingInAnimation = false;
             document.body.classList.remove('hideBodyScoll');
             document.body.classList.add('showBodyScroll');
@@ -280,7 +281,7 @@ export class AccountService {
           }
         }); // end of Meteor.loginWithPassword
       } // END of if (response["name"])
-      if (response["error"] === "Invalid password") {
+      if (response["feedback"] === "Invalid password") {
         // if a registered user enters wrong credentials
         this.isUserCredentialsWrong = true;
       }
@@ -305,7 +306,7 @@ export class AccountService {
 
     MeteorObservable.call("onlyLogin", dataForLdap).subscribe(response => {
 
-      if (response["error"] === "Login successful") {
+      if (response["feedback"] === "Login successful") {
         this.showLoginAndSignupViewOnUI = false;
 
         // ldap credentials matched -> login to badgelor now
@@ -316,6 +317,7 @@ export class AccountService {
             // user exist in badgelor
             this.setLocalStorageOnLogin();
             console.log("Login successful");
+            this.updateLastLoginInDB();
             // this.showLoggingInAnimation = false;
             document.body.classList.remove('hideBodyScoll');
             document.body.classList.add('showBodyScroll');
@@ -328,7 +330,7 @@ export class AccountService {
           }
         }); // end of Meteor.loginWithPassword
       } // END of if (response["name"])
-      if (response["error"] === "Invalid password") {
+      if (response["feedback"] === "Invalid password") {
         // ==========================================
         // Login not successful in the Miterbeiter DB
         // ==========================================
@@ -344,7 +346,7 @@ export class AccountService {
         };
 
         MeteorObservable.call("onlyLogin", dataForLdap).subscribe(response => {
-          if (response["error"] === "Login successful") {
+          if (response["feedback"] === "Login successful") {
             this.showLoginAndSignupViewOnUI = false;
 
             // ldap credentials matched -> login to badgelor now
@@ -355,6 +357,7 @@ export class AccountService {
                 // user exist in badgelor
                 this.setLocalStorageOnLogin();
                 console.log("Login successful");
+                this.updateLastLoginInDB();
                 // this.showLoggingInAnimation = false;
                 document.body.classList.remove('hideBodyScoll');
                 document.body.classList.add('showBodyScroll');
@@ -366,7 +369,7 @@ export class AccountService {
               }
             }); // end of Meteor.loginWithPassword
           } // END of if (response["error"] === "Login successful")
-          if (response["error"] === "Invalid password") {
+          if (response["feedback"] === "Invalid password") {
             // if a registered user enters wrong credentials
             this.isUserCredentialsWrong = true;
           }
@@ -378,6 +381,14 @@ export class AccountService {
   } // END of loginToLandauDomain(username)
 
 
+  updateLastLoginInDB() {
+    MeteorObservable.call("updateLastLoginStatus").subscribe((response) => {
+      console.log(response["feedback"]);
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
+    });
+  }
 
   setLocalStorageOnLogin() {
 
@@ -551,7 +562,7 @@ export class AccountService {
 
       } // if (response["firstName"])
 
-      if (response["error"] === "Invalid password") {
+      if (response["feedback"] === "Invalid password") {
         this.isUserCredentialsWrong = true;
       }
     });// MeteorObservable.call("bindAndSearch")
@@ -631,7 +642,7 @@ export class AccountService {
       // if user is not a landau miterbeiter
       // we send request to student database
       // ==============================================
-      if (response["error"] === "Invalid password") {
+      if (response["feedback"] === "Invalid password") {
         var dataForLdap = {
           username: username,
           password: this.signupData.password,
@@ -695,7 +706,7 @@ export class AccountService {
               console.log(err);
             });
           } // if (response["name"])
-          if (response["error"] === "Invalid password") {
+          if (response["feedback"] === "Invalid password") {
             this.isUserCredentialsWrong = true;
           }
         });
