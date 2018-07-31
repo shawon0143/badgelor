@@ -106,6 +106,18 @@
   <!-- ==== END OF success messages ====== -->
   <!-- ================================= -->
 
+  <!-- =================================== -->
+  <!-- ==== START OF delete Failed messages ====== -->
+  <!-- =================================== -->
+  <ng-container *ngIf = "facultyService.isFacultyDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the corresponding institutes first!
+    </div>
+  </ng-container>
+  <!-- ================================= -->
+  <!-- ==== END OF delete failed messages ====== -->
+  <!-- ================================= -->
+
 
   <!-- =================================================== -->
   <!-- ========= START OF ALL FACULTIES TABLE =============== -->

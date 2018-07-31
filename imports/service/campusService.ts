@@ -50,7 +50,7 @@ export class CampusService {
     });
   } // END OF getAllCampuses --------
 
-  // this method is used in facultymanagement component
+  // this method is used in facultymanagement component && instituteManagement component
   getCampusByID(campusID) {
     var thisCampus = CampusDB.findOne({"_id":campusID});
     if (thisCampus !== undefined) {
@@ -169,10 +169,6 @@ export class CampusService {
 
 
   deleteThisCampus(campus) {
-    // first check if this campus has any faculty
-    // if yes show message to user that it is not possible to delete this campus
-    // unless you delete the correspondent faculty
-    // TODO: implement delete after faculty availability check for this campus
 
     MeteorObservable.call("isCampusHasFaculty", campus._id).subscribe((response) => {
       if (response["code"] === 999) {

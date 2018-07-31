@@ -29,7 +29,7 @@ export class FacultyManagement implements OnInit {
   allFaculties: any;
   allCampuses: any;
 
-  constructor(private route: ActivatedRoute,private router: Router,public accountService: AccountService, public facultyService: FacultyService, public campusService: CampusService) {
+  constructor(private route: ActivatedRoute, private router: Router, public accountService: AccountService, public facultyService: FacultyService, public campusService: CampusService) {
 
     this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampus").subscribe(() => {
       this.allCampuses = this.campusService.getAllCampuses();
@@ -38,13 +38,13 @@ export class FacultyManagement implements OnInit {
     this.meteorSubscriptionFaculty = MeteorObservable.subscribe<any>("publishAllFaculty").subscribe(() => {
       // Subscription is ready!
       MeteorObservable.autorun().subscribe(() => {
-       this.allFaculties = this.facultyService.getAllFaculties();
-       if (this.allFaculties !== undefined) {
-         this.allFaculties.forEach(faculty => {
-          faculty["campusName"] = this.campusService.getCampusByID(faculty["campusID"]);
-        });
+        this.allFaculties = this.facultyService.getAllFaculties();
+        if (this.allFaculties !== undefined) {
+          this.allFaculties.forEach(faculty => {
+            faculty["campusName"] = this.campusService.getCampusByID(faculty["campusID"]);
+          });
 
-       }
+        }
       });
     });
   }

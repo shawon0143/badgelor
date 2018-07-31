@@ -7,6 +7,7 @@ import { MongoObservable } from 'meteor-rxjs';
 //here campus is the name of mongo collection in the database and CampusDB points to that collection.
 export const CampusDB = new MongoObservable.Collection('campus');
 export const FacultyDB = new MongoObservable.Collection('faculty');
+export const InstituteDB = new MongoObservable.Collection('institute');
 
 export const ProfileDB = new MongoObservable.Collection('profile');
 

@@ -9,14 +9,20 @@ if (Meteor.isServer) {
 
 
 
-// ===== start of publishAllCategories ======
+// ===== start of publishAllFaculty ======
 Meteor.publish('publishAllFaculty', function () {
 
   return FacultyDB.find({});
 
 });
-// --- End of publishAllCategories ---
+// --- End of publishAllFaculty ---
 
+
+// ===== start of publishFacultyByCampusID ======
+Meteor.publish('publishFacultyByCampusID', function(campusID) {
+  return FacultyDB.find({"campusID": campusID});
+});
+// --- End of publishFacultyByCampusID ---
 
 
 } //end of if (Meteor.isServer)

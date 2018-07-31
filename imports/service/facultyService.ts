@@ -19,7 +19,6 @@ export class FacultyService {
     createdAt: ""
   }
 
-  selectedCampus: string = "";
   isCampusSelected: boolean = false;
 
   // temporaty variable to keep the initial faculty name
@@ -38,7 +37,7 @@ export class FacultyService {
   showUpdateFacultyMessage: boolean = false;
 
   isFacultyDeleteSuccessful: boolean = false;
-
+  isFacultyDeleteFailed: boolean = false;
 
   //  END of faculty mangement variables and flags
 
@@ -51,6 +50,20 @@ export class FacultyService {
   getAllFaculties(): Observable<any[]> {
     return FacultyDB.find({}).fetch();
   } // END OF getAllFaculties --------
+
+  getfacultiesofSelectedCampus(campusID): Observable<any[]> {
+    return FacultyDB.find({"campusID": campusID}).map(faculty => {
+      return faculty;
+    });
+  } // END OF getAllCampuses --------
+
+  getFacultyByID(facultyID) {
+    var thisFaculty = FacultyDB.findOne({"_id":facultyID});
+
+    if (thisFaculty !== undefined) {
+      return thisFaculty.name;
+    }
+  } // END of getCampusByID
 
 
   // The faculty CRUD method does both add and update of faculty
@@ -172,25 +185,37 @@ export class FacultyService {
       this.isCampusSelected = true;
       this.facultyData.campusID = campusID;
     }
-  } // END OF selectedCampus() -------------
+  } // END OF selectThisCampus() -------------
 
   deleteThisFaculty(faculty) {
 
-    // first check if this faculty has any institute
-    // if yes show message to user that it is not possible to delete this faculty
-    // unless you delete the correspondent institutes
-    // TODO: implement delete after institute availability check for this faculty
+    MeteorObservable.call("isFacultyHasInstitute", faculty._id).subscribe((response) => {
 
-
-    MeteorObservable.call("deleteFaculty", faculty).subscribe((response) => {
-      if (response["code"] === 200) {
-        this.isFacultyDeleteSuccessful = true;
+      if (response["code"] === 999) {
+        this.isFacultyDeleteFailed = true;
         setTimeout(() => {
-          this.isFacultyDeleteSuccessful = false;
+          this.isFacultyDeleteFailed = false;
         }, 3000);
-        this.resetFacultyForm();
+
       }
+
+      if (response["code"] === 200) {
+        // the faculty doesn't have any institute so delete possible
+        MeteorObservable.call("deleteFaculty", faculty).subscribe((response) => {
+          if (response["code"] === 200) {
+            this.isFacultyDeleteSuccessful = true;
+            setTimeout(() => {
+              this.isFacultyDeleteSuccessful = false;
+            }, 3000);
+            this.resetFacultyForm();
+          }
+        });
+      }
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
     });
+
   } // END OF deleteThisFaculty ------------
 
   resetFacultyForm() {

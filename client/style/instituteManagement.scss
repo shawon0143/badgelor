@@ -1,0 +1,147 @@
+@import "variables.scss";
+
+.instituteManagementContainer {
+  .card {
+    background: #fff;
+    margin-bottom: 30px;
+    transition: .5s;
+    border: 0;
+    border-radius: .55rem;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+
+    .header {
+      color: #424242;
+      padding: 20px;
+      position: relative;
+      box-shadow: none;
+
+      h2 {
+        font-size: 15px;
+        color: #757575;
+        font-weight: 400;
+        position: relative;
+
+        strong {
+            color: #49c5b6;
+            font-weight: 600;
+        }
+      }
+    } // END OF .header
+
+    .body {
+      font-size: 14px;
+      color: #424242;
+      padding: 20px;
+      font-weight: 400;
+    } // END OF .body
+  } // END OF .card
+
+  .card .header h2::before {
+    position: absolute;
+    width: 20px;
+    height: 1px;
+    left: 0;
+    top: -20px;
+    content: '';
+    background: $secondary;
+  }
+
+  .table th, .table td {
+    vertical-align: middle;
+  }
+
+  // Form styling starts here ========
+  [class*="input-group"] {
+    min-width: 38px;
+    background-color: transparent;
+    border-color: #ccc;
+    transition: border-color .15s ease-in-out 0s;
+  }
+  .my-input-group {
+    position: relative;
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]),
+  .my-input-group textarea {
+    line-height: 1.75rem;
+    padding: 10px 15px;
+    text-transform: capitalize;
+  }
+
+
+  [class*="input-group"] > * {
+    white-space: normal;
+  }
+
+
+  .my-input-group textarea + label {
+    top: 20px;
+  }
+
+  .resize-none {
+    resize: none;
+  }
+
+
+  .my-input-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+    margin-bottom: 0;
+    transition-property: top, font-size;
+    transition-duration: .2s;
+    transition-timing-function: ease;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .form-control:focus {
+    border-color: $secondary;
+    box-shadow: none;
+  }
+
+  .form-control, .form-control:focus {
+    color: #555;
+  }
+
+  .form-control {
+    line-height: 1.75rem;
+    padding: 10px 15px;
+    border-color: #eee;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+  }
+
+  select.form-control:not([size]):not([multiple]) {
+    height: inherit;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 4 5'%3E%3Cpath fill='%23373a3c' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 8px 10px;
+    text-transform: capitalize;
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]):focus + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[value] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[placeholder] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]).g-state-not-empty + label,
+  .my-input-group textarea:focus + label,
+  .my-input-group textarea[value] + label,
+  .my-input-group textarea[placeholder] + label,
+  .my-input-group textarea.g-state-not-empty + label,
+  .my-input-group [class*="u-select"]:focus + label,
+  .my-input-group [class*="u-select"][value] + label,
+  .my-input-group [class*="u-select"][placeholder] + label,
+  .my-input-group [class*="u-select"].g-state-not-empty + label {
+    top: 0;
+    font-size: 90%;
+  }
+
+  // END OF Form styling
+}
