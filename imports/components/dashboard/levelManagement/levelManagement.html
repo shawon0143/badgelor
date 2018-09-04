@@ -1,0 +1,150 @@
+<div class="levelManagementContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW LEVEL ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Level </h2>
+    </div>
+    <div class="body">
+
+      <form #addNewLevelForm="ngForm" (ngSubmit)="levelService.levelCRUD()" novalidate>
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input
+                   id="levelManagementName"
+                   class="form-control"
+                   [ngClass]="{'g-state-not-empty': levelService.newLevelData.name !== ''}"
+                   name="level-name"
+                   aria-describedby="createNewLevelHelpBlock"
+                   type="text"
+                   [(ngModel)]="levelService.newLevelData.name"
+                   required
+                   #levelName="ngModel">
+            <label for="levelManagementName" class="text-muted">Level name</label>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <textarea
+                      id="levelManagementDesc"
+                      class="form-control resize-none g-state-not-empty"
+                      [ngClass]="{'g-state-not-empty': levelService.newLevelData.description !== ''}"
+                      name="level-details"
+                      [(ngModel)]="levelService.newLevelData.description"
+                      rows="3">
+            </textarea>
+            <label for="levelManagementDesc" class="text-muted">Details</label>
+          </div>
+        </div>
+        <!-- ========================================================= -->
+        <!-- ============== Validation error message ================= -->
+        <!-- ========================================================= -->
+        <ng-container *ngIf="levelService.isNewLevelCreatedSuccessful === false && levelService.isEditLevelSuccessful === false">
+          <ng-container *ngIf="levelName.invalid && (levelName.dirty || levelName.touched)">
+            <small id="createNewLevelHelpBlock" class="form-text text-danger mb-2" *ngIf="levelName.errors.required">
+               Name is required.
+            </small>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf = "levelService.isLevelAlreadyExistInDB === true">
+          <small id="createNewLevelHelpBlock" class="form-text text-danger mb-2">
+             This level name already exist in the system!
+          </small>
+        </ng-container>
+        <!-- ========================================================= -->
+        <!-- ============ END OF Validation error message ============ -->
+        <!-- ========================================================= -->
+        <div class="form-group">
+          <button *ngIf = "levelService.isEditLevelEnabled === false" class="btn btn-primary" type="submit">Add Level</button>
+          <button *ngIf = "levelService.isEditLevelEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "levelService.isEditLevelEnabled === true" class="btn btn-warning" (click) = "levelService.resetLevelForm()">Cancel</button>
+        </div>
+      </form>
+
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+
+  <!-- =================================================== -->
+  <!-- ========= END OF FORM ADD NEW LEVEL ============== -->
+  <!-- =================================================== -->
+
+  <!-- =================================== -->
+  <!-- ==== START OF success messages ====== -->
+  <!-- =================================== -->
+
+  <ng-container *ngIf="levelService.isNewLevelCreatedSuccessful === true && levelService.showNewLevelCreationMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Level creation successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "levelService.isEditLevelSuccessful === true && levelService.showUpdateLevelMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Level update successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "levelService.isLevelDeleteSuccessful === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Level delete successfull!
+    </div>
+  </ng-container>
+
+  <!-- ================================= -->
+  <!-- ==== END OF success messages ====== -->
+  <!-- ================================= -->
+
+  <!-- =========================================== -->
+  <!-- ==== START OF delete Failed messages ====== -->
+  <!-- =========================================== -->
+  <ng-container *ngIf = "levelService.isLevelDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the badges incorporate with this level!
+    </div>
+  </ng-container>
+  <!-- ========================================= -->
+  <!-- ==== END OF delete failed messages ====== -->
+  <!-- ========================================= -->
+
+
+  <!-- =================================================== -->
+  <!-- ========= START OF ALL LEVEL TABLE =============== -->
+  <!-- =================================================== -->
+
+  <div class="card">
+    <div class="header">
+        <h2><strong>All</strong> Levels </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let level of allLevels | async; let i=index ">
+            <tr [@list1]>
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{level?.name}}</td>
+              <td>{{level?.description}}</td>
+              <td>{{level?.createdBy}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisLevel(level)"><i class="icon-pencil"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline" (click) = "levelService.deleteThisLevel(level)"><i class="icon-trash"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+  <!-- =================================================== -->
+  <!-- ========= END OF ALL LEVEL TABLE ================= -->
+  <!-- =================================================== -->
+
+</div> <!-- END OF levelManagementContainer -->

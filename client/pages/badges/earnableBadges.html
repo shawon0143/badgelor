@@ -52,39 +52,17 @@
         <h2 class="h5 text-uppercase filterHeading">Level</h2>
         <hr>
         <form class="mb-4">
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Anfanger<span class="badge badge-light pull-right ml-2">20</span>
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Fortgeschrittene<span class="badge badge-light pull-right ml-2">5</span>
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Experten<span class="badge badge-light pull-right ml-2">10</span>
-            </label>
-          </div>
-          <!-- END checkbox -->
+          <ng-container *ngFor = "let level of allLevels">
+            <div class="form-group">
+              <label class="u-check pl-4 text-capitalize">
+                <input type="checkbox">
+                <div class="u-check-icon-checkbox">
+                  <i class="fa" data-check-icon=""></i>
+                </div>
+                {{level?.name}}<span class="badge badge-light pull-right ml-2">20</span>
+              </label>
+            </div>
+          </ng-container>
         </form>
 
 

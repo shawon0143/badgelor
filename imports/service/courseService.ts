@@ -190,7 +190,35 @@ export class CourseService {
       // TODO: handle error
       console.log(err);
     });
-  } // END OF updateInstitute() -------------
+  } // END OF updateCourse() -------------
+
+  deleteThisCourse(campus) {
+    // TODO: prevent from delete course if course is assigned to any badge.
+    // check that using a method.
+    window.scrollTo(0,0);// jump the window position to the top.
+
+        MeteorObservable.call("deleteCourse", campus).subscribe((response) => {
+          if (response["code"] === 200) {
+            this.isCourseDeleteSuccessful = true;
+            setTimeout(() => {
+              this.isCourseDeleteSuccessful = false;
+            }, 3000);
+            this.resetCourseForm();
+          }
+        });
+  } // END OF deleteThisCourse------------
+
+  resetCourseForm() {
+    this.isCampusSelected = false;
+    this.isFacultySelected = false;
+    this.isInstituteSelected = false;
+    this.isEditCourseEnabled = false;
+    this.courseData.name = "";
+    this.courseData.description = "";
+    this.courseData.campusID = "";
+    this.courseData.facultyID = "";
+    this.courseData.instituteID = "";
+  }
 
   selectThisCampus(campusID) {
     if (campusID !== '' && campusID !== undefined) {

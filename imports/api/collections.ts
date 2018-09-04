@@ -9,6 +9,7 @@ export const CampusDB = new MongoObservable.Collection('campus');
 export const FacultyDB = new MongoObservable.Collection('faculty');
 export const InstituteDB = new MongoObservable.Collection('institute');
 export const CourseDB = new MongoObservable.Collection('course');
+export const LevelDB = new MongoObservable.Collection('level');
 
 export const ProfileDB = new MongoObservable.Collection('profile');
 

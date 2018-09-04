@@ -53,6 +53,7 @@ import { CampusManagement } from '/imports/components/dashboard/campusManagement
 import { FacultyManagement } from '/imports/components/dashboard/facultyManagement/facultyManagement';
 import { InstituteManagement } from '/imports/components/dashboard/instituteManagement/instituteManagement';
 import { CourseManagement } from '/imports/components/dashboard/courseManagement/courseManagement';
+import { LevelManagement } from '/imports/components/dashboard/levelManagement/levelManagement';
 
 
 // ===============
@@ -83,6 +84,8 @@ import { CampusService } from "/imports/service/campusService";
 import { FacultyService } from "/imports/service/facultyService";
 import { InstituteService } from "/imports/service/instituteService";
 import { CourseService } from "/imports/service/courseService";
+import { LevelService } from "/imports/service/levelService";
+
 import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
 
 
@@ -136,7 +139,7 @@ const appRoutes: Routes = [
         { path: 'faculty', component: FacultyManagement },
         { path: 'institutes', component: InstituteManagement },
         { path: 'courses', component: CourseManagement },
-        // { path: 'levels', component: LevelsManagement },
+        { path: 'levels', component: LevelManagement },
         // { path: 'competency', component: CompetencyManagement },
         // { path: 'tools', component: ToolsManagement },
         // { path: 'createNewBadge', component: AddNewBadge },
@@ -199,6 +202,7 @@ const appRoutes: Routes = [
         FacultyManagement,
         InstituteManagement,
         CourseManagement,
+        LevelManagement,
         //Pipes
         SafePipe,
         // 404
@@ -223,6 +227,7 @@ const appRoutes: Routes = [
       FacultyService,
       InstituteService,
       CourseService,
+      LevelService,
       AuthService, // no longer in use, we might use it if we can use angular httpClient
 
     ]

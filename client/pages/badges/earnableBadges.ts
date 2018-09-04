@@ -26,12 +26,20 @@ import template from './earnableBadges.html';
 
 
 export class EarnableBadges implements OnInit {
-
+  allLevels;
   constructor( private route: ActivatedRoute,
                private router: Router,
                public accountService: AccountService,
                private autoLogoutService: AutoLogoutService,
                private badgeService: BadgeService) {
+
+                 MeteorObservable.call('getAllLevelName').subscribe((response) => {
+                   this.allLevels = response;
+                 }, (err) => {
+                   // TODO: handle error
+                   console.log(err);
+                 });
+
 
   }
 
