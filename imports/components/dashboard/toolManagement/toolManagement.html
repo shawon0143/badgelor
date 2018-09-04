@@ -1,0 +1,150 @@
+<div class="toolManagementContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW LEVEL ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Tool </h2>
+    </div>
+    <div class="body">
+
+      <form #addNewToolForm="ngForm" (ngSubmit)="toolService.toolCRUD()" novalidate>
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input
+                   id="toolManagementName"
+                   class="form-control"
+                   [ngClass]="{'g-state-not-empty': toolService.newToolData.name !== ''}"
+                   name="tool-name"
+                   aria-describedby="createNewToolHelpBlock"
+                   type="text"
+                   [(ngModel)]="toolService.newToolData.name"
+                   required
+                   #toolName="ngModel">
+            <label for="toolManagementName" class="text-muted">Tool name</label>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <textarea
+                      id="toolManagementDesc"
+                      class="form-control resize-none g-state-not-empty"
+                      [ngClass]="{'g-state-not-empty': toolService.newToolData.description !== ''}"
+                      name="tool-details"
+                      [(ngModel)]="toolService.newToolData.description"
+                      rows="3">
+            </textarea>
+            <label for="toolManagementDesc" class="text-muted">Details</label>
+          </div>
+        </div>
+        <!-- ========================================================= -->
+        <!-- ============== Validation error message ================= -->
+        <!-- ========================================================= -->
+        <ng-container *ngIf="toolService.isNewToolCreatedSuccessful === false && toolService.isEditToolSuccessful === false">
+          <ng-container *ngIf="toolName.invalid && (toolName.dirty || toolName.touched)">
+            <small id="createNewToolHelpBlock" class="form-text text-danger mb-2" *ngIf="toolName.errors.required">
+               Name is required.
+            </small>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf = "toolService.isToolAlreadyExistInDB === true">
+          <small id="createNewToolHelpBlock" class="form-text text-danger mb-2">
+             This tool name already exist in the system!
+          </small>
+        </ng-container>
+        <!-- ========================================================= -->
+        <!-- ============ END OF Validation error message ============ -->
+        <!-- ========================================================= -->
+        <div class="form-group">
+          <button *ngIf = "toolService.isEditToolEnabled === false" class="btn btn-primary" type="submit">Add Tool</button>
+          <button *ngIf = "toolService.isEditToolEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "toolService.isEditToolEnabled === true" class="btn btn-warning" (click) = "toolService.resetToolForm()">Cancel</button>
+        </div>
+      </form>
+
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+
+  <!-- =================================================== -->
+  <!-- ========= END OF FORM ADD NEW LEVEL ============== -->
+  <!-- =================================================== -->
+
+  <!-- =================================== -->
+  <!-- ==== START OF success messages ====== -->
+  <!-- =================================== -->
+
+  <ng-container *ngIf="toolService.isNewToolCreatedSuccessful === true && toolService.showNewToolCreationMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Tool creation successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "toolService.isEditToolSuccessful === true && toolService.showUpdateToolMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Tool update successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "toolService.isToolDeleteSuccessful === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Tool delete successfull!
+    </div>
+  </ng-container>
+
+  <!-- ================================= -->
+  <!-- ==== END OF success messages ====== -->
+  <!-- ================================= -->
+
+  <!-- =========================================== -->
+  <!-- ==== START OF delete Failed messages ====== -->
+  <!-- =========================================== -->
+  <ng-container *ngIf = "toolService.isToolDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the badges incorporate with this tool!
+    </div>
+  </ng-container>
+  <!-- ========================================= -->
+  <!-- ==== END OF delete failed messages ====== -->
+  <!-- ========================================= -->
+
+
+  <!-- =================================================== -->
+  <!-- ========= START OF ALL LEVEL TABLE =============== -->
+  <!-- =================================================== -->
+
+  <div class="card">
+    <div class="header">
+        <h2><strong>All</strong> Tools </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let tool of allTools | async; let i=index ">
+            <tr [@list1]>
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{tool?.name}}</td>
+              <td>{{tool?.description}}</td>
+              <td>{{tool?.createdBy}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisTool(tool)"><i class="icon-pencil"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline" (click) = "toolService.deleteThisTool(tool)"><i class="icon-trash"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+  <!-- =================================================== -->
+  <!-- ========= END OF ALL LEVEL TABLE ================= -->
+  <!-- =================================================== -->
+
+</div> <!-- END OF toolManagementContainer -->

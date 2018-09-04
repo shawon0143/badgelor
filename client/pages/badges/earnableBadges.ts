@@ -28,6 +28,7 @@ import template from './earnableBadges.html';
 export class EarnableBadges implements OnInit {
   allLevels;
   allCompetencies;
+  allTools;
   constructor( private route: ActivatedRoute,
                private router: Router,
                public accountService: AccountService,
@@ -43,6 +44,13 @@ export class EarnableBadges implements OnInit {
                  // Lead all competencies via method call from server
                  MeteorObservable.call('getAllCompetencyName').subscribe((response) => {
                    this.allCompetencies = response;
+                 }, (err) => {
+                   // TODO: handle error
+                   console.log(err);
+                 });
+                 // Lead all tools via method call from server
+                 MeteorObservable.call('getAllToolName').subscribe((response) => {
+                   this.allTools = response;
                  }, (err) => {
                    // TODO: handle error
                    console.log(err);
