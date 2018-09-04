@@ -33,7 +33,7 @@ export class CampusManagement implements OnInit {
     public accountService: AccountService,
     public campusService: CampusService) {
 
-    this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampus").subscribe(() => {
+    this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampuses").subscribe(() => {
       // Subscription is ready!
       // MeteorObservable.autorun().subscribe(() => {
       //  this.allCampuses = this.getAllCampuses();
@@ -42,6 +42,7 @@ export class CampusManagement implements OnInit {
   }
 
   editThisCampus(campus) {
+    window.scrollTo(0,0);// this line will take the window position to the top.
     this.campusService.isEditCampusEnabled = true;
     this.campusService.tempCampusNameForDuplicateCheck = campus.name;
     this.campusService.newCampusData._id = campus._id;

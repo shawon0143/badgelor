@@ -50,7 +50,7 @@ export class CampusService {
     });
   } // END OF getAllCampuses --------
 
-  // this method is used in facultymanagement component && instituteManagement component
+  // this method is used in facultymanagement component && instituteManagement component && courseManagement component
   getCampusByID(campusID) {
     var thisCampus = CampusDB.findOne({"_id":campusID});
     if (thisCampus !== undefined) {
@@ -169,7 +169,7 @@ export class CampusService {
 
 
   deleteThisCampus(campus) {
-
+    window.scrollTo(0,0);// jump the window position to the top.
     MeteorObservable.call("isCampusHasFaculty", campus._id).subscribe((response) => {
       if (response["code"] === 999) {
         this.isCampusDeleteFailed = true;

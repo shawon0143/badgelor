@@ -3,19 +3,19 @@ import {Mongo} from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Checkdbaccess } from '/server/dbapi/tools/checkdbaccess.ts';
 
-import { CampusDB} from '/imports/api/index.ts';
+import { CourseDB } from '/imports/api/index.ts';
 
 if (Meteor.isServer) {
 
 
 
-// ===== start of publishAllCategories ======
-Meteor.publish('publishAllCampuses', function () {
+// ===== start of publishAllInstitute ======
+Meteor.publish('publishAllCourses', function () {
 
-  return CampusDB.find({});
+  return CourseDB.find({});
 
 });
-// --- End of publishAllCategories ---
+// --- End of publishAllInstitute ---
 
 
 

@@ -12,7 +12,7 @@
         <!-- Campus Selection -->
         <div class="form-group mb-3">
           <div class="my-input-group">
-            <select class="form-control text-muted"  name="selCampus" required (change)="facultyService.selectThisCampus($event.target.value)">
+            <select class="form-control text-muted"  name="selCampus" required (change)="facultyService.selectThisCampus($event.target.value)" [disabled] = "facultyService.isEditFacultyEnabled">
               <option [selected]="facultyService.isCampusSelected === false" [value]="undefined" disabled> Select Campus </option>
               <option *ngFor="let campus of allCampuses | async;" [value]=campus._id [selected]="facultyService.facultyData.campusID == campus._id">{{campus.name}}</option>
             </select>

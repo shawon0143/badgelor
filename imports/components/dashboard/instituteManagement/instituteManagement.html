@@ -12,7 +12,11 @@
         <!-- Campus Selection -->
         <div class="form-group mb-3">
           <div class="my-input-group">
-            <select class="form-control text-muted"  name="selInstitute" required (change)="instituteService.selectThisCampus($event.target.value); getAllFacultyOfThisCampus()">
+            <select class="form-control text-muted"
+                    name="selInstitute"
+                    required
+                    (change)="instituteService.selectThisCampus($event.target.value); getAllFacultyOfThisCampus()"
+                    [disabled] = "instituteService.isEditInstituteEnabled">
               <option [selected]="instituteService.isCampusSelected === false" [value]="undefined" disabled> Select Campus </option>
               <option *ngFor="let campus of allCampuses | async;" [value]=campus._id [selected]="instituteService.instituteData.campusID == campus._id">{{campus.name}}</option>
             </select>
@@ -21,7 +25,11 @@
         <!-- Faculty Selection -->
         <div class="form-group mb-3">
           <div class="my-input-group">
-            <select class="form-control text-muted"  name="selFaculty" required (change)="instituteService.selectThisFaculty($event.target.value)">
+            <select class="form-control text-muted"
+                    name="selFaculty"
+                    required
+                    (change)="instituteService.selectThisFaculty($event.target.value)"
+                    [disabled] = "instituteService.isCampusSelected === false || instituteService.isEditInstituteEnabled">
               <option [selected]="instituteService.isFacultySelected === false" [value]="undefined" disabled> Select Faculty </option>
               <option *ngFor="let faculty of facultyOfThisCampus | async;" [value]=faculty._id [selected]="instituteService.instituteData.facultyID == faculty._id">{{faculty.name}}</option>
             </select>
@@ -74,12 +82,17 @@
              This institute already exist in the system!
           </small>
         </ng-container>
+        <ng-container *ngIf = "instituteService.isEditInstituteEnabled === true">
+          <small class="form-text text-danger mb-2" *ngIf = "instituteService.instituteData.facultyID === ''">
+            Please select a faculty.
+          </small>
+        </ng-container>
         <!-- ========================================================= -->
         <!-- ============ END OF Validation error message ============ -->
         <!-- ========================================================= -->
         <div class="form-group">
           <button *ngIf = "instituteService.isEditInstituteEnabled === false" class="btn btn-primary" type="submit">Add Institute</button>
-          <button *ngIf = "instituteService.isEditInstituteEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "instituteService.isEditInstituteEnabled === true" class="btn btn-success" type="submit" [disabled] = "instituteService.instituteData.facultyID === ''">Save</button>
           <button *ngIf = "instituteService.isEditInstituteEnabled === true" class="btn btn-warning" (click) = "instituteService.resetInstituteForm()">Cancel</button>
         </div>
       </form>
@@ -114,6 +127,17 @@
   <!-- ================================= -->
   <!-- ==== END OF success messages ====== -->
   <!-- ================================= -->
+  <!-- =================================== -->
+  <!-- ==== START OF delete Failed messages ====== -->
+  <!-- =================================== -->
+  <ng-container *ngIf = "instituteService.isInstituteDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the corresponding courses first!
+    </div>
+  </ng-container>
+  <!-- ================================= -->
+  <!-- ==== END OF delete failed messages ====== -->
+  <!-- ================================= -->
 
 
 
@@ -144,7 +168,7 @@
               <td>{{i+1}}</td>
               <td class="text-capitalize">{{institute?.name}}</td>
               <td class="text-capitalize">{{institute?.campusName}}</td>
-              <td class="text-capitalize">{{institute?.facultyName}}</td>              
+              <td class="text-capitalize">{{institute?.facultyName}}</td>
               <td>{{institute?.createdBy}}</td>
               <td>
                 <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisInstitute(institute)"><i class="icon-pencil"></i></button>

@@ -1,0 +1,181 @@
+
+<div class="courseManagementContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW Course ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Course </h2>
+    </div>
+    <div class="body">
+
+      <form #addNewCourseForm="ngForm" (ngSubmit)="courseService.courseCRUD()" novalidate>
+        <!-- Campus Selection -->
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <select class="form-control text-muted"  name="selCampus" required (change)="courseService.selectThisCampus($event.target.value); getAllFacultyOfThisCampus()">
+              <option [selected]="courseService.isCampusSelected === false" [value]="undefined" disabled> Select Campus </option>
+              <option *ngFor="let campus of allCampuses | async;" [value]=campus._id [selected]="courseService.courseData.campusID == campus._id">{{campus.name}}</option>
+            </select>
+          </div>
+        </div>
+        <!-- Faculty Selection -->
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <select class="form-control text-muted"  name="selFaculty" required (change)="courseService.selectThisFaculty($event.target.value); getAllInstituteOfThisFaculty()">
+              <option [selected]="courseService.isFacultySelected === false" [value]="undefined" disabled> Select Faculty </option>
+              <ng-container *ngIf = "courseService.isFacultySelected === true">
+                <option *ngFor="let faculty of facultyOfThisCampus | async;"
+                        [value]=faculty._id
+                        [selected]="courseService.courseData.facultyID == faculty._id">
+                        {{faculty.name}}</option>
+              </ng-container>
+              <ng-container *ngIf = "courseService.isFacultySelected === false">
+                <option *ngFor="let faculty of facultyOfThisCampus | async;" [value]=faculty._id >{{faculty.name}}</option>
+              </ng-container>
+
+            </select>
+          </div>
+        </div>
+        <!-- Institute Selection -->
+        <div class="form-group mb-3" *ngIf="(instituteOfThisFaculty | async)?.length > 0 && courseService.isFacultySelected === true">
+          <div class="my-input-group">
+            <select class="form-control text-muted"  name="selInstitute" required (change)="courseService.selectThisInstitute($event.target.value)">
+              <option [selected]="courseService.isInstituteSelected === false" [value]="undefined" disabled> Select Institute </option>
+              <option *ngFor="let institute of instituteOfThisFaculty | async;" [value]=institute._id [selected]="courseService.courseData.instituteID == institute._id">{{institute.name}}</option>
+            </select>
+          </div>
+        </div>
+        <!-- Course Name -->
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input
+                   id="courseManagementName"
+                   class="form-control"
+                   [ngClass]="{'g-state-not-empty': courseService.courseData.name !== ''}"
+                   name="course-name"
+                   aria-describedby="createNewCourseHelpBlock"
+                   type="text"
+                   [(ngModel)]="courseService.courseData.name"
+                   required
+                   [disabled] = "courseService.isFacultySelected === false"
+                   #courseName="ngModel">
+            <label for="courseManagementName" class="text-muted">Course name</label>
+          </div>
+        </div>
+        <!-- Description -->
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <textarea
+                      id="courseManagementDesc"
+                      class="form-control resize-none g-state-not-empty"
+                      [ngClass]="{'g-state-not-empty': courseService.courseData.description !== ''}"
+                      name="course-details"
+                      [disabled] = "courseService.isFacultySelected === false"
+                      [(ngModel)]="courseService.courseData.description"
+                      rows="3">
+            </textarea>
+            <label for="courseManagementDesc" class="text-muted">Details</label>
+          </div>
+        </div>
+        <!-- ========================================================= -->
+        <!-- ============== Validation error message ================= -->
+        <!-- ========================================================= -->
+        <ng-container *ngIf="courseService.isNewCourseCreatedSuccessful === false && courseService.isEditCourseSuccessful === false">
+          <ng-container *ngIf="courseName.invalid && (courseName.dirty || courseName.touched)">
+            <small id="createNewCourseHelpBlock" class="form-text text-danger mb-2" *ngIf="courseName.errors.required">
+               Course name is required.
+            </small>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf = "courseService.isCourseAlreadyExistInDB === true">
+          <small id="createNewCourseHelpBlock" class="form-text text-danger mb-2">
+             This course already exist in the system!
+          </small>
+        </ng-container>
+        <!-- ========================================================= -->
+        <!-- ============ END OF Validation error message ============ -->
+        <!-- ========================================================= -->
+        <div class="form-group">
+          <button *ngIf = "courseService.isEditCourseEnabled === false" class="btn btn-primary" type="submit">Add Course</button>
+          <button *ngIf = "courseService.isEditCourseEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "courseService.isEditCourseEnabled === true" class="btn btn-warning" (click) = "resetCourseForm()">Cancel</button>
+        </div>
+      </form>
+
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+
+  <!-- =================================================== -->
+  <!-- ========= END OF FORM ADD NEW COURSE ============== -->
+  <!-- =================================================== -->
+
+  <!-- =================================== -->
+  <!-- ==== START OF success messages ====== -->
+  <!-- =================================== -->
+
+  <ng-container *ngIf="courseService.isNewCourseCreatedSuccessful === true && courseService.showNewCourseCreationMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Course creation successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "courseService.isEditCourseSuccessful === true && courseService.showUpdateCourseMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Course update successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "courseService.isCourseDeleteSuccessful === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Course delete successfull!
+    </div>
+  </ng-container>
+
+  <!-- ================================= -->
+  <!-- ==== END OF success messages ====== -->
+  <!-- ================================= -->
+
+  <!-- =================================================== -->
+  <!-- ========= START OF ALL COURSES TABLE =============== -->
+  <!-- =================================================== -->
+
+  <div class="card">
+    <div class="header">
+        <h2><strong>All</strong> Courses </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Campus</th>
+            <th scope="col">Faculty</th>
+            <th scope="col">Institute</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let course of allCourses; let i=index ">
+            <tr>
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{course?.name}}</td>
+              <td class="text-capitalize">{{course?.campusName}}</td>
+              <td class="text-capitalize">{{course?.facultyName}}</td>
+              <td class="text-capitalize">{{course?.instituteName}}</td>
+              <td>{{course?.createdBy}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisCourse(course)"><i class="icon-pencil"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline" (click) = "courseService.deleteThisCourse(course)"><i class="icon-trash"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+  <!-- =================================================== -->
+  <!-- ========= END OF ALL COURSES TABLE ================= -->
+  <!-- =================================================== -->
+
+</div>

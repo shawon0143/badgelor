@@ -44,6 +44,7 @@ export class InstituteService {
   showUpdateInstituteMessage: boolean = false;
 
   isInstituteDeleteSuccessful: boolean = false;
+  isInstituteDeleteFailed: boolean = false;
 
 
   //  END of institute mangement variables and flags
@@ -58,6 +59,18 @@ export class InstituteService {
     return InstituteDB.find({}).fetch();
   } // END OF getAllFaculties --------
 
+  getInstitutesOfSelectedFaculty(facultyID): Observable<any[]> {
+    return InstituteDB.find({"facultyID": facultyID}).map(institute => {
+      return institute;
+    });
+  } // END OF getInstitutesOfSelectedFaculty --------
+
+  getInstituteByID(instituteID) {
+    var thisInstitute = InstituteDB.findOne({"_id":instituteID});
+    if (thisInstitute !== undefined) {
+      return thisInstitute.name;
+    }
+  } // END of getInstituteByID
 
   // The institute CRUD method does both add and update of institute
   instituteCRUD() {
@@ -168,7 +181,8 @@ export class InstituteService {
 
         this.instituteData.name = "";
         this.instituteData.description = "";
-        this.instituteData.campusID = ""
+        this.instituteData.campusID = "";
+        this.instituteData.facultyID = "";
         this.tempInstituteNameForDuplicateCheck = "";
         setTimeout(() => {
           this.showUpdateInstituteMessage = false;
@@ -185,6 +199,13 @@ export class InstituteService {
       this.isCampusSelected = true;
       this.instituteData.campusID = campusID;
     }
+
+    if (this.isEditInstituteEnabled === true ) {
+      // if user changes the campus while editing
+      // we will reset the facultyID
+      this.isFacultySelected = false;
+      this.instituteData.facultyID = '';
+    }
   } // END OF selectedCampus() -------------
 
 
@@ -197,22 +218,42 @@ export class InstituteService {
 
   deleteThisInstitute(institute) {
 
-    // first check if this institute has any institute
+    // first check if this institute has any course
     // if yes show message to user that it is not possible to delete this institute
-    // unless you delete the correspondent institutes
-    // TODO: implement delete after institute availability check for this institute
+    // unless you delete the correspondent courses
+    // TODO: implement delete after course availability check for this institute
     // see previous example.
 
+    MeteorObservable.call("isInstituteHasCourse", institute._id).subscribe((response) => {
 
-    MeteorObservable.call("deleteInstitute", institute).subscribe((response) => {
-      if (response["code"] === 200) {
-        this.isInstituteDeleteSuccessful = true;
+      if (response["code"] === 999) {
+        this.isInstituteDeleteFailed = true;
         setTimeout(() => {
-          this.isInstituteDeleteSuccessful = false;
+          this.isInstituteDeleteFailed = false;
         }, 3000);
-        this.resetInstituteForm();
+
       }
+
+      if (response["code"] === 200) {
+        // the institute doesn't have any course so delete possible
+        MeteorObservable.call("deleteInstitute", institute).subscribe((response) => {
+          if (response["code"] === 200) {
+            this.isInstituteDeleteSuccessful = true;
+            setTimeout(() => {
+              this.isInstituteDeleteSuccessful = false;
+            }, 3000);
+            this.resetInstituteForm();
+          }
+        });
+      }
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
     });
+
+
+
+
   } // END OF deleteThisInstitute ------------
 
   resetInstituteForm() {

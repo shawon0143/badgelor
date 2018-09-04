@@ -31,11 +31,11 @@ export class FacultyManagement implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, public accountService: AccountService, public facultyService: FacultyService, public campusService: CampusService) {
 
-    this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampus").subscribe(() => {
+    this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampuses").subscribe(() => {
       this.allCampuses = this.campusService.getAllCampuses();
     });
 
-    this.meteorSubscriptionFaculty = MeteorObservable.subscribe<any>("publishAllFaculty").subscribe(() => {
+    this.meteorSubscriptionFaculty = MeteorObservable.subscribe<any>("publishAllFaculties").subscribe(() => {
       // Subscription is ready!
       MeteorObservable.autorun().subscribe(() => {
         this.allFaculties = this.facultyService.getAllFaculties();
@@ -51,6 +51,7 @@ export class FacultyManagement implements OnInit {
 
 
   editThisFaculty(faculty) {
+    window.scrollTo(0,0);// this line will take the window position to the top.
     this.facultyService.isCampusSelected = true; // because its edit
     this.facultyService.isEditFacultyEnabled = true;
     this.facultyService.tempFacultyNameForDuplicateCheck = faculty.name;

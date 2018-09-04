@@ -182,11 +182,11 @@ if (Meteor.isServer) {
       // --------------------------------------------------------------
       // the response object for client with feedback and data
       // codes :
-      // 999 = campus has no faculty.
+      // 999 = faculty has institute.
       // 404 = Datbase level problem or Unknown error or exceptions
-      // 200 = campus has faculty
+      // 200 = faculty has no institute
       // ---------------------------------------------------------------
-      
+
       var response: any = {
         feedback: "Unknown error while processing request. Please try again.",
         code: 404

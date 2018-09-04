@@ -10,7 +10,7 @@ if (Meteor.isServer) {
 
 
 // ===== start of publishAllInstitute ======
-Meteor.publish('publishAllInstitute', function () {
+Meteor.publish('publishAllInstitutes', function () {
 
   return InstituteDB.find({});
 

@@ -188,7 +188,7 @@ export class FacultyService {
   } // END OF selectThisCampus() -------------
 
   deleteThisFaculty(faculty) {
-
+    window.scrollTo(0,0);// jump the window position to the top.
     MeteorObservable.call("isFacultyHasInstitute", faculty._id).subscribe((response) => {
 
       if (response["code"] === 999) {

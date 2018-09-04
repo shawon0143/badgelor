@@ -41,15 +41,15 @@ facultyOfThisCampus: any;
                public instituteService: InstituteService) {
 
 
-               this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampus").subscribe(() => {
+               this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampuses").subscribe(() => {
                  this.allCampuses = this.campusService.getAllCampuses();
                });
 
-               this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllFaculty").subscribe(() => {
+               this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllFaculties").subscribe(() => {
                  this.allFaculties = this.facultyService.getAllFaculties();
                });
 
-               this.meteorSubscriptionInstitute = MeteorObservable.subscribe<any>("publishAllInstitute").subscribe(() => {
+               this.meteorSubscriptionInstitute = MeteorObservable.subscribe<any>("publishAllInstitutes").subscribe(() => {
                  // Subscription is ready!
                  MeteorObservable.autorun().subscribe(() => {
                    this.allInstitutes = this.instituteService.getAllInstitutes();
@@ -84,6 +84,7 @@ facultyOfThisCampus: any;
   } // END OF getAllFacultyOfThisCampus()
 
   editThisInstitute(institute) {
+    window.scrollTo(0,0);// jump the window position to the top.
     this.instituteService.isCampusSelected = true; // because its edit
     this.instituteService.isFacultySelected = true; // because it is edit
     this.instituteService.isEditInstituteEnabled = true;
