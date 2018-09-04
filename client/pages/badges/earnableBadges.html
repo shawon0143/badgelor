@@ -69,61 +69,19 @@
         <h2 class="h5 text-uppercase filterHeading">Competency</h2>
         <hr>
         <form class="mb-4">
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Bedienen / Anwenden
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Informieren / Kooperieren
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Kommunizieren / Kooperieren
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Produzieren / Prasentieren
-            </label>
-          </div>
-          <!-- END checkbox -->
-          <!-- Checkbox -->
-          <div class="form-group">
-            <label class="u-check pl-4">
-              <input type="checkbox">
-              <div class="u-check-icon-checkbox">
-                <i class="fa" data-check-icon=""></i>
-              </div>
-              Analysieren / Reflektieren
-            </label>
-          </div>
-          <!-- END checkbox -->
+          <ng-container *ngFor = "let competency of allCompetencies">
+            <!-- Checkbox -->
+            <div class="form-group">
+              <label class="u-check pl-4 text-capitalize">
+                <input type="checkbox">
+                <div class="u-check-icon-checkbox">
+                  <i class="fa" data-check-icon=""></i>
+                </div>
+                {{competency?.name}}
+              </label>
+            </div>
+            <!-- END checkbox -->
+          </ng-container>
         </form>
 
         <h2 class="h5 text-uppercase filterHeading">Tool</h2>

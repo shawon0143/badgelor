@@ -1,0 +1,150 @@
+<div class="competencyManagementContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW COMPETENCY ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Competency </h2>
+    </div>
+    <div class="body">
+
+      <form #addNewCompetencyForm="ngForm" (ngSubmit)="competencyService.competencyCRUD()" novalidate>
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input
+                   id="competencyManagementName"
+                   class="form-control"
+                   [ngClass]="{'g-state-not-empty': competencyService.newCompetencyData.name !== ''}"
+                   name="competency-name"
+                   aria-describedby="createNewLevelHelpBlock"
+                   type="text"
+                   [(ngModel)]="competencyService.newCompetencyData.name"
+                   required
+                   #competencyName="ngModel">
+            <label for="competencyManagementName" class="text-muted">Competency name</label>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <textarea
+                      id="competencyManagementDesc"
+                      class="form-control resize-none g-state-not-empty"
+                      [ngClass]="{'g-state-not-empty': competencyService.newCompetencyData.description !== ''}"
+                      name="competency-details"
+                      [(ngModel)]="competencyService.newCompetencyData.description"
+                      rows="3">
+            </textarea>
+            <label for="competencyManagementDesc" class="text-muted">Details</label>
+          </div>
+        </div>
+        <!-- ========================================================= -->
+        <!-- ============== Validation error message ================= -->
+        <!-- ========================================================= -->
+        <ng-container *ngIf="competencyService.isNewCompetencyCreatedSuccessful === false && competencyService.isEditCompetencySuccessful === false">
+          <ng-container *ngIf="competencyName.invalid && (competencyName.dirty || competencyName.touched)">
+            <small id="createNewCompetencyHelpBlock" class="form-text text-danger mb-2" *ngIf="competencyName.errors.required">
+               Name is required.
+            </small>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf = "competencyService.isCompetencyAlreadyExistInDB === true">
+          <small id="createNewCompetencyHelpBlock" class="form-text text-danger mb-2">
+             This Competency name already exist in the system!
+          </small>
+        </ng-container>
+        <!-- ========================================================= -->
+        <!-- ============ END OF Validation error message ============ -->
+        <!-- ========================================================= -->
+        <div class="form-group">
+          <button *ngIf = "competencyService.isEditCompetencyEnabled === false" class="btn btn-primary" type="submit">Add Competency</button>
+          <button *ngIf = "competencyService.isEditCompetencyEnabled === true" class="btn btn-success" type="submit">Save</button>
+          <button *ngIf = "competencyService.isEditCompetencyEnabled === true" class="btn btn-warning" (click) = "competencyService.resetCompetencyForm()">Cancel</button>
+        </div>
+      </form>
+
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+
+  <!-- =================================================== -->
+  <!-- ========= END OF FORM ADD NEW LEVEL ============== -->
+  <!-- =================================================== -->
+
+  <!-- =================================== -->
+  <!-- ==== START OF success messages ====== -->
+  <!-- =================================== -->
+
+  <ng-container *ngIf="competencyService.isNewCompetencyCreatedSuccessful === true && competencyService.showNewCompetencyCreationMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Competency creation successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "competencyService.isEditCompetencySuccessful === true && competencyService.showUpdateCompetencyMessage === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Competency update successfull!
+    </div>
+  </ng-container>
+  <ng-container *ngIf = "competencyService.isCompetencyDeleteSuccessful === true">
+    <div class="alert alert-success" role="alert" [@fadeInAnimation]>
+      Competency delete successfull!
+    </div>
+  </ng-container>
+
+  <!-- ================================= -->
+  <!-- ==== END OF success messages ====== -->
+  <!-- ================================= -->
+
+  <!-- =========================================== -->
+  <!-- ==== START OF delete Failed messages ====== -->
+  <!-- =========================================== -->
+  <ng-container *ngIf = "competencyService.isCompetencyDeleteFailed === true">
+    <div class="alert alert-danger" role="alert" [@fadeInAnimation]>
+       Please delete the badges incorporate with this competency!
+    </div>
+  </ng-container>
+  <!-- ========================================= -->
+  <!-- ==== END OF delete failed messages ====== -->
+  <!-- ========================================= -->
+
+
+  <!-- =================================================== -->
+  <!-- ========= START OF ALL LEVEL TABLE =============== -->
+  <!-- =================================================== -->
+
+  <div class="card">
+    <div class="header">
+        <h2><strong>All</strong> Competencies </h2>
+    </div>
+    <div class="body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created By</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor = "let competency of allCompetencies | async; let i=index ">
+            <tr [@list1]>
+              <td>{{i+1}}</td>
+              <td class="text-capitalize">{{competency?.name}}</td>
+              <td>{{competency?.description}}</td>
+              <td>{{competency?.createdBy}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-outline-success mr-2 d-inline" (click) = "editThisCompetency(competency)"><i class="icon-pencil"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-danger d-inline" (click) = "competencyService.deleteThisCompetency(competency)"><i class="icon-trash"></i></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+  <!-- =================================================== -->
+  <!-- ========= END OF ALL LEVEL TABLE ================= -->
+  <!-- =================================================== -->
+
+</div> <!-- END OF competencyManagementContainer -->
