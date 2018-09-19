@@ -33,12 +33,13 @@ import { ShareBadge } from '/imports/components/applicant/shareBadge/shareBadge'
 import { BadgeWishList } from '/imports/components/applicant/badgeWishlist/badgeWishlist';
 import { ProfileSettings } from '/imports/components/applicant/profileSettings/profileSettings';
 
-// =====================
-// Badge related pages
-// =====================
+// ================================
+// Badge related pages & components
+// ================================
 import { EarnableBadges } from '/client/pages/badges/earnableBadges';
 import { SingleBadgeModal } from "/imports/components/badge/singleBadgeModal/singleBadgeModal";
 import { ApplyBadgeModal } from "/imports/components/badge/applyBadgeModal/applyBadgeModal";
+import { AddNewBadge } from "/imports/components/badge/addNewBadge/addNewBadge";
 
 
 // =====================
@@ -67,6 +68,7 @@ import { Four04Component } from '/client/pages/four04/route-404';
 import { AppComponent } from './app.component';
 import { Navbar } from '/imports/components/navbar/navbar';
 import { LoginAndSignup } from '/imports/components/loginAndSignup/loginAndSignup';
+import { TuiModule } from 'ngx-tui-editor';
 
 
 
@@ -146,7 +148,7 @@ const appRoutes: Routes = [
         { path: 'levels', component: LevelManagement },
         { path: 'competencies', component: CompetencyManagement },
         { path: 'tools', component: ToolManagement },
-        // { path: 'createNewBadge', component: AddNewBadge },
+        { path: 'newBadge', component: AddNewBadge },
         // { path: 'importBadge', component: ImportBadge },
         // { path: 'viewAllBadge', component: ViewAllBadge }
       ] },
@@ -171,6 +173,7 @@ const appRoutes: Routes = [
         AccountsModule,
         BrowserAnimationsModule,
         MarkdownModule.forRoot(),
+        TuiModule,
     ],
     declarations: [
         AppComponent,
@@ -188,6 +191,7 @@ const appRoutes: Routes = [
         EarnableBadges,
         SingleBadgeModal,
         ApplyBadgeModal,
+        AddNewBadge,
         // Applicant modules
         ApplicantProfile,
         AccountOverview,

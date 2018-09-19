@@ -1,0 +1,245 @@
+@import "variables.scss";
+
+.addNewBadgeContainer {
+
+  .badgeFormStepRow {
+    margin-bottom: 20px;
+
+    .col {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .badgeFormStep {
+      padding: 15px;
+      // background: #dee2e6;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
+
+
+    .draftLabel {
+      font-size: 14px;
+      color: #6c757d;
+      font-weight: 400;
+    }
+    .draftToggleBtn {
+
+      .fa-toggle-on {
+        font-size: 2.0rem;
+        color: $secondary;
+        cursor: pointer;
+      }
+      .fa-toggle-off {
+        font-size: 2.0rem;
+        color: #ccc;
+        cursor: pointer;
+      }
+    }
+
+    .dropdownSuggestionContainer {
+      max-height: 200px;
+      overflow: auto;
+      border: 1px solid #eee;
+      border-radius: 3px;
+    }
+
+    .dropdownOptions {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .dropdownOptions:hover {
+      background: #eee;
+    }
+
+    .selectedOptionForMetadata {
+      padding: 8px;
+      background: #ffc107;
+      margin-bottom: 10px;
+      border-radius: 3px;
+
+      i {
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      i:hover {
+        color: #dc3545;
+      }
+    }
+
+
+
+
+
+  .card {
+    background: #fff;
+    margin-bottom: 30px;
+    transition: .5s;
+    border: 0;
+    border-radius: .55rem;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+
+    .header {
+      color: #424242;
+      padding: 20px;
+      position: relative;
+      box-shadow: none;
+
+      h2 {
+        font-size: 15px;
+        color: #757575;
+        font-weight: 400;
+        position: relative;
+
+        strong {
+            color: #49c5b6;
+            font-weight: 600;
+        }
+      }
+    } // END OF .header
+
+    .body {
+      font-size: 14px;
+      color: #424242;
+      padding: 20px;
+      font-weight: 400;
+    } // END OF .body
+  } // END OF .card
+
+  .card .header h2::before {
+    position: absolute;
+    width: 20px;
+    height: 1px;
+    left: 0;
+    top: -20px;
+    content: '';
+    background: $secondary;
+  }
+
+  .table th, .table td {
+    vertical-align: middle;
+  }
+
+  // Form styling starts here ========
+  [class*="input-group"] {
+    min-width: 38px;
+    background-color: transparent;
+    border-color: #ccc;
+    transition: border-color .15s ease-in-out 0s;
+  }
+  .my-input-group {
+    position: relative;
+    display: flex; // this line of code is required if we use input-group-append
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]),
+  .my-input-group textarea {
+    line-height: 1.75rem;
+    padding: 10px 15px;
+    text-transform: capitalize;
+  }
+
+
+  [class*="input-group"] > * {
+    white-space: normal;
+  }
+
+
+  .my-input-group textarea + label {
+    top: 20px;
+  }
+
+  .resize-none {
+    resize: none;
+  }
+
+
+  .my-input-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+    margin-bottom: 0;
+    transition-property: top, font-size;
+    transition-duration: .2s;
+    transition-timing-function: ease;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .form-control:focus {
+    border-color: $secondary;
+    box-shadow: none;
+  }
+
+  .form-control, .form-control:focus {
+    color: #555;
+  }
+
+  .form-control {
+    line-height: 1.75rem;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-color: #eee;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+  }
+
+  select.form-control:not([size]):not([multiple]) {
+    height: inherit;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 4 5'%3E%3Cpath fill='%23373a3c' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 8px 10px;
+    text-transform: capitalize;
+  }
+
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]):focus + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[value] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"])[placeholder] + label,
+  .my-input-group input:not([type="checkbox"]):not([type="radio"]).g-state-not-empty + label,
+  .my-input-group textarea:focus + label,
+  .my-input-group textarea[value] + label,
+  .my-input-group textarea[placeholder] + label,
+  .my-input-group textarea.g-state-not-empty + label,
+  .my-input-group [class*="u-select"]:focus + label,
+  .my-input-group [class*="u-select"][value] + label,
+  .my-input-group [class*="u-select"][placeholder] + label,
+  .my-input-group [class*="u-select"].g-state-not-empty + label {
+    top: 0;
+    font-size: 90%;
+  }
+
+  .alertMsgIcon {
+    background: rgba(153, 84, 187, 0.23);
+    padding: 28px 10px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+
+    i {
+      font-size: 4em;
+      color: $primary;
+    }
+  }
+
+  .alertMsgContainer {
+    padding: 17px;
+    border: 1px solid #e7d8ee;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+
+    h5 {
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+  }
+
+  // END OF Form styling
+}

@@ -41,14 +41,14 @@ export class EarnableBadges implements OnInit {
                    // TODO: handle error
                    console.log(err);
                  });
-                 // Lead all competencies via method call from server
+                 // Load all competencies via method call from server
                  MeteorObservable.call('getAllCompetencyName').subscribe((response) => {
                    this.allCompetencies = response;
                  }, (err) => {
                    // TODO: handle error
                    console.log(err);
                  });
-                 // Lead all tools via method call from server
+                 // Load all tools via method call from server
                  MeteorObservable.call('getAllToolName').subscribe((response) => {
                    this.allTools = response;
                  }, (err) => {

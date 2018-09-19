@@ -76,8 +76,17 @@ if (Meteor.isServer) {
                   // console.log(result.object);
                   console.log("Hello : " + result.object.givenName); // extract First Name
                   console.log(result.object.mail); // extract email address
-                  clientFeedback.firstName = result.object.givenName;
-                  clientFeedback.lastName = result.object.sn;
+
+
+                  // we use condition here as some dummy accounts might not have name
+                  // TODO: cleanup code once we no longer user dummy accounts.
+                  if (result.object.givenName && result.object.sn) {
+                    clientFeedback.firstName = result.object.givenName;
+                    clientFeedback.lastName = result.object.sn;
+                  } else {
+                    clientFeedback.firstName = "User:";
+                    clientFeedback.lastName = data.searchUserName;
+                  }
                   if (result.object.eduPersonAffiliation) {
                     clientFeedback.eduPersonAffiliation = result.object.eduPersonAffiliation[1];
                   } else {

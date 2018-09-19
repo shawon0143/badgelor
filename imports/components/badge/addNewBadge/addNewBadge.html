@@ -1,0 +1,465 @@
+
+<div class="addNewBadgeContainer">
+  <!-- =================================================== -->
+  <!-- ========= START OF FORM ADD NEW BADGE ============ -->
+  <!-- =================================================== -->
+  <div class="card">
+    <div class="header">
+        <h2><strong>Add New</strong> Badge </h2>
+    </div>
+    <div class="body">
+      <div class="container">
+        <!-- ================================================ -->
+        <!-- ========== Loading animation =================== -->
+        <!-- ================================================ -->
+
+        <ng-container *ngIf="badgeService.newBadgeCreationLoading === true">
+
+         <div class="sk-circle">
+           <div class="sk-circle1 sk-child"></div>
+           <div class="sk-circle2 sk-child"></div>
+           <div class="sk-circle3 sk-child"></div>
+           <div class="sk-circle4 sk-child"></div>
+           <div class="sk-circle5 sk-child"></div>
+           <div class="sk-circle6 sk-child"></div>
+           <div class="sk-circle7 sk-child"></div>
+           <div class="sk-circle8 sk-child"></div>
+           <div class="sk-circle9 sk-child"></div>
+           <div class="sk-circle10 sk-child"></div>
+           <div class="sk-circle11 sk-child"></div>
+           <div class="sk-circle12 sk-child"></div>
+         </div>
+         <h5 class="text-center text-muted">Loading ...</h5>
+
+       </ng-container>
+
+        <ng-container *ngIf = "badgeService.newBadgeCreationSuccessMsg === '' && badgeService.newBadgeCreationLoading === false">
+          <!-- ========================== -->
+          <!-- START OF form wizard steps -->
+          <!-- ========================== -->
+          <div class="row badgeFormStepRow">
+            <div class="col">
+              <div class="badgeFormStep"
+                   [ngStyle]="{'background':badgeDataState === true ? '#49c5b6' : '#dee2e6' }"
+                   (click) = "goToStepBadgeData()">
+                <i class="fa fa-edit fa-fw"></i>
+                Badge data
+              </div>
+            </div>
+            <div class="col">
+              <div class="badgeFormStep"
+                   [ngStyle]="{'background':criteriaState === true ? '#49c5b6' : '#dee2e6' }"
+                   (click) = "goToStepCriteria()">
+                <i class="fa fa-file-text-o fa-fw"></i>
+                Criteria
+              </div>
+            </div>
+            <div class="col">
+              <div class="badgeFormStep"
+                   [ngStyle]="{'background':metadataState === true ? '#49c5b6' : '#dee2e6' }"
+                   (click) = "goToStepMetadata()">
+                <i class="fa fa-asterisk fa-fw"></i>
+                Metadata
+              </div>
+            </div>
+          </div>
+          <!-- ========================== -->
+          <!-- END OF form wizard steps -->
+          <!-- ========================== -->
+
+          <!-- <form #addNewBadgeForm="ngForm" novalidate> -->
+            <!-- ============================ -->
+            <!-- ===== Step 1: badge data === -->
+            <!-- ============================ -->
+            <ng-container *ngIf = "badgeDataState === true">
+              <div class="row">
+                <div class="col-md-3">
+                  <!-- Badge image -->
+                  <div class="badgeImage text-center">
+                    <img *ngIf = "badgeService.newBadgeData.image === ''" src="http://via.placeholder.com/250x250/f5f5f5/777" alt="" class="img-fluid">
+                    <img *ngIf = "badgeService.newBadgeData.image !== ''"
+                         [src]="badgeService.newBadgeData.image"
+                         alt="" class="img-fluid mb-3 mt-3">
+                      <label for="badgeImage" class="control-label btn btn-secondary btn-file btn-block">
+                        <i class="icon-camera mr-1"></i>  Edit <input type="file" class="form-control input-sm" id="badgeImage" style="display: none;" (change)="uploadImage($event)">
+                      </label>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <!-- Badge Name -->
+                  <div class="form-group mb-3">
+                    <div class="my-input-group">
+                      <input
+                             id="badgeName"
+                             class="form-control"
+                             [ngClass]="{'g-state-not-empty': badgeService.newBadgeData.name !== ''}"
+                             name="badge-name"
+                             aria-describedby="createNewBadgeHelpBlock"
+                             type="text"
+                             [(ngModel)]="badgeService.newBadgeData.name"
+                             required
+                             #badgeName="ngModel">
+                      <label for="badgeName" class="text-muted">Badge name</label>
+                    </div>
+                  </div>
+                  <!-- ========================================================= -->
+                  <!-- ============== Validation error message ================= -->
+                  <!-- ========================================================= -->
+                  <ng-container *ngIf="badgeService.isNewBadgeCreatedSuccessful === false && badgeService.isEditBadgeSuccessful === false">
+                    <ng-container *ngIf="badgeName.invalid && (badgeName.dirty || badgeName.touched)">
+                      <small id="createNewBadgeHelpBlock" class="form-text text-danger" *ngIf="badgeName.errors.required">
+                         Badge name is required.
+                      </small>
+                    </ng-container>
+                  </ng-container>
+                  <!-- ========================================================= -->
+                  <!-- ============ END OF Validation error message ============ -->
+                  <!-- ========================================================= -->
+                  <!-- Description -->
+                  <div class="form-group mb-3">
+                    <div class="my-input-group">
+                      <textarea
+                                id="badgeDescription"
+                                class="form-control resize-none g-state-not-empty"
+                                [ngClass]="{'g-state-not-empty': badgeService.newBadgeData.description !== ''}"
+                                name="badge-details"
+                                [(ngModel)]="badgeService.newBadgeData.description"
+                                rows="4"
+                                required
+                                #badgeDescription="ngModel">
+                      </textarea>
+                      <label for="badgeDescription" class="text-muted">Description</label>
+                    </div>
+                  </div>
+                  <!-- ========================================================= -->
+                  <!-- ============== Validation error message ================= -->
+                  <!-- ========================================================= -->
+                  <ng-container *ngIf="badgeService.isNewBadgeCreatedSuccessful === false && badgeService.isEditBadgeSuccessful === false">
+                    <ng-container *ngIf="badgeDescription.invalid && (badgeDescription.dirty || badgeDescription.touched) && errorMsg === ''">
+                      <small id="badgeDescription" class="form-text text-danger" *ngIf="badgeDescription.errors.required">
+                         Badge description is required.
+                      </small>
+                    </ng-container>
+                    <ng-container *ngIf = "errorMsg !== ''">
+                      <small id="badgeDescription" class="form-text text-danger">
+                        {{errorMsg}}
+                      </small>
+                    </ng-container>
+                  </ng-container>
+                  <!-- ========================================================= -->
+                  <!-- ============ END OF Validation error message ============ -->
+                  <!-- ========================================================= -->
+                  <!-- Draft -->
+                  <div class="form-group">
+                    <div class="draftLabel pull-left ml-3 mt-1">Draft</div>
+                    <div class="draftToggleBtn">
+                      <i *ngIf = "badgeService.newBadgeData.draft === 'Yes'" class="fa fa-toggle-on ml-5" (click) = "badgeService.toggleDraft()"></i>
+                      <i *ngIf = "badgeService.newBadgeData.draft === 'No'" class="fa fa-toggle-off ml-5" (click) = "badgeService.toggleDraft()"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- ============================ -->
+            <!-- ===== END OF Step 1 ======== -->
+            <!-- ============================ -->
+            <!-- ============================ -->
+            <!-- ===== Step 2: Criteria ===== -->
+            <!-- ============================ -->
+            <ng-container *ngIf = "criteriaState === true">
+              <div class="row">
+                <div class="col-12">
+                  <div class="alert alert-light" role="alert">
+                    Describe the criteria used for issuing the badge and the knowledge and skills that are being recognized with this badge.
+                  </div>
+                  <tui-editor [options] = "options" ></tui-editor>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- ============================ -->
+            <!-- ===== END OF Step 2 ======== -->
+            <!-- ============================ -->
+            <!-- ============================ -->
+            <!-- ===== Step 3: Metadata ===== -->
+            <!-- ============================ -->
+
+            <ng-container  *ngIf = "metadataState === true">
+              <!-- ===================================== -->
+              <!-- ===== start of select Level form ====-->
+              <!-- ===================================== -->
+              <div class="row">
+                <div class="col-12 pr-1">
+                    <div class="form-group mb-3">
+                      <div class="my-input-group">
+                        <select class="form-control text-muted"  name="selLevel" required (change)="badgeService.selectThisLevel($event.target.value)">
+                          <option [selected]="badgeService.isLevelSelectedForNewBadge === false" [value]="undefined" disabled> Select Level </option>
+                          <option *ngFor="let level of badgeService.allLevels" [value]=level._id [selected]="badgeService.metadata.levelID == level._id">{{level.name}}</option>
+                        </select>
+                      </div>
+                      <ng-container *ngIf = "badgeService.levelMetaMissingErrorMsg !== ''">
+                        <small class="form-text text-danger">{{ badgeService.levelMetaMissingErrorMsg }}</small>
+                      </ng-container>
+                    </div>
+                </div>
+              </div>
+              <!-- =========================== -->
+              <!-- END of select level form -->
+              <!-- =========================== -->
+              <!-- ===================================== -->
+              <!-- ===== start of select competency form ====-->
+              <!-- ===================================== -->
+              <div class="row">
+                <div class="col-12 pr-1">
+                  <div class="form-group mb-3">
+                    <div class="my-input-group">
+                      <select class="form-control text-muted"  name="selCompetency" required (change)="badgeService.selectThisCompetency($event.target.value)">
+                        <option [selected]="badgeService.isCompetencySelectedForNewBadge === false" [value]="undefined" disabled> Select Competency </option>
+                        <option *ngFor="let competency of badgeService.allCompetencies" [value]=competency._id [selected]="badgeService.metadata.competencyID == competency._id">{{competency.name}}</option>
+                      </select>
+                    </div>
+                    <ng-container *ngIf = "badgeService.competencyMetaMissingErrorMsg !== ''">
+                      <small class="form-text text-danger">{{ badgeService.competencyMetaMissingErrorMsg }}</small>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <!-- =============================== -->
+              <!-- END of select competency form -->
+              <!-- =============================== -->
+
+              <!-- ===================================== -->
+              <!-- ===== START OF Tool select form ==== -->
+              <!-- ===================================== -->
+              <div class="row">
+                <div class="col-12">
+                  <!-- Start of showing selected tools -->
+
+                  <ng-container *ngIf= "this.badgeService.selectedToolNames.length > 0">
+                    <div class="row">
+                      <div class="col-3" *ngFor="let toolName of this.badgeService.selectedToolNames; let i=index">
+                        <div class="selectedOptionForMetadata text-capitalize" [@fadeInAnimation]>{{toolName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeToolToMetadata(i)"></i> </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- END OF showing selected tools  -->
+                  <div class="form-group">
+                    <div class="my-input-group">
+                      <input id="searchTool"
+                             class="form-control"
+                             name="tool-name"
+                             type="text"
+                             [(ngModel)]="badgeService.toolToSearch"
+                             (keyup)='badgeService.findTool(badgeService.toolToSearch)'
+                             [ngClass]="{'g-state-not-empty': badgeService.toolToSearch !== ''}">
+                      <label for="searchTool" class="text-muted">Search tool ...</label>
+                      <div class="input-group-append">
+                        <button class="btn btn-md btn-secondary rounded-0 px-md-5" type="submit"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="dropdownSuggestionContainer"  *ngIf="this.badgeService.toolOptions.length > 0">
+                      <div class="dropdownOptions" *ngFor="let option of this.badgeService.toolOptions"  (click) = "badgeService.addToolToMetadata(option)">
+                        <span class="text-capitalize">{{option?.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-container *ngIf = "badgeService.toolMetaMissingErrorMsg !== ''">
+                    <small class="form-text text-danger">{{badgeService.toolMetaMissingErrorMsg}}</small>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- ===================================== -->
+              <!-- ===== END OF Tool select form ====== -->
+              <!-- ===================================== -->
+
+
+              <!-- =========================== -->
+              <!-- start of search course form -->
+              <!-- =========================== -->
+              <div class="row">
+                <div class="col-12">
+                  <!-- Start of showing selected courses -->
+                  <ng-container *ngIf= "this.badgeService.selectedCourseNames.length > 0">
+                    <div class="row">
+                      <div class="col-3" *ngFor="let courseName of this.badgeService.selectedCourseNames; let i=index">
+                        <div class="selectedOptionForMetadata text-capitalize" [@fadeInAnimation]>{{courseName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeCourseToMetadata(i)"></i> </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <!-- END OF showing selected courses  -->
+                  <div class="form-group">
+                    <div class="my-input-group">
+                      <input id="searchCourse"
+                             class="form-control"
+                             name="course-name"
+                             type="text"
+                             [(ngModel)]="badgeService.courseToSearch"
+                             (keyup)='badgeService.findCourse(badgeService.courseToSearch)'
+                             [ngClass]="{'g-state-not-empty': badgeService.courseToSearch !== ''}">
+                      <label for="searchCourse" class="text-muted">Search Course ...</label>
+                      <div class="input-group-append">
+                        <button class="btn btn-md btn-secondary rounded-0 px-md-5" type="submit"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="dropdownSuggestionContainer"  *ngIf="this.badgeService.courseOptions.length > 0">
+                      <div class="dropdownOptions" *ngFor="let option of this.badgeService.courseOptions"  (click) = "badgeService.addCourseToMetadata(option)">
+                        <span class="text-capitalize">{{option?.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-container *ngIf = "badgeService.courseMetaMissingErrorMsg !== ''">
+                    <small class="form-text text-danger">{{badgeService.courseMetaMissingErrorMsg}}</small>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- =========================== -->
+              <!-- END of search course form -->
+              <!-- =========================== -->
+
+              <!-- =========================== -->
+              <!-- Start of add issuer form -->
+              <!-- =========================== -->
+              <div class="row mt-3">
+                <div class="col-12">
+                  <!-- Start of showing selected issuers -->
+                  <ng-container  *ngIf= "this.badgeService.selectedIssuers.length > 0">
+                    <div class="row">
+                      <div class="col-3" *ngFor="let issuerEmail of this.badgeService.selectedIssuers; let i=index">
+                        <div class="selectedOptionForMetadata" [@fadeInAnimation]>
+                          {{issuerEmail}} <i class="fa fa-times pull-right" (click) = "badgeService.removeIssuerToMetadata(i)" *ngIf = "issuerEmail !== badgeService.metadata.creator"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <!-- END OF showing selected issuers  -->
+                  <div class="form-group">
+                    <div class="my-input-group">
+                      <input id="searchIssuer"
+                             class="form-control text-lowercase"
+                             name="issuer-email"
+                             type="email"
+                             [(ngModel)]="badgeService.issuerToSearch"
+                             (keyup)='badgeService.findIssuer(badgeService.issuerToSearch)'
+                             [ngClass]="{'g-state-not-empty': badgeService.issuerToSearch !== ''}">
+                      <label for="searchIssuer" class="text-muted">Search issuer ...</label>
+                      <div class="input-group-append">
+                        <button class="btn btn-md btn-secondary rounded-0 px-md-5" type="submit"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="dropdownSuggestionContainer" *ngIf="this.badgeService.issuerOptions.length > 0">
+                      <div class="dropdownOptions" *ngFor="let issuerEmail of this.badgeService.issuerOptions" (click) = "badgeService.addIssuerToMetadata(issuerEmail)" [@fadeInAnimation]>
+                        <span >{{issuerEmail}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- =========================== -->
+              <!-- END of add issuer form -->
+              <!-- =========================== -->
+
+              <!-- ===================================== -->
+              <!-- ======== START OF keyword form ====== -->
+              <!-- ===================================== -->
+              <div class="row mt-3">
+                <div class="col-12">
+                  <!-- Start of showing selected keyword -->
+                  <ng-container *ngIf = "badgeService.selectedKeywords.length > 0">
+                    <div class="row">
+                      <div class="col-3" *ngFor="let keyword of this.badgeService.selectedKeywords; let i=index">
+                        <div class="selectedOptionForMetadata">
+                          {{keyword}} <i class="fa fa-times pull-right" (click) = "badgeService.removeKeywordToMetadata(i)" *ngIf = "keyword !== badgeService.newBadgeData.name"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <!-- END of showing selected keyword -->
+                  <form>
+                    <div class="form-group">
+                      <div class="my-input-group">
+                        <input id="keywordMeta"
+                               class="form-control text-lowercase"
+                               name="keyword-name"
+                               type="text"
+                               [(ngModel)]="badgeService.selectThisKeyword"
+                               [ngClass]="{'g-state-not-empty': badgeService.selectThisKeyword !== ''}">
+                        <label for="keywordMeta" class="text-muted">Enter keyword ...</label>
+                        <div class="input-group-append">
+                          <button class="btn btn-md btn-secondary rounded-0 px-md-5" type="submit" (click)= "badgeService.addKeywordToMetadata()"><i class="fa fa-plus"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- ===================================== -->
+              <!-- ======== END OF keyword form ======== -->
+              <!-- ===================================== -->
+
+            </ng-container>
+
+            <!-- ============================ -->
+            <!-- ===== END OF Step 3: ======= -->
+            <!-- ============================ -->
+
+
+
+            <!-- ===================================== -->
+            <!-- ===== START OF Button row =========== -->
+            <!-- ===================================== -->
+            <div class="row justify-content-end mt-5 no-gutters">
+              <div class="col-4 text-right">
+                <ng-container *ngIf = "badgeDataState === true">
+                  <button class="btn btn-light mr-2">Previous</button>
+                  <button class="btn btn-primary" (click) = "goToStepCriteria()">Next</button>
+                </ng-container>
+
+                <ng-container *ngIf = "criteriaState === true">
+                  <button class="btn btn-outline-secondary mr-2" (click) = "goToStepBadgeData()">Previous</button>
+                  <button class="btn btn-primary" (click) = "goToStepMetadata()">Next</button>
+                </ng-container>
+
+                <ng-container *ngIf = "metadataState === true">
+                  <button class="btn btn-outline-secondary mr-2" (click) = "goToStepCriteria()">Previous</button>
+                  <button class="btn btn-success" (click) = "badgeService.createNewBadge()">Finish</button>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- ===================================== -->
+            <!-- ===== END OF Button row ============= -->
+            <!-- ===================================== -->
+          <!-- </form> -->
+
+        </ng-container>
+
+        <ng-container *ngIf = "badgeService.newBadgeCreationSuccessMsg !== ''">
+          <!-- ================================================ -->
+          <!-- ===== START OF Badge creation success msg ====== -->
+          <!-- ================================================ -->
+          <div class="row no-gutters justify-content-center mb-5">
+            <div class="col-2 text-center">
+              <div class="alertMsgIcon">
+                <i class="fa fa-check"></i>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="alertMsgContainer">
+                <h5>{{ badgeService.newBadgeCreationSuccessMsg }}</h5>
+                <button type="button" class="btn btn-sm btn-outline-primary mr-1" (click) = "goToStepBadgeData()">Add new</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">View all</button>
+              </div>
+            </div>
+          </div>
+          <!-- ================================================ -->
+          <!-- ===== END   OF Badge creation success msg ====== -->
+          <!-- ================================================ -->
+        </ng-container>
+
+      </div> <!-- END OF container -->
+    </div> <!-- END OF card body -->
+  </div> <!-- END OF card -->
+</div> <!-- END OF addNewBadgeContainer -->

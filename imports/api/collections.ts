@@ -12,6 +12,7 @@ export const CourseDB = new MongoObservable.Collection('course');
 export const LevelDB = new MongoObservable.Collection('level');
 export const CompetencyDB = new MongoObservable.Collection('competency');
 export const ToolDB = new MongoObservable.Collection('tool');
+export const MetadataDB = new MongoObservable.Collection('metadata');
 
 export const ProfileDB = new MongoObservable.Collection('profile');
 

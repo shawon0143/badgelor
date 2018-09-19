@@ -48,6 +48,23 @@ isRoleApplicant(userID){
   }
 } //end of isRoleApplicant
 
+isRoleCreator(userID) {
+  var userDB;
+  try {
+    userDB = Meteor.users.findOne({ "_id":userID });
+    if (userDB["role"] === "creator") {
+      // this user is an admin
+      return true;
+    }
+    else{
+      return false;
+    }
+  } catch (err) {
+    // console.log(err);
+    return false;
+  }
+}
+
 
 
 }// end of class

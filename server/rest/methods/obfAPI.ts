@@ -5,6 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Mongo } from 'meteor/mongo';
 import { MongoObservable } from 'meteor-rxjs';
 import { check } from 'meteor/check';
+import Future from 'fibers/future';
 
 import { AppConfig } from '/server/startup/appconfig';
 
@@ -14,6 +15,46 @@ const apiUrlForEarnableBadge = 'https://openbadgefactory.com/v1/earnablebadge/NM
 if (Meteor.isServer) {
 
   Meteor.methods({
+
+    // ******************************************************
+    //  ========== create new badge =========================
+    // ******************************************************
+
+    'createBadge'(data) {
+          this.unblock();
+
+          var badgelorAppConfig = new AppConfig();
+
+          let apiCall = function (apiUrl, callback) {
+            try {
+              let response = HTTP.call( "POST", apiUrl,
+                {npmRequestOptions: {
+                  key: badgelorAppConfig.obfKey,
+                  cert: badgelorAppConfig.obfCertificate,
+                },data},
+              );
+              callback(null, response);
+            } catch (error) {
+              let errorCode;
+              let errorMessage;
+              if (error.response) {
+                errorCode = error.response.data.code;
+                errorMessage = error.response.data.message;
+              } else {
+                errorCode = 500;
+                errorMessage = 'Cannot access the API';
+              }
+              let myError = new Meteor.Error(errorCode, errorMessage);
+              callback(myError, null);
+            }
+          }
+
+          let response = Meteor.wrapAsync(apiCall)(apiUrl);
+
+          return response;
+
+
+      },
 
 
     'getEarnableBadges'() {
