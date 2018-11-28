@@ -28,7 +28,6 @@ if (Meteor.users.find({ "username": "admin" }).count() != 1) {
   try {
 
     Accounts.createUser({
-      username: "admin",
       email: badgelorAppConfig.adminEmail,
       password: badgelorAppConfig.adminPassword,
 
@@ -42,7 +41,8 @@ if (Meteor.users.find({ "username": "admin" }).count() != 1) {
       adminDB._id,
       {
         $set: {
-          "role": "admin"
+          "role": "admin",
+          "obfID": ""
         }
       }
     )

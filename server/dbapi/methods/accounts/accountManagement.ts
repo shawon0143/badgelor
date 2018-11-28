@@ -70,6 +70,7 @@ if (Meteor.isServer) {
           occupation: userData.occupation,
           campus: userData.campus,
           role: user["role"],
+          obfID: user["obfID"],
           lastLogin: user["profile"]["lastLogin"],
           userAccountID: user._id,
           profileID: userData._id
@@ -270,7 +271,8 @@ if (Meteor.isServer) {
           userDB._id,
           {
             $set: {
-              "role": role
+              "role": role,
+              "obfID": ""
             }
           }
         )
@@ -366,7 +368,8 @@ if (Meteor.isServer) {
           userDB._id,
           {
             $set: {
-              "role": role
+              "role": role,
+              "obfID": ""
             }
           }
         )
@@ -407,6 +410,34 @@ if (Meteor.isServer) {
       }
       // console.log("user status updated");
     },
+
+    'insertUserObfID' (creatorEmail, creatorObfID ) {
+      console.log(creatorObfID);
+      var response: any = {
+        feedback: "Unknown error while processing reset. Please try again.",
+        code: 404
+      }
+      var userDB = Meteor.users.findOne({ "emails.address": creatorEmail });
+
+      if (userDB != undefined) {
+        Meteor.users.update(
+          userDB._id,
+          {
+            $set: {
+              "obfID": creatorObfID
+            }
+          }
+        )
+        response.feedback = "Creator details updated, you can import badge now.";
+        response.code = 200;
+        return response;
+      } else {
+        response.feedback = "Please add this user into badgelor first.";
+        response.code = 999;
+      }
+
+      return response;
+    }
 
 
 

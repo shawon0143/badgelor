@@ -33,3 +33,4 @@ settings-production.json
 settings-development.json
 /.project
 private/
+.deploy

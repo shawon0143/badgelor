@@ -1,0 +1,88 @@
+
+
+<div [@cartShowAnimation]='badgeService.creatorSideMenuAnimationState' class="creatorSideMenuOverlayBlur" (click)='badgeService.hideSideMenuOnUI()'></div>
+
+<div [@cartShowAnimation]='badgeService.creatorSideMenuAnimationState' class="creatorSideMenuRootContainer p-3" >
+  <div class="card">
+    <div class="header">
+      <h2><strong>Map</strong> Creator </h2>
+    </div>
+    <div class="body">
+      <h6 class="text-secondary">Please map the badge creator information to Badgelor.</h6>
+      <form>
+        <div class="form-group mb-3">
+          <div class="my-input-group">
+            <input class="form-control"
+                   [ngClass]="{'g-state-not-empty': badgeService.newObfBadgeCreatorEmail !== ''}"
+                   aria-describedby="obfCreatorEmailHelpBlock"
+                   id="obfCreatorEmail"
+                   name="obfCreatorEmail"
+                   required
+                   email
+                   [(ngModel)]="badgeService.newObfBadgeCreatorEmail"
+                   [pattern]="emailPattern"
+                   type="email"
+                   #creatorEmail="ngModel">
+            <label class="text-muted"
+                   for="">Email address
+            </label>
+            <div class="input-group-append">
+              <button class="btn btn-md btn-primary rounded-0 px-md-5" type="submit" (click) = "badgeService.mapObfCreatorWithBadgelor()">Save</button>
+            </div>
+          </div>
+          <ng-container *ngIf="creatorEmail.invalid && (creatorEmail.dirty || creatorEmail.touched)">
+            <!-- <small id="obfCreatorEmailHelpBlock" class="form-text text-warning" *ngIf="creatorEmail.errors.required">
+               Email is required.
+            </small> -->
+            <small id="obfCreatorEmailHelpBlock" class="form-text text-danger" *ngIf="creatorEmail.errors.pattern">
+               Invalid Email address.
+            </small>
+          </ng-container>
+        </div>
+      </form>
+      <ng-container  *ngIf="badgeService.userObfIdUpdateSubmitMsg != ''">
+        <div class="alert alert-primary" role="alert">
+           {{badgeService.userObfIdUpdateSubmitMsg}}
+        </div>
+      </ng-container>
+    </div> <!-- END OF card body -->
+  </div>
+
+  <div class="card">
+    <div class="header">
+      <h2><strong>User</strong>OBF Profile</h2>
+    </div>
+    <div class="body">
+      <div class="alert alert-secondary" role="alert">
+        OBF login is required to see the creator profile.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- =========================================================== -->
+      <!-- ========= START OF OBF iFRAME TAB ========================= -->
+      <!-- =========================================================== -->
+      <div >
+        <div class="embed-container">
+          <iframe [src]="badgeService.selectedBadgeCreatorObfProfileURL | safe"
+                  frameborder="0"
+                  scrolling="auto"
+                  marginheight="0"
+                  marginwidth="0"
+                  allowfullscreen>
+          </iframe>
+        </div>
+        <!-- END OF embed-container -->
+      </div>
+      <!-- END OF addUserObf tab panel -->
+      <!-- =========================================================== -->
+      <!-- ========= END OF OBF iFRAME TAB =========================== -->
+      <!-- =========================================================== -->
+
+
+
+    </div>
+  </div>
+
+</div>

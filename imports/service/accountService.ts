@@ -516,7 +516,8 @@ export class AccountService {
           profile: {
             lastLogin: new Date()
           },
-          role: "applicant"
+          role: "applicant",
+          obfID: ""
         }
 
         // user doesn't exist in db so we create a new account
@@ -593,7 +594,8 @@ export class AccountService {
           profile: {
             lastLogin: new Date()
           },
-          role: "applicant"
+          role: "applicant",
+          obfID: ""
         }
 
         // user doesn't exist in db so we create a new account
@@ -661,7 +663,8 @@ export class AccountService {
               profile: {
                 lastLogin: new Date()
               },
-              role: "applicant"
+              role: "applicant",
+              obfID: ""
             }
 
             // user doesn't exist in db so we create a new account

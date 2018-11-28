@@ -70,6 +70,12 @@ toolMetaMissingErrorMsg: string = '';
 applicantsOfThisBadge: any = [];
 earnersOfThisBadge: any = [];
 
+// variable for badge import
+newBadgeImportSuccessMsg: string = "";
+newObfBadgeCreatorEmail: string = "";
+newObfBadgeCreatorObfID: string = "";
+userObfIdUpdateSubmitMsg: string = "";
+
 metadata = {
   courses: '',
   issuers: '',
@@ -87,7 +93,7 @@ newBadgeData = {
   description: "",
   image: "",
   criteria_html: "",
-  draft: "No",
+  draft: false,
   metadata: this.metadata
 };
 newBadgeDataReset;
@@ -113,6 +119,12 @@ newBadgeCreationLoading: boolean = false;
 
 // the variable holds singleBadge data
 singleBadge;
+
+
+// variable to hold mapcreator component animation state
+creatorSideMenuAnimationState: string = "hide";
+showSideMenu: boolean = false;
+selectedBadgeCreatorObfProfileURL: string = "";
 
 constructor( public zone: NgZone,
              public router: Router) {
@@ -228,7 +240,7 @@ hideApplyBadgeModalOnUI() {
 // ========================================
 
 toggleDraft() {
-  this.newBadgeData.draft = this.newBadgeData.draft === "No" ? "Yes" : "No";
+  this.newBadgeData.draft = this.newBadgeData.draft === false ? true : false;
 }
 
 // ======= methods for tool field ======
@@ -385,7 +397,7 @@ selectThisCompetency(competencyID) {
 createNewBadge() {
   this.newBadgeCreationLoading = true;
   // console.log(this.newBadgeData);
-  console.log(this.metadata);
+  // console.log(this.metadata);
   // console.log(this.selectedCourses);
 
 
@@ -423,7 +435,7 @@ createNewBadge() {
     return true;
   }
 
-
+  // console.log(this.newBadgeData);
 
   MeteorObservable.call('createBadge', this.newBadgeData).subscribe((response) => {
     // console.log(response);
@@ -435,7 +447,7 @@ createNewBadge() {
     this.metadata["badge_id"] = badge_id;
 
     MeteorObservable.call('insertMetadataToLocalDB', this.metadata).subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       this.newBadgeCreationSuccessMsg = response["feedback"];
       this.resetBadgeCreateForm();
       this.newBadgeCreationLoading = false;
@@ -468,6 +480,92 @@ resetBadgeCreateForm() {
   this.newBadgeData = JSON.parse(JSON.stringify(this.newBadgeDataReset));
 
 } // END OF resetBadgeCreateForm()
+// ===============================================
+// ===== END OF badge create related methods =====
+// ===============================================
+
+
+
+// ======================================================
+// ===== START OF badge import related methods =====
+// ======================================================
+
+showSideMenuOnUI() {
+    this.showSideMenu = true;
+    this.creatorSideMenuAnimationState = 'show';
+    document.body.classList.add('hideBodyScroll');
+    document.body.classList.remove('showBodyScroll');
+
+  } // --------- end of showCartOnUI ---------
+
+
+  hideSideMenuOnUI() {
+    this.showSideMenu = false;
+    this.creatorSideMenuAnimationState = 'hide';
+    this.newObfBadgeCreatorEmail = "";
+    document.body.classList.add('showBodyScroll');
+    document.body.classList.remove('hideBodyScoll');
+
+  } // --------- end of hideCartOnUI ---------
+
+  mapObfCreatorWithBadgelor() {
+    // the user is not mapped with obf so call that function
+    // call a method to update
+    MeteorObservable.call('insertUserObfID', this.newObfBadgeCreatorEmail,this.newObfBadgeCreatorObfID). subscribe((response) => {
+      console.log(response);
+      //successfully updated creator ObfID;
+      if (response["code"] === 200) {
+        this.newObfBadgeCreatorEmail = "";
+        this.userObfIdUpdateSubmitMsg = response["feedback"];
+        setTimeout(() => {
+          this.userObfIdUpdateSubmitMsg = "";
+        }, 3000);
+      }
+
+      // user doesn't exist in badgelor
+      if (response["code"] === 999) {
+        this.userObfIdUpdateSubmitMsg = response["feedback"];
+        setTimeout(() => {
+          this.userObfIdUpdateSubmitMsg = "";
+        }, 3000);
+      }
+      
+    }, (err) => {
+      console.log(err);
+    });
+
+  }
+
+  importBadge(creatorEmail, badge_id) {
+
+    this.metadata.courses = this.selectedCourses;
+    this.metadata.issuers = this.selectedIssuers;
+    this.metadata.keywords = this.selectedKeywords;
+    this.metadata.applicants = this.applicantsOfThisBadge;
+    this.metadata.earners = this.earnersOfThisBadge;
+    this.metadata.tools = this.selectedTools;
+    this.metadata.creator = creatorEmail;
+    this.metadata["badge_id"] = badge_id;
+
+    MeteorObservable.call('importNewBadgeFromOBF', this.metadata).subscribe((response) => {
+      // console.log(response);
+      this.newBadgeImportSuccessMsg = response["feedback"];
+
+      setTimeout(() => {
+        this.newBadgeImportSuccessMsg = "";
+      }, 3000);
+
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
+    });
+
+
+  } // -------- end of importBadge() ---------
+
+  // ======================================================
+  // ===== END OF badge import related methods =======
+  // ======================================================
 
 
 

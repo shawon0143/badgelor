@@ -200,7 +200,51 @@ if (Meteor.isServer) {
       },
 
 
+      // **********************************
+      //  get all badges for admin
+      // **********************************
 
+      'getAllBadges' : function() {
+        this.unblock();
+        var badgelorAppConfig = new AppConfig();
+
+        let apiCall = function (apiUrl, callback) {
+          try {
+            let response = HTTP.call(
+              "GET",
+              apiUrl,
+              {npmRequestOptions: {
+                key: badgelorAppConfig.obfKey,
+                cert: badgelorAppConfig.obfCertificate,
+              }},
+            ).content;
+            callback(null, response);
+          } catch (error) {
+            let errorCode;
+            let errorMessage;
+            if (error.response) {
+              errorCode = error.response.data.code;
+              errorMessage = error.response.data.message;
+            } else {
+              errorCode = 500;
+              errorMessage = 'Cannot access the API';
+            }
+            let myError = new Meteor.Error(errorCode, errorMessage);
+            callback(myError, null);
+          }
+        }
+
+        // let apiUrl = 'https://openbadgefactory.com/v1/badge/NM70OHe7HCeO';
+        let response = Meteor.wrapAsync(apiCall)(apiUrl);
+        response = response.trim();
+        response = response.split(/\r\n/);
+        response = response.join(',');
+        response = "[" + response + "]";
+        response = JSON.parse(response);
+        
+        return response;
+
+      },
 
 
 

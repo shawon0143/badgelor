@@ -1,0 +1,64 @@
+<div class="importBadgeContainer">
+  <!-- =========================================================== -->
+  <!-- ========= START OF ALL BADGELOR USERS TABLE =============== -->
+  <!-- =========================================================== -->
+
+  <div class="card">
+    <div class="header">
+      <h2><strong>Import</strong> Badge </h2>
+    </div>
+    <ng-container *ngIf="isDataLoading === true">
+
+     <div class="sk-circle">
+       <div class="sk-circle1 sk-child"></div>
+       <div class="sk-circle2 sk-child"></div>
+       <div class="sk-circle3 sk-child"></div>
+       <div class="sk-circle4 sk-child"></div>
+       <div class="sk-circle5 sk-child"></div>
+       <div class="sk-circle6 sk-child"></div>
+       <div class="sk-circle7 sk-child"></div>
+       <div class="sk-circle8 sk-child"></div>
+       <div class="sk-circle9 sk-child"></div>
+       <div class="sk-circle10 sk-child"></div>
+       <div class="sk-circle11 sk-child"></div>
+       <div class="sk-circle12 sk-child"></div>
+     </div>
+     <h5 class="text-center text-muted">Loading ...</h5>
+
+   </ng-container>
+    <div class="body table-responsive">
+    <!-- Alert message for successful badge import -->
+     <ng-container *ngIf = "badgeService.newBadgeImportSuccessMsg !== ''">
+        <div class="alert alert-success" role="alert">
+          {{badgeService.newBadgeImportSuccessMsg}}
+        </div>
+     </ng-container>
+
+     <ng-container *ngIf="isDataLoading === false && allImportBadges">
+       <table class="table table-hover">
+         <tbody>
+           <ng-container *ngFor = "let badge of allImportBadges; let i=index ">
+             <tr>
+               <td>{{i+1}}</td>
+               <td><img class="img-fluid rounded border p-1"src="{{badge?.image}}" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.id)"></td>
+               <td class="text-capitalize"><span class="badgeName">{{badge?.name}}</span></td>
+               <td>
+                 <button type="button" class="btn btn-sm btn-outline-primary" (click) = "importThisBadge(badge.id)"><i class="fa fa-cloud-download"></i> Import</button>
+               </td>
+             </tr>
+           </ng-container>
+         </tbody>
+       </table>
+     </ng-container>
+     <ng-container *ngIf = "isDataLoading === false && !allImportBadges">
+       <div class="alert alert-primary" role="alert">
+         Badge library is up to date with OBF database!
+       </div>
+     </ng-container>
+
+    </div>
+  </div>
+  <!-- =========================================================== -->
+  <!-- ========= END OF ALL BADGELOR USERS TABLE ================= -->
+  <!-- =========================================================== -->
+</div>

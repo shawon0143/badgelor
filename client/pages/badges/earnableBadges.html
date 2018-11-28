@@ -141,20 +141,21 @@
               <div class="col-6 col-md-3 badgeItemColumn" *ngFor = "let badge of badgeService.earnableBadges">
                 <figure class="text-center border rounded badgeFigure" [@fadeInAnimation]><!-- figure starts here  -->
                   <div class="badgeImgAndTitle"  (click) = "badgeService.showSingleBadgeModal(badge.badge_id)" [@fadeInAnimation]>
-                    <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge.badge_id}}.png" alt="">
+                    <!-- <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge.badge_id}}.png" alt=""> -->
+                    <img class="img-fluid rounded mb-4" src={{badge.badge_image}} alt="">
                     <h4 class="h5 text-capitalize">{{badge.name}}</h4>
                     <!-- <span class="text-muted">Dr. Andreas Keamper</span> -->
                   </div>
                   <hr>
                   <ul class="row list-inline pt-3 pb-3 m-0">
-                    <li class="col border-right">
+                    <li class="col p-sm-0 border-right">
                       <a class="text-muted viewLink" (click) = "badgeService.showSingleBadgeModal(badge.badge_id)">
-                        <i class="icon-size-fullscreen mr-1"></i> View
+                        <i class="icon-size-fullscreen"></i> View
                       </a>
                     </li>
-                    <li class="col">
+                    <li class="col p-sm-0">
                       <a class="text-muted shareLink" (click) = "badgeService.showApplyBadgeModal(badge.id)">
-                        <i class="icon-note mr-1"></i> Apply
+                        <i class="icon-note"></i> Apply
                       </a>
                     </li>
                   </ul>

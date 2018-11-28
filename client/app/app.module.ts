@@ -40,6 +40,8 @@ import { EarnableBadges } from '/client/pages/badges/earnableBadges';
 import { SingleBadgeModal } from "/imports/components/badge/singleBadgeModal/singleBadgeModal";
 import { ApplyBadgeModal } from "/imports/components/badge/applyBadgeModal/applyBadgeModal";
 import { AddNewBadge } from "/imports/components/badge/addNewBadge/addNewBadge";
+import { ImportBadge } from "/imports/components/badge/importBadge/importBadge";
+import { MapBadgeCreator } from "/imports/components/badge/mapBadgeCreator/mapBadgeCreator";
 
 
 // =====================
@@ -149,7 +151,7 @@ const appRoutes: Routes = [
         { path: 'competencies', component: CompetencyManagement },
         { path: 'tools', component: ToolManagement },
         { path: 'newBadge', component: AddNewBadge },
-        // { path: 'importBadge', component: ImportBadge },
+        { path: 'importBadge', component: ImportBadge },
         // { path: 'viewAllBadge', component: ViewAllBadge }
       ] },
 
@@ -192,6 +194,8 @@ const appRoutes: Routes = [
         SingleBadgeModal,
         ApplyBadgeModal,
         AddNewBadge,
+        ImportBadge,
+        MapBadgeCreator,
         // Applicant modules
         ApplicantProfile,
         AccountOverview,

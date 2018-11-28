@@ -95,6 +95,8 @@ export class AddNewBadge implements OnInit {
   }
 
   ngOnInit() {
+    //resetting the previous successful badge message.
+    this.badgeService.newBadgeCreationSuccessMsg = "";
 
   } // end of ngOnInit
 
@@ -103,7 +105,7 @@ export class AddNewBadge implements OnInit {
   // Form wizard step related methods
   // ================================
   goToStepBadgeData() {
-    this.badgeService.newBadgeCreationSuccessMsg = ""; // clear the success msg variable 
+    this.badgeService.newBadgeCreationSuccessMsg = ""; // clear the success msg variable
     this.badgeDataState = true;
     this.criteriaState = false;
     this.metadataState = false;
@@ -134,15 +136,16 @@ export class AddNewBadge implements OnInit {
         this.criteriaState = false;
         this.addBadgeNameToKeyword();
         this.addIssuerAndCreatorEmail();
+
         // check the markdown editor value and load
-        if (this.options.initialValue) {
+        if (this.editorService.editor ) {
           this.badgeService.newBadgeData.criteria_html = this.editorService.getMarkdown();
         } else {
           this.options.initialValue = this.badgeService.newBadgeData.criteria_html;
         }
 
     } else {
-        this.errorMsg = "Badge name and description is required.";
+        this.errorMsg = "Enter badge name and description then click next";
         setTimeout(() => {
           this.errorMsg = "";
         }, 3000);

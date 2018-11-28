@@ -41,7 +41,7 @@ export class SingleBadgeModal implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.badgeService.showSingleBadgeModalOnUI = false;
-    console.log('ondestroy called');
+    // console.log('ondestroy called');
   }
 
 

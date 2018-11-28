@@ -153,8 +153,8 @@
                   <div class="form-group">
                     <div class="draftLabel pull-left ml-3 mt-1">Draft</div>
                     <div class="draftToggleBtn">
-                      <i *ngIf = "badgeService.newBadgeData.draft === 'Yes'" class="fa fa-toggle-on ml-5" (click) = "badgeService.toggleDraft()"></i>
-                      <i *ngIf = "badgeService.newBadgeData.draft === 'No'" class="fa fa-toggle-off ml-5" (click) = "badgeService.toggleDraft()"></i>
+                      <i *ngIf = "badgeService.newBadgeData.draft === true" class="fa fa-toggle-on ml-5" (click) = "badgeService.toggleDraft()"></i>
+                      <i *ngIf = "badgeService.newBadgeData.draft === false" class="fa fa-toggle-off ml-5" (click) = "badgeService.toggleDraft()"></i>
                     </div>
                   </div>
                 </div>

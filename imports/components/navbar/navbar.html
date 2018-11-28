@@ -36,10 +36,8 @@
           </li>
           <li class="nav-item ml-3">
             <a class="nav-link">
-
-                <img src="images/flags/german.svg" alt="DE" (click)="translatorService.setSiteLanguage('DE')" style="width:16px" *ngIf ="translatorService.selectedLanguageShortCode === 'EN'">
-                <img src="images/flags/english.png" alt="EN" (click)="translatorService.setSiteLanguage('EN')" style="width:16px" *ngIf ="translatorService.selectedLanguageShortCode === 'DE'">
-
+              <img src="images/flags/german.svg" alt="DE" (click)="translatorService.setSiteLanguage('DE')" style="width:16px; padding-bottom:4px;" [ngStyle]="{'border-bottom':translatorService.selectedLanguageShortCode=== 'DE' ? '1px solid white' : 'none' }"> |
+              <img src="images/flags/english.png" alt="EN" (click)="translatorService.setSiteLanguage('EN')" style="width:16px; padding-bottom:4px;" [ngStyle]="{'border-bottom':translatorService.selectedLanguageShortCode=== 'EN' ? '1px solid white' : 'none' }">
             </a>
           </li>
         </ul>

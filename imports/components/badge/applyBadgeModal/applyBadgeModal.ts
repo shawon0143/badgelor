@@ -9,7 +9,6 @@ import { MeteorObservable } from "meteor-rxjs";
 import { AccountService } from '/imports/service/accountService';
 import { BadgeService } from '/imports/service/badgeService';
 
-import { trigger,state,style,transition,animate,keyframes, query } from '@angular/animations';
 import { flyFromTop, fadeInAnimation } from '/imports/service/animations';
 
 import template from './applyBadgeModal.html';
