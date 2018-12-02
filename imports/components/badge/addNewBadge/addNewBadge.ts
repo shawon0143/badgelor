@@ -130,6 +130,7 @@ export class AddNewBadge implements OnInit {
   } // END OF goToStepCriteria()
 
   goToStepMetadata() {
+
     if (this.badgeService.newBadgeData.name !== '' && this.badgeService.newBadgeData.description !== '') {
         this.metadataState = true;
         this.badgeDataState = false;
@@ -159,12 +160,15 @@ export class AddNewBadge implements OnInit {
   // add creator and issuer value as admin email
   addIssuerAndCreatorEmail() {
     // we assign the logged in admin/creator to badgeService.newBadgeData.creator and badgeService.metadata.selectedIssuer
-   if (this.accountService.isUserLoggedIn && this.accountService.currentUser) {
-     if (this.badgeService.selectedIssuers.length <= 0) {
-       this.badgeService.selectedIssuers.push(this.accountService.currentUser.emails[0].address);
-       this.badgeService.metadata.creator = this.accountService.currentUser.emails[0].address;
-     }
-   }
+    if (this.badgeService.showBadgeEditForm === false) {
+      if (this.accountService.isUserLoggedIn && this.accountService.currentUser) {
+        if (this.badgeService.selectedIssuers.length <= 0) {
+          this.badgeService.selectedIssuers.push(this.accountService.currentUser.emails[0].address);
+          this.badgeService.metadata.creator = this.accountService.currentUser.emails[0].address;
+        }
+      }
+    }
+
   }
 
   // =================================

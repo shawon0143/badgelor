@@ -5,8 +5,8 @@
               <div class="body">
                   <h6 class="mb-3"><i class="icon-user-following text-warning"></i></h6>
                   <span>Total Users</span>
-                  <h2 class="mb-1 number count-to" data-from="0" data-to="200" data-speed="2000" data-fresh-interval="700">200</h2>
-                  <small class="text-muted">View All</small>
+                  <h2 class="mb-1 number count-to" data-from="0" data-to="200" data-speed="2000" data-fresh-interval="700">{{totalUsers}}</h2>
+                  <small class="text-muted"> <a [routerLink]="['/dashboard/users']">View All</a></small>
               </div>
           </div>
       </div>
@@ -15,8 +15,8 @@
               <div class="body">
                   <h6 class="mb-3"><i class="icon-shield text-primary"></i></h6>
                   <span>Total Badges</span>
-                  <h2 class="mb-1 number count-to" data-from="0" data-to="123" data-speed="2000" data-fresh-interval="700">123</h2>
-                  <small class="text-muted">View All</small>
+                  <h2 class="mb-1 number count-to" data-from="0" data-to="123" data-speed="2000" data-fresh-interval="700">{{totalBadges}}</h2>
+                  <small class="text-muted"><a [routerLink]="['/dashboard/viewAllBadges']">View All</a></small>
               </div>
           </div>
       </div>
@@ -25,18 +25,18 @@
               <div class="body">
                   <h6 class="mb-3"><i class="icon-cloud-download text-success"></i></h6>
                   <span>Badges To Import</span>
-                  <h2 class="mb-1 number count-to" data-from="0" data-to="50" data-speed="2000" data-fresh-interval="700">50</h2>
-                  <small class="text-muted">View All</small>
+                  <h2 class="mb-1 number count-to" data-from="0" data-to="50" data-speed="2000" data-fresh-interval="700">{{totalImportBadgesCount}}</h2>
+                  <small class="text-muted"><a [routerLink]="['/dashboard/importBadge']">View All</a></small>
               </div>
           </div>
       </div>
       <div class="col-lg-3 col-md-6">
           <div class="card stasticsWidgetCard text-center">
               <div class="body">
-                  <h6 class="mb-3"><i class="icon-docs text-info"></i></h6>
-                  <span>Total Applications</span>
-                  <h2 class="mb-1 number count-to" data-from="0" data-to="78" data-speed="2000" data-fresh-interval="700">78</h2>
-                  <small class="text-muted"> <a href="">View All</a></small>
+                  <h6 class="mb-3"><i class="icon-puzzle text-info"></i></h6>
+                  <span>Missing Metadata</span>
+                  <h2 class="mb-1 number count-to" data-from="0" data-to="78" data-speed="2000" data-fresh-interval="700">{{totalMissingMetadata}}</h2>
+                  <small class="text-muted"> <a [routerLink]="['/dashboard/updateMetadata']">View All</a></small>
               </div>
           </div>
       </div>

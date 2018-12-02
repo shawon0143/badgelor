@@ -142,7 +142,7 @@
                 <figure class="text-center border rounded badgeFigure" [@fadeInAnimation]><!-- figure starts here  -->
                   <div class="badgeImgAndTitle"  (click) = "badgeService.showSingleBadgeModal(badge.badge_id)" [@fadeInAnimation]>
                     <!-- <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge.badge_id}}.png" alt=""> -->
-                    <img class="img-fluid rounded mb-4" src={{badge.badge_image}} alt="">
+                    <img class="img-fluid rounded mb-4" [src]="badge?.badge_image | safe" alt="">
                     <h4 class="h5 text-capitalize">{{badge.name}}</h4>
                     <!-- <span class="text-muted">Dr. Andreas Keamper</span> -->
                   </div>

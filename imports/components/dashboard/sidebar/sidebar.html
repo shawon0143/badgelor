@@ -100,8 +100,14 @@
         Import Badges
       </a>
     </li>
-    <li class="nav-item pl-md-2">
-      <a class="nav-link">
+    <li class="nav-item pl-md-2" routerLinkActive = "active">
+      <a class="nav-link" [routerLink] = "['updateMetadata']">
+        <i class="icon-puzzle"></i>
+        Update Metadata
+      </a>
+    </li>
+    <li class="nav-item pl-md-2" routerLinkActive = "active">
+      <a class="nav-link" [routerLink] = "['viewAllBadges']">
         <i class="icon-folder"></i>
         View All
       </a>

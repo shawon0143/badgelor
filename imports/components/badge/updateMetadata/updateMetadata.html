@@ -1,3 +1,8 @@
+<!-- Enter badge metadata -->
+<ng-container *ngIf = "badgeService.showBadgeEditForm === true">
+  <addNewBadge-component></addNewBadge-component>
+</ng-container>
+
 <div class="importBadgeContainer">
   <!-- =========================================================== -->
   <!-- ========= START OF ALL BADGELOR USERS TABLE =============== -->
@@ -5,9 +10,9 @@
 
   <div class="card">
     <div class="header">
-      <h2><strong>Import</strong> Badge </h2>
+      <h2><strong>Update</strong> Badge Metadata</h2>
     </div>
-    <ng-container *ngIf="isDataLoading === true">
+    <ng-container *ngIf="badgeService.dataIsLoading === true">
 
      <div class="sk-circle">
        <div class="sk-circle1 sk-child"></div>
@@ -27,37 +32,37 @@
 
    </ng-container>
     <div class="body table-responsive">
-    <!-- Alert message for successful badge import -->
-     <ng-container *ngIf = "badgeService.newBadgeImportSuccessMsg !== ''">
+    <!-- TODO: Alert message for successful badge metadata update -->
+     <!-- <ng-container *ngIf = "badgeService.newBadgeImportSuccessMsg !== ''">
         <div class="alert alert-success" role="alert">
           {{badgeService.newBadgeImportSuccessMsg}}
         </div>
-     </ng-container>
+     </ng-container> -->
 
-     <ng-container *ngIf="isDataLoading === false && allImportBadges">
+     <ng-container *ngIf="badgeService.dataIsLoading  === false && badgeService.listOfUpdateMetadataBadges && badgeService.isAnyBadgeMetaMissing === false">
        <table class="table table-hover">
          <tbody>
-           <ng-container *ngFor = "let badge of allImportBadges; let i=index ">
+           <ng-container *ngFor = "let badge of badgeService.listOfUpdateMetadataBadges; let i=index ">
              <tr>
                <td>{{i+1}}</td>
-               <td><img class="img-fluid rounded border p-1" [src]="badge?.image | safe" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.id)"></td>
+               <td><img class="img-fluid rounded border p-1" [src]="badge.image | safe" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.id)"></td>
                <td class="text-capitalize"><span class="badgeName">{{badge?.name}}</span></td>
                <td>
-                 <button type="button" class="btn btn-sm btn-outline-primary" (click) = "importThisBadge(badge.id)"><i class="fa fa-cloud-download"></i> Import</button>
+                 <button type="button" class="btn btn-sm btn-outline-secondary" (click) = "badgeService.editThisBadge(badge.id)"><i class="fa fa-database"></i> Enter metadata</button>
                </td>
              </tr>
            </ng-container>
          </tbody>
        </table>
      </ng-container>
-     <ng-container *ngIf = "isDataLoading === false && !allImportBadges">
+     <ng-container *ngIf = "badgeService.dataIsLoading  === false && badgeService.isAnyBadgeMetaMissing === true">
        <div class="alert alert-primary" role="alert">
-         Badge library is up to date with OBF database!
+         No badge metadata is missing in badge library!
        </div>
      </ng-container>
 
     </div>
-  </div>
+  </div> <!-- END of card-->
   <!-- =========================================================== -->
   <!-- ========= END OF ALL BADGELOR USERS TABLE ================= -->
   <!-- =========================================================== -->

@@ -1,6 +1,3 @@
-import 'zone.js';
-import 'reflect-metadata';
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Meteor } from 'meteor/meteor';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
@@ -58,7 +55,7 @@ export class ImportBadge implements OnInit, OnDestroy {
                    });
                  } else {
                    this.isDataLoading = false;
-                   console.log(this.allImportBadges);
+                   // console.log(this.allImportBadges);
                  }
                }, (err) => {
                  // TODO: handle error
@@ -75,7 +72,7 @@ export class ImportBadge implements OnInit, OnDestroy {
   } // end of ngOnInit
 
   getImportBadgeList() {
-    var localBadgeIdList = MetadataDB.find().fetch().map(function(it) { return it.badge_id});;
+    var localBadgeIdList = MetadataDB.find().fetch().map(function(it) { return it.badge_id});
 
     if (localBadgeIdList !== undefined && this.allBadges.length > 0) {
       // filtering the badges that are not in badgelor db
@@ -127,6 +124,13 @@ export class ImportBadge implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    if (this.metadataSubscription) {
+      this.metadataSubscription.unsubscribe();
+    }
+    if (this.meteorSubscriptionAllUser) {
+      this.meteorSubscriptionAllUser.unsubscribe();
+    }
+
 
   }
 

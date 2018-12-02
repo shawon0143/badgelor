@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Meteor } from 'meteor/meteor';
 import { MeteorObservable } from "meteor-rxjs";
 import { Observable } from "rxjs";
-import { CourseDB, LevelDB, CompetencyDB, ToolDB } from "/imports/api/index";
+import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB } from "/imports/api/index";
 
 
 @Injectable()
@@ -75,6 +75,18 @@ newBadgeImportSuccessMsg: string = "";
 newObfBadgeCreatorEmail: string = "";
 newObfBadgeCreatorObfID: string = "";
 userObfIdUpdateSubmitMsg: string = "";
+
+// variable for badge metadata update
+listOfUpdateMetadataBadges: any = [];
+isAnyBadgeMetaMissing: boolean = false;
+
+// variable for badge edit form / metadata edit form
+showBadgeEditForm: boolean = false;
+selectedBadgeIdForEdit: string = "";
+
+//variables for view all badge component
+listOfAllBadges: any = [];
+isTheSystemHasBadges: boolean = true;
 
 metadata = {
   courses: '',
@@ -395,7 +407,7 @@ selectThisCompetency(competencyID) {
 }
 
 createNewBadge() {
-  this.newBadgeCreationLoading = true;
+
   // console.log(this.newBadgeData);
   // console.log(this.metadata);
   // console.log(this.selectedCourses);
@@ -438,6 +450,7 @@ createNewBadge() {
   // console.log(this.newBadgeData);
 
   MeteorObservable.call('createBadge', this.newBadgeData).subscribe((response) => {
+    this.newBadgeCreationLoading = true;
     // console.log(response);
     var badge_id = (response["headers"]["location"]).slice(23);
     // console.log("badge_id: "+ badge_id);
@@ -466,6 +479,74 @@ createNewBadge() {
 
 } // END OF createNewBadge() ===========
 
+
+updateBadge() {
+
+    this.metadata.courses = this.selectedCourses;
+    this.metadata.issuers = this.selectedIssuers;
+    this.metadata.keywords = this.selectedKeywords;
+    this.metadata.applicants = this.applicantsOfThisBadge;
+    this.metadata.earners = this.earnersOfThisBadge;
+    this.metadata.tools = this.selectedTools;
+
+    if (this.metadata.levelID === '') {
+      this.levelMetaMissingErrorMsg = "A level for this badge must be selected";
+      setTimeout(() => {
+        this.levelMetaMissingErrorMsg = "";
+      }, 3000);
+
+      return true;
+    }
+
+    if (this.metadata.competencyID === '') {
+      this.competencyMetaMissingErrorMsg = "A competency for this badge must be selected";
+      setTimeout(() => {
+        this.competencyMetaMissingErrorMsg = "";
+      }, 3000);
+
+      return true;
+    }
+
+    if (this.metadata.courses.length <= 0) {
+      this.courseMetaMissingErrorMsg = "Course metadata must be entered.";
+      setTimeout(() => {
+        this.courseMetaMissingErrorMsg = "";
+      }, 3000);
+
+      return true;
+    }
+
+    this.metadata["badge_id"] = this.selectedBadgeIdForEdit;
+    this.newBadgeData["badge_id"] = this.selectedBadgeIdForEdit;
+
+    MeteorObservable.call('updateSingleBadge', this.newBadgeData).subscribe((response) => {
+      this.newBadgeCreationLoading = true;
+      // console.log(response);
+      // now that badge is updated in OBF we can update metadata details in our local DB
+      if (response != undefined || response != "") {
+        MeteorObservable.call('updateMetadata', this.metadata).subscribe((response) => {
+          // console.log(response);
+          this.newBadgeCreationSuccessMsg = response["feedback"];
+          this.resetBadgeCreateForm();
+          this.newBadgeCreationLoading = false;
+
+        }, (err) => {
+          // TODO: handle error
+          console.log(err);
+        });
+      }
+
+
+    }, (err) => {
+      // TODO: handle error
+      console.log(err);
+    });
+
+
+
+
+} // END OF updateBadge()  ==============
+
 resetBadgeCreateForm() {
 
   this.isCompetencySelectedForNewBadge = false;
@@ -480,14 +561,14 @@ resetBadgeCreateForm() {
   this.newBadgeData = JSON.parse(JSON.stringify(this.newBadgeDataReset));
 
 } // END OF resetBadgeCreateForm()
-// ===============================================
-// ===== END OF badge create related methods =====
-// ===============================================
+// ======================================================
+// ===== END OF badge create & edit related methods =====
+// ======================================================
 
 
 
 // ======================================================
-// ===== START OF badge import related methods =====
+// ===== START OF badge import related methods ==========
 // ======================================================
 
 showSideMenuOnUI() {
@@ -529,12 +610,12 @@ showSideMenuOnUI() {
           this.userObfIdUpdateSubmitMsg = "";
         }, 3000);
       }
-      
+
     }, (err) => {
       console.log(err);
     });
 
-  }
+  } // END OF mapObfCreatorWithBadgelor() =============
 
   importBadge(creatorEmail, badge_id) {
 
@@ -566,6 +647,114 @@ showSideMenuOnUI() {
   // ======================================================
   // ===== END OF badge import related methods =======
   // ======================================================
+
+
+  // ==============================================================
+  // ===== START OF badge metadata update related methods =========
+  // ==============================================================
+  getMissingMetadataBadges() {
+    this.dataIsLoading = true;
+    this.isAnyBadgeMetaMissing = false;
+    // this.listOfUpdateMetadataBadges = [];
+    // console.log(this.listOfUpdateMetadataBadges);
+    var localBadgeIdList = MetadataDB.find({"levelID":""}).fetch().map(function(it) { return it.badge_id});
+
+    if (localBadgeIdList.length > 0) {
+
+      localBadgeIdList = localBadgeIdList.join("|");
+
+      MeteorObservable.call('getBadgesByID',localBadgeIdList).subscribe((response) => {
+        if (response != undefined || response != "") {
+          this.dataIsLoading = false;
+
+          this.listOfUpdateMetadataBadges = [];
+
+          for (let key in response) {
+            this.listOfUpdateMetadataBadges.push(response[key]);
+          }
+          this.isAnyBadgeMetaMissing = false;
+        }
+         // console.log(this.listOfUpdateMetadataBadges);
+      }, (err) => {
+        console.log(err);
+      });
+    } else {
+      this.dataIsLoading = false;
+      this.isAnyBadgeMetaMissing = true;
+    }
+
+  } // END OF getMissingMetadataBadges()
+
+  editThisBadge(badge_id) {
+
+    this.showBadgeEditForm = true; // show badge edit form flag
+    this.selectedBadgeIdForEdit = badge_id;
+
+    this.meteorSingleBadgeSubscription = MeteorObservable.call('getSingleBadge', badge_id).subscribe((response) => {
+      if (response != undefined || response != "") {
+
+        var userDB = Meteor.users.findOne({"obfID": response["lastmodifiedby"]});
+        if (userDB != undefined) {
+          this.selectedIssuers = []; // clearing the array in the beginning
+          this.metadata["creator"] =  userDB.emails[0].address;
+          this.selectedIssuers.push(userDB.emails[0].address);
+        }
+        this.newBadgeData = {
+          name: response["name"],
+          description: response["description"],
+          image: response["image"],
+          criteria_html: response["criteria_html"],
+          draft: response["draft"],
+          metadata: this.metadata
+        };
+        window.scrollTo(0,0);// jump the window position to the top.
+        // console.log(this.newBadgeData)
+
+      }
+    });
+
+  } // END OF enterMetadataOfThisBadge(badge_id)
+
+  // ==============================================================
+  // ===== END OF badge metadata update related methods ===========
+  // ==============================================================
+
+
+  // ==============================================================
+  // ===== START OF view all badges  related methods ==============
+  // ==============================================================
+
+  getAllBadges() {
+    this.dataIsLoading = true; // show loading animation
+    this.isTheSystemHasBadges = false;
+    var localBadgeIdList = MetadataDB.find().fetch().map(function(it) { return it.badge_id});
+
+    if (localBadgeIdList.length > 0) {
+
+      localBadgeIdList = localBadgeIdList.join("|");
+
+      MeteorObservable.call('getBadgesByID',localBadgeIdList).subscribe((response) => {
+        if (response != undefined || response != "") {
+          this.dataIsLoading = false; // hide loading animation
+          this.listOfAllBadges = [];
+          for (let key in response) {
+            this.listOfAllBadges.push(response[key]);
+          }
+          this.isTheSystemHasBadges = true;
+        }
+         // console.log(this.listOfUpdateMetadataBadges);
+      }, (err) => {
+        console.log(err);
+      });
+    } else {
+      this.dataIsLoading = false; // hide loading animation
+      this.isTheSystemHasBadges = false;
+    }
+
+  } // END OF getAllBadges()
+  // ==============================================================
+  // ===== END OF view all badges  related methods ================
+  // ==============================================================
 
 
 

@@ -56,6 +56,41 @@ if (Meteor.isServer) {
 
       },
 
+      'updateSingleBadge'(data) {
+            this.unblock();
+            console.log(data);
+            var badgelorAppConfig = new AppConfig();
+
+            let apiCall = function (apiUrl, callback) {
+              try {
+                let response = HTTP.call( "PUT", apiUrl+'/'+data.badge_id,
+                  {npmRequestOptions: {
+                    key: badgelorAppConfig.obfKey,
+                    cert: badgelorAppConfig.obfCertificate,
+                  },data},
+                );
+                callback(null, response);
+              } catch (error) {
+                let errorCode;
+                let errorMessage;
+                if (error.response) {
+                  errorCode = error.response.data.code;
+                  errorMessage = error.response.data.message;
+                } else {
+                  errorCode = 500;
+                  errorMessage = 'Cannot access the API';
+                }
+                let myError = new Meteor.Error(errorCode, errorMessage);
+                callback(myError, null);
+              }
+            }
+
+            let response = Meteor.wrapAsync(apiCall)(apiUrl);
+
+            return response;
+
+        },
+
 
     'getEarnableBadges'() {
         this.unblock();
@@ -241,7 +276,7 @@ if (Meteor.isServer) {
         response = response.join(',');
         response = "[" + response + "]";
         response = JSON.parse(response);
-        
+
         return response;
 
       },

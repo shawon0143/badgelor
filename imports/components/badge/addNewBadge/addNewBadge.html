@@ -5,7 +5,7 @@
   <!-- =================================================== -->
   <div class="card">
     <div class="header">
-        <h2><strong>Add New</strong> Badge </h2>
+        <h2><strong>Add/Edit</strong> Badge </h2>
     </div>
     <div class="body">
       <div class="container">
@@ -424,7 +424,8 @@
 
                 <ng-container *ngIf = "metadataState === true">
                   <button class="btn btn-outline-secondary mr-2" (click) = "goToStepCriteria()">Previous</button>
-                  <button class="btn btn-success" (click) = "badgeService.createNewBadge()">Finish</button>
+                  <button class="btn btn-success" *ngIf = "badgeService.showBadgeEditForm === false" (click) = "badgeService.createNewBadge()">Finish</button>
+                  <button class="btn btn-success" *ngIf = "badgeService.showBadgeEditForm === true" (click) = "badgeService.updateBadge()">Update Badge</button>
                 </ng-container>
               </div>
             </div>
@@ -449,8 +450,8 @@
             <div class="col-4">
               <div class="alertMsgContainer">
                 <h5>{{ badgeService.newBadgeCreationSuccessMsg }}</h5>
-                <button type="button" class="btn btn-sm btn-outline-primary mr-1" (click) = "goToStepBadgeData()">Add new</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">View all</button>
+                <button type="button" class="btn btn-sm btn-outline-primary mr-1" *ngIf = "badgeService.showBadgeEditForm === false" (click) = "goToStepBadgeData()">Add new</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" [routerLink] = "['/dashboard/viewAllBadges']">View all</button>
               </div>
             </div>
           </div>

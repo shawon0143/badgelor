@@ -42,6 +42,9 @@ import { ApplyBadgeModal } from "/imports/components/badge/applyBadgeModal/apply
 import { AddNewBadge } from "/imports/components/badge/addNewBadge/addNewBadge";
 import { ImportBadge } from "/imports/components/badge/importBadge/importBadge";
 import { MapBadgeCreator } from "/imports/components/badge/mapBadgeCreator/mapBadgeCreator";
+import { UpdateMetadata } from "/imports/components/badge/updateMetadata/updateMetadata";
+import { AllBadges } from "/imports/components/badge/allBadges/allBadges";
+
 
 
 // =====================
@@ -152,7 +155,8 @@ const appRoutes: Routes = [
         { path: 'tools', component: ToolManagement },
         { path: 'newBadge', component: AddNewBadge },
         { path: 'importBadge', component: ImportBadge },
-        // { path: 'viewAllBadge', component: ViewAllBadge }
+        { path: 'updateMetadata', component: UpdateMetadata },
+        { path: 'viewAllBadges', component: AllBadges }
       ] },
 
     // =============================
@@ -196,6 +200,8 @@ const appRoutes: Routes = [
         AddNewBadge,
         ImportBadge,
         MapBadgeCreator,
+        UpdateMetadata,
+        AllBadges,
         // Applicant modules
         ApplicantProfile,
         AccountOverview,
