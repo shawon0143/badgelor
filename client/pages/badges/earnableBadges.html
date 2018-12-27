@@ -15,20 +15,26 @@
     <form class="mx-auto">
       <div class="form-group mb-2">
         <div class="input-group rounded mb-3">
-          <input class="form-control border-right-0 pr-0" type="text" placeholder="What badge do you want to earn?">
+          <input class="form-control border-right-0 pr-0"
+                 type="text"
+                 name="searchBadge"
+                 placeholder="What badge do you want to earn?"
+                 (keyup)="searchService.search()"
+                 (focus)="searchService.resetAllFilter()"
+                 [(ngModel)]="searchService.searchKeywords">
           <div class="input-group-addon d-flex align-items-center">
             <button class="btn btn-info" type="submit">
               <i class="icon-magnifier"></i>
             </button>
           </div>
         </div>
-        <h5 class="form-text">Search any keyword, competency, coursename and so on.</h5>
+        <h5 class="form-text">Search any keyword, badge name, course name and so on.</h5>
       </div>
     </form>
     <!-- End Search Form -->
     <h4>Or</h4>
     <!--  Step by Step Search -->
-    <button class="btn btn-outline-info" type="button">Search Step by Step</button>
+    <button class="btn btn-outline-secondary" type="button">Search Step by Step</button>
     <!-- END OF Step by Step Search -->
   </div>
 </section>
@@ -44,22 +50,22 @@
 <section class="pt-5 pb-5 searchResultSection">
 
   <div class="container searchResultContainer">
-    <div class="row"> <!-- searchResultMainRow -->
+    <div class="row justify-content-center"> <!-- searchResultMainRow -->
       <!-- ============================= -->
       <!-- ======== Left Sidebar ======= -->
       <!-- ============================= -->
-      <div class="col-lg-3 pr-4">
+      <div class="pr-4" [@slideInOut] = 'searchService.slideinAnimationState' [ngClass] = "{'col-lg-3': slideinAnimationState === 'in'}">
         <h2 class="h5 text-uppercase filterHeading">Level</h2>
         <hr>
         <form class="mb-4">
-          <ng-container *ngFor = "let level of allLevels">
+          <ng-container *ngFor = "let level of searchService.allLevels">
             <div class="form-group">
               <label class="u-check pl-4 text-capitalize">
-                <input type="checkbox">
+                <input type="checkbox" (change)="searchService.filterbyLevel($event, level._id)" [checked]="level.checked">
                 <div class="u-check-icon-checkbox">
                   <i class="fa" data-check-icon=""></i>
                 </div>
-                {{level?.name}}<span class="badge badge-light pull-right ml-2">20</span>
+                {{level?.name}}<span class="badge badge-light pull-right ml-2">{{level?.count}}</span>
               </label>
             </div>
           </ng-container>
@@ -69,15 +75,16 @@
         <h2 class="h5 text-uppercase filterHeading">Competency</h2>
         <hr>
         <form class="mb-4">
-          <ng-container *ngFor = "let competency of allCompetencies">
+          <ng-container *ngFor = "let competency of searchService.allCompetencies">
             <!-- Checkbox -->
             <div class="form-group">
               <label class="u-check pl-4 text-capitalize">
-                <input type="checkbox">
+                <input type="checkbox" (change)="searchService.filterByCompetency($event, competency._id)" [checked]="competency.checked">
                 <div class="u-check-icon-checkbox">
                   <i class="fa" data-check-icon=""></i>
                 </div>
-                {{competency?.name}}
+                <span class="d-inline-block text-truncate" style="max-width: 170px;">{{competency?.name}}</span>
+                <span class="badge badge-light pull-right ml-2">{{competency?.count}}</span>
               </label>
             </div>
             <!-- END checkbox -->
@@ -87,15 +94,15 @@
         <h2 class="h5 text-uppercase filterHeading">Tool</h2>
         <hr>
         <form class="mb-4">
-          <ng-container *ngFor = "let tool of allTools">
+          <ng-container *ngFor = "let tool of searchService.allTools">
             <!-- Checkbox -->
             <div class="form-group">
               <label class="u-check pl-4 text-capitalize">
-                <input type="checkbox">
+                <input type="checkbox" (change)="searchService.filterByTool($event, tool.name)" [checked]="tool.checked">
                 <div class="u-check-icon-checkbox">
                   <i class="fa" data-check-icon=""></i>
                 </div>
-                {{tool?.name}}<span class="badge badge-light pull-right ml-2">10</span>
+                {{tool?.name}}<span class="badge badge-light pull-right ml-2">{{tool?.count}}</span>
               </label>
             </div>
             <!-- END checkbox -->
@@ -110,13 +117,14 @@
       <!-- ======== Right Badge items grid view  ======= -->
       <!-- ============================================= -->
       <div class="col-lg-9">
+      <!-- <div > -->
         <div class="searchResultBodyWrapper">
           <!-- ==================== -->
           <!-- Top row result count -->
           <!-- ==================== -->
-          <div class="d-md-flex justify-content-between mb-3">
-            <h3 class="h6 text-uppercase mb-2 mt-2">About <span class="badge badge-light">100</span> badges found.</h3>
-            <div class="btn-group">
+          <div class="d-md-flex justify-content-between mb-3" *ngIf="searchService.dataIsLoading === false">
+            <h3 class="h6 text-uppercase mb-2 mt-2">About <span class="badge badge-light">{{searchService.numberOfBadges}}</span> badges found.</h3>
+            <!-- <div class="btn-group">
               <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort
               </button>
@@ -127,7 +135,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Separated link</a>
               </div>
-            </div>
+            </div> -->
           </div>
           <!-- =========================== -->
           <!-- END OF Top row result count -->
@@ -138,9 +146,9 @@
           <!-- ====================== -->
           <div class="row">
 
-              <div class="col-6 col-md-3 badgeItemColumn" *ngFor = "let badge of badgeService.earnableBadges">
-                <figure class="text-center border rounded badgeFigure" [@fadeInAnimation]><!-- figure starts here  -->
-                  <div class="badgeImgAndTitle"  (click) = "badgeService.showSingleBadgeModal(badge.badge_id)" [@fadeInAnimation]>
+              <div class="col-6 col-md-3 badgeItemColumn" *ngFor = "let badge of searchService.badges">
+                <figure class="text-center border rounded badgeFigure"><!-- figure starts here  -->
+                  <div class="badgeImgAndTitle"  (click) = "badgeService.showSingleBadgeModal(badge.badge_id)">
                     <!-- <img class="img-fluid rounded mb-4" src="https://openbadgefactory.com/v1/badge/_/{{badge.badge_id}}.png" alt=""> -->
                     <img class="img-fluid rounded mb-4" [src]="badge?.badge_image | safe" alt="">
                     <h4 class="h5 text-capitalize">{{badge.name}}</h4>
@@ -167,7 +175,7 @@
           <!-- END of Main search result row -->
           <!-- ============================= -->
 
-          <ng-container *ngIf="badgeService.dataIsLoading === true">
+          <ng-container *ngIf="searchService.dataIsLoading === true">
 
            <div class="sk-circle">
              <div class="sk-circle1 sk-child"></div>

@@ -1,7 +1,7 @@
 import 'zone.js';
 import 'reflect-metadata';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Meteor } from 'meteor/meteor';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
@@ -9,8 +9,9 @@ import { MeteorObservable } from "meteor-rxjs";
 import { AccountService } from '/imports/service/accountService';
 import { AutoLogoutService } from '/imports/service/autoLogout';
 import { BadgeService } from '/imports/service/badgeService';
+import { SearchService } from '/imports/service/searchService';
 
-import { fadeInAnimation } from '/imports/service/animations';
+import { fadeInAnimation,slideInOut } from '/imports/service/animations';
 
 import template from './earnableBadges.html';
 
@@ -20,42 +21,48 @@ import template from './earnableBadges.html';
 @Component({
   selector: 'earnable-badges',
   template,
-  animations: [ fadeInAnimation ]
+  animations: [ fadeInAnimation, slideInOut ]
 })
 
 
 
-export class EarnableBadges implements OnInit {
-  allLevels;
-  allCompetencies;
-  allTools;
+export class EarnableBadges implements OnInit, OnDestroy {
+  private metadataSubscription: any;
+  private meteorSubscriptionCourse: any;
+  private meteorSubscriptionTool: any;
+  private meteorSubscriptionCompetency: any;
+  private meteorSubscriptionLevel: any;
+
+
+
   constructor( private route: ActivatedRoute,
                private router: Router,
                public accountService: AccountService,
                private autoLogoutService: AutoLogoutService,
-               private badgeService: BadgeService) {
-                 // Load all levels via method call from server
-                 MeteorObservable.call('getAllLevelName').subscribe((response) => {
-                   this.allLevels = response;
-                 }, (err) => {
-                   // TODO: handle error
-                   console.log(err);
+               private badgeService: BadgeService,
+               private searchService: SearchService) {
+
+
+                 this.metadataSubscription = MeteorObservable.subscribe<any>("publishAllMetadata").subscribe(() => {
+                   // Subscription is ready!
+
                  });
-                 // Load all competencies via method call from server
-                 MeteorObservable.call('getAllCompetencyName').subscribe((response) => {
-                   this.allCompetencies = response;
-                 }, (err) => {
-                   // TODO: handle error
-                   console.log(err);
-                 });
-                 // Load all tools via method call from server
-                 MeteorObservable.call('getAllToolName').subscribe((response) => {
-                   this.allTools = response;
-                 }, (err) => {
-                   // TODO: handle error
-                   console.log(err);
+                 this.meteorSubscriptionCourse = MeteorObservable.subscribe<any>("publishAllCourses").subscribe(() => {
+                   // Subscription is ready!
+
                  });
 
+                 this.meteorSubscriptionTool = MeteorObservable.subscribe<any>("publishAllTools").subscribe(() => {
+
+                 });
+
+                 this.meteorSubscriptionCompetency = MeteorObservable.subscribe<any>("publishAllCompetencies").subscribe(() => {
+
+                 });
+
+                 this.meteorSubscriptionLevel = MeteorObservable.subscribe<any>("publishAllLevels").subscribe(() => {
+
+                 });
 
   }
 
@@ -73,6 +80,12 @@ export class EarnableBadges implements OnInit {
     });
 
   } // end of ngOnInit
+
+  ngOnDestroy() {
+    if (this.metadataSubscription) {
+      this.metadataSubscription.unsubscribe();
+    }
+  }
 
 
 

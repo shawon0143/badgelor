@@ -96,6 +96,7 @@ import { CourseService } from "/imports/service/courseService";
 import { LevelService } from "/imports/service/levelService";
 import { CompetencyService } from "/imports/service/competencyService";
 import { ToolService } from "/imports/service/toolService";
+import { SearchService } from "/imports/service/searchService";
 
 import { AuthService } from "/imports/service/authService"; // no longer in use, we might use it if we can use angular httpClient
 
@@ -250,6 +251,7 @@ const appRoutes: Routes = [
       LevelService,
       CompetencyService,
       ToolService,
+      SearchService,
       AuthService, // no longer in use, we might use it if we can use angular httpClient
 
     ]

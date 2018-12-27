@@ -17,6 +17,25 @@ export const flyin = [
     ])
 ];
 
+export const slideInOut = [
+    trigger('slideInOut', [
+      state('in', style({
+        // overflow: 'hidden',
+        height: '*',
+        width: '*'
+      })),
+      state('out', style({
+        opacity: '0',
+        // overflow: 'hidden',
+        height: '0px',
+        width: '0px'
+      })),
+      transition('in => out', animate('200ms ease-in-out')),
+      transition('out => in', animate('200ms ease-in-out'))
+    ])
+  ];
+
+
 export const rotateIn = [
   trigger('rotateIn', [
       state('in', style({transform: 'translateX(0)'})),

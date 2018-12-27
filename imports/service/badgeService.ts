@@ -9,10 +9,8 @@ import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB } from "/imports/ap
 
 @Injectable()
 export class BadgeService {
-private meteorEarnableBadgeSubscription: any;
-private meteorSingleBadgeSubscription: any;
 
-earnableBadges = [];
+private meteorSingleBadgeSubscription: any;
 
 // variable to show and hide single badge modal
 showSingleBadgeModalOnUI: boolean = false;
@@ -140,30 +138,6 @@ selectedBadgeCreatorObfProfileURL: string = "";
 
 constructor( public zone: NgZone,
              public router: Router) {
-
-   this.meteorEarnableBadgeSubscription = MeteorObservable.call('getEarnableBadges').subscribe((response) => {
-
-     if (response != undefined || response != "") {
-       this.dataIsLoading = false;
-       for (let key in response) {
-         // ************************************************************************
-         // This if condition is used because of a glich in OBF database
-         // because even though we deleted these two badges (badge_id = OUYELOaET7a2K and NP24NAo4RCoW)
-         // the badgename still shows up when we get all earnableBadges
-         // so I did this hack to skip that badge from showing in the badge library
-         // We can skip this block of code if we can fix the problem with that OBF
-         // database glitch. Then we will skip the if condition
-         // ************************************************************************
-         if(response[key].badge_id !== "OUYELOaET7a2K" && response[key].badge_id !== "NP24NAo4RCoW") {
-           this.earnableBadges.push(response[key]);
-         }
-       }
-     }
-     //  else {
-     //   // TODO: handle error
-     // }
-
-     });
 
      // Saving the initial state of these two objects for reset purpose
      this.metadataReset = JSON.parse(JSON.stringify(this.metadata));

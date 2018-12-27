@@ -58,7 +58,7 @@ if (Meteor.isServer) {
 
       'updateSingleBadge'(data) {
             this.unblock();
-            console.log(data);
+
             var badgelorAppConfig = new AppConfig();
 
             let apiCall = function (apiUrl, callback) {

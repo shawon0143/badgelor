@@ -18,7 +18,7 @@
   <!-- END of close icon -->
   <ng-container *ngIf = "badgeService.singleBadgeDataLoading === false">
     <div class="badgeImageRow text-center rounded mb-4">
-      <img src="{{badgeService.singleBadge?.image}}" class="img-fluid rounded">
+      <img [src]="badgeService.singleBadge?.image | safe" class="img-fluid rounded">
     </div>
     <div class="badgeInfoRow">
       <h3>{{badgeService.singleBadge?.name}}</h3>
