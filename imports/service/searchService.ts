@@ -46,7 +46,7 @@ export class SearchService {
                  this.meteorEarnableBadgeSubscription = MeteorObservable.call('getEarnableBadges').subscribe((response) => {
 
                    if (response != undefined || response != "") {
-
+                     console.log(response);
                      // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
                      var localBadgeList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch();
 
@@ -308,9 +308,9 @@ export class SearchService {
     this.badges = this.earnableBadges.find().fetch();
 
     this.badges.forEach(badge => {
-       badge["isCompetencyFiltered"] = true;
-       badge["isLevelFiltered"] = true;
-       badge["isToolFiltered"] = true;
+       badge["isCompetencyFiltered"] = false;
+       badge["isLevelFiltered"] = false;
+       badge["isToolFiltered"] = false;
      });
 
 
@@ -323,7 +323,7 @@ export class SearchService {
           for (var a = 0; a < this.badges.length; a++) {
             for (var b = 0; b < this.selectedLevelForFilter.length; b++) {
               if (this.badges[a].levelID === this.selectedLevelForFilter[b]) {
-                  this.badges[a]["isLevelFiltered"] = false;
+                  this.badges[a]["isLevelFiltered"] = true;
               }
             }
           }
@@ -340,7 +340,7 @@ export class SearchService {
           for (var c = 0; c < this.badges.length; c++) {
             for (var d = 0; d < this.selectedCompetencyForFilter.length; d++) {
               if (this.badges[c].competencyID === this.selectedCompetencyForFilter[d]) {
-                  this.badges[c]["isCompetencyFiltered"] = false;
+                  this.badges[c]["isCompetencyFiltered"] = true;
               }
             }
           }
@@ -357,7 +357,7 @@ export class SearchService {
             for (var i in this.badges) {
               for (var j in this.badges[i].tools)
               if (this.selectedToolForFilter[key] === this.badges[i].tools[j]) {
-                  this.badges[i]["isToolFiltered"] = false;
+                  this.badges[i]["isToolFiltered"] = true;
               }
             }
           }
@@ -381,7 +381,7 @@ export class SearchService {
     // 1. only level filter enabled
     if ( this.selectedLevelForFilter.length >= 1 && this.selectedCompetencyForFilter.length < 1 &&  this.selectedToolForFilter.length < 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isLevelFiltered === false) return badge;
+          if (badge.isLevelFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -392,7 +392,7 @@ export class SearchService {
     // 2. only competency filter enabled ----------
     if ( this.selectedLevelForFilter.length < 1 && this.selectedCompetencyForFilter.length >= 1 &&  this.selectedToolForFilter.length < 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isCompetencyFiltered === false) return badge;
+          if (badge.isCompetencyFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -403,7 +403,7 @@ export class SearchService {
     // 3. only tool filter enabled ------------
     if ( this.selectedLevelForFilter.length < 1 && this.selectedCompetencyForFilter.length < 1 &&  this.selectedToolForFilter.length >= 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isToolFiltered === false) return badge;
+          if (badge.isToolFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -415,7 +415,7 @@ export class SearchService {
     // 1 & 2 ---------------
     if ( this.selectedLevelForFilter.length >= 1 && this.selectedCompetencyForFilter.length >= 1 && this.selectedToolForFilter.length < 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isLevelFiltered === false && badge.isCompetencyFiltered === false) return badge;
+          if (badge.isLevelFiltered === true && badge.isCompetencyFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -425,7 +425,7 @@ export class SearchService {
     // 1 & 3 ---------------
     if ( this.selectedLevelForFilter.length >= 1 && this.selectedCompetencyForFilter.length < 1 && this.selectedToolForFilter.length >= 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isLevelFiltered === false && badge.isToolFiltered === false) return badge;
+          if (badge.isLevelFiltered === true && badge.isToolFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -436,7 +436,7 @@ export class SearchService {
     // 2 & 3 ----------------
     if ( this.selectedLevelForFilter.length < 1 && this.selectedCompetencyForFilter.length >= 1 && this.selectedToolForFilter.length >= 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isCompetencyFiltered === false && badge.isToolFiltered === false) return badge;
+          if (badge.isCompetencyFiltered === true && badge.isToolFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
@@ -447,7 +447,7 @@ export class SearchService {
     // 1 & 2 & 3 ------------------
     if ( this.selectedLevelForFilter.length >= 1 && this.selectedCompetencyForFilter.length >= 1 && this.selectedToolForFilter.length >= 1) {
       let filteredBadges = this.badges.filter(badge => {
-          if (badge.isCompetencyFiltered === false && badge.isToolFiltered === false && badge.isLevelFiltered === false) return badge;
+          if (badge.isCompetencyFiltered === true && badge.isToolFiltered === true && badge.isLevelFiltered === true) return badge;
         });
 
         this.badges = filteredBadges;
