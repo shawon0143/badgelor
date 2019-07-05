@@ -96,7 +96,7 @@ if (Meteor.isServer) {
 
         }); //end insert
         response.code = 200;
-        response.feedback = "New Faculty Creation successfull!";
+        response.feedback = "New Faculty Creation successful!";
         return response;
       } // end if if(userHasAccessRights === true)
       else {

@@ -8,12 +8,24 @@ export class AppConfig {
     adminEmail : string;
     obfCertificate : string;
     obfKey : string;
+    campusArray;
+    koblenzFaculties;
+    landauFaculties;
+    levels;
+    competencies;
+    tools;
 
     constructor() {
-      this.adminPassword = Meteor["settings"]["private"]["adminlogin"];
+      this.adminPassword = Meteor["settings"]["private"]["adminLogin"];
       this.adminEmail = Meteor["settings"]["private"]["adminEmail"];
       this.obfCertificate = Meteor["settings"]["private"]["obfCertificate"].join('\n');
       this.obfKey = Meteor["settings"]["private"]["obfKey"].join('\n');
+      this.campusArray = Meteor["settings"]["private"]["campuses"];
+      this.koblenzFaculties = Meteor["settings"]["private"]["koblenzFaculties"];
+      this.landauFaculties = Meteor["settings"]["private"]["landauFaculties"];
+      this.levels = Meteor["settings"]["private"]["levels"];
+      this.competencies = Meteor["settings"]["private"]["competencies"];
+      this.tools = Meteor["settings"]["private"]["tools"];
     }
 
 

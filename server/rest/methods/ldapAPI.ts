@@ -11,6 +11,7 @@ import Future from 'fibers/future';
 import assert from 'assert';
 import ldap from 'ldapjs';
 
+declare var require: any
 
 if (Meteor.isServer) {
 
