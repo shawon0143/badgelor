@@ -1,0 +1,225 @@
+{
+  "campuses": ["koblenz", "landau"],
+  "koblenzFaculties": [
+    {
+      "name": "Fb 1 - Bildungswissenschaften",
+      "institutes": [
+        "Institut für Grundschulpädagogik",
+        "Institut für Pädagogik",
+        "Institut für Psychologie",
+        "Institut für Soziologie"
+      ]
+    },
+    {
+      "name": "Fb 2 - Philologie / Kulturwissenschaften",
+      "institutes": [
+        "Anglistik",
+        "Evangelische Theologie",
+        "Germanistik",
+        "Geschichte",
+        "Institut für Philosophie",
+        "Katholische Theologie",
+        "Kulturwissenschaft",
+        "Kunstwissenschaft",
+        "Musikwissenschaft und Musikpädagogik",
+        "Spachlernzentrum"
+      ]
+    },
+    {
+      "name": "Fb 3 - Mathematik / Naturwissenschaften",
+      "institutes": [
+        "Institut für integrierte Naturwissenschaften",
+        "Institut für Sportwissenschaft"
+      ]
+    },
+    {
+      "name": "Fb 4 - Informatik",
+      "institutes": [
+        "Institute for Web Science and Technologies",
+        "Institut für Computervisualistik",
+        "Institut für Informatik",
+        "Institut für Management",
+        "Institut für Softwaretechnik",
+        "Institut für Wirtschafts- und Verwaltungsinformatik"
+      ]
+    },
+    {
+      "name": "Ada Lovelace Project",
+      "institutes": []
+    },
+    {
+      "name": "Ahs - Allgemeiner Hochschulsport",
+      "institutes": []
+    },
+    {
+      "name": "Anubis - Auszubildenden Netzwerk Und Bildungs Service",
+      "institutes": []
+    },
+    {
+      "name": "Ghrko - Rechenzentrum",
+      "institutes": []
+    },
+    {
+      "name": "Iwm - Institut Für Wissensmedien",
+      "institutes": []
+    },
+    {
+      "name": "Ksb - Kompetenzzentrum Für Studium Und Beruf",
+      "institutes": ["SmP - Studieren mit Profil"]
+    },
+    {
+      "name": "MTI MITTELRHEIN - Institut für Medizintechnik und Informationsverarbeitung",
+      "institutes": []
+    },
+    {
+      "name": "Studentische Selbstverwaltung",
+      "institutes": [
+        "Studierendenparlament (StuPa)",
+        "Allgemeiner Studierenden-Ausschuss (AStA)",
+        "Fachschaft Informatik & Computer-Visualistik",
+        "Bildungsforum Koblenz"
+      ]
+    },
+    {
+      "name": "Universitätsbibliothek Koblenz",
+      "institutes": []
+    },
+    {
+      "name": "Zentrum für Lehrerbildung",
+      "institutes": []
+    },
+    {
+      "name": "ZFUW - Zentrum für Fernstudien und universitäre Weiterbildung",
+      "institutes": []
+    },
+    {
+      "name": "Andere Einrichtungen",
+      "institutes": []
+    }
+  ],
+  "landauFaculties": [
+    {
+      "name": "Fb 5 - Erziehungswissenschaften",
+      "institutes": [
+        "Institut für Bildung im Kindes- und Jugendalter",
+        "Institut für Erziehungswissenschaft",
+        "Institut für Philosophie",
+        "Institut für Sonderpädagogik"
+      ]
+    },
+    {
+      "name": "Fb 6 - Kultur- Und Sozialwissenschaften",
+      "institutes": [
+        "Historisches Seminar",
+        "Institut für Evangelische Theologie",
+        "Institut für fremdsprachliche Philologien",
+        "Institut für Germanistik",
+        "Institut für Katholische Theologie",
+        "Institut für Kunstwissenschaft und Bildende Kunst",
+        "Institut für Musikwissenschaft und Musik",
+        "Institut für Sozialwissenschaften",
+        "Sprachlernzentrum"
+      ]
+    },
+    {
+      "name": "Fb 7 - Natur- Und Umweltwissenschaften",
+      "institutes": [
+        "Institut für Mathematik",
+        "Institut für Sportwissenschaft",
+        "Institut für Umweltwissenschaften",
+        "Institut für naturwissenschaftliche Bildung"
+      ]
+    },
+    {
+      "name": "Fb 8 - Psychologie",
+      "institutes": [
+        "Biopsychologie",
+        "Diagnostik, Differentielle und Persönlichkeitspsychologie, Methodik & Evaluation",
+        "Entwicklungspsychologie und Pädagogische Psychologie",
+        "IKM - Institut für Kommunikationspsychologie und Medienpädagogik",
+        "Klinische Psychologie und Psychotherapie",
+        "Kognitive Psychologie",
+        "Multimedia",
+        "Sozial-, Umwelt- und Wirtschaftspsychologie",
+        "Weiterbildungsstudiengang in Psychologischer Psychotherapeut / Universitätsambulanz"
+      ]
+    },
+    {
+      "name": "Allgemeiner Hochschulsport",
+      "institutes": []
+    },
+    {
+      "name": "Alumni-Netzwerk",
+      "institutes": []
+    },
+    {
+      "name": "Arbeitsstelle Multimedia",
+      "institutes": []
+    },
+    {
+      "name": "Frauenbüro",
+      "institutes": []
+    },
+    {
+      "name": "Friedensakademie",
+      "institutes": []
+    },
+    {
+      "name": "Hochschuldidaktische Arbeitsstelle",
+      "institutes": []
+    },
+    {
+      "name": "Ifu - Institut Für Regionale Umweltforschung Und Umweltbildung",
+      "institutes": []
+    },
+    {
+      "name": "Ksb - Kompetenzzentrum Für Studium Und Beruf",
+      "institutes": []
+    },
+    {
+      "name": "Medienzentrum",
+      "institutes": []
+    },
+    {
+      "name": "Methodenzentrum",
+      "institutes": []
+    },
+    {
+      "name": "Universitätsbibliothek",
+      "institutes": []
+    },
+    {
+      "name": "Universitätsrechenzentrum In Landau",
+      "institutes": []
+    },
+    {
+      "name": "Upgrade - Graduiertenschule Unterrichtsprozesse",
+      "institutes": []
+    },
+    {
+      "name": "Zepf - Zentrum Für Empirische Pädagogische Forschung",
+      "institutes": []
+    },
+    {
+      "name": "Zfuw - Zentrum Für Fernstudien Und Universitäre Weiterbildung",
+      "institutes": []
+    },
+    {
+      "name": "Zkw - Zentrum Für Kultur- Und Wissensdialog",
+      "institutes": []
+    },
+    {
+      "name": "Zentrum Für Lehrerbildung",
+      "institutes": []
+    }
+  ],
+  "levels": ["Anfanger", "Fortgeschrittene", "Experten"],
+  "competencies": [
+    "Bedienen / Anwenden",
+    "Informieren / Kooperieren",
+    "Kommunizieren / Kooperieren",
+    "Produzieren / Prasentieren",
+    "Analysieren / Reflektieren"
+  ],
+  "tools": ["Latex", "Matlab"]
+}

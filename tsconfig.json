@@ -33,6 +33,7 @@
     "/node_modules"
   ],
   "compileOnSave": false,
+  "resolveJsonModule": true,
   "atom": {
     "rewriteTsconfig": false
   }
