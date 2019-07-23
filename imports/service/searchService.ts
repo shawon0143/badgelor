@@ -9,11 +9,10 @@ import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB } from "/imports/ap
 
 @Injectable()
 export class SearchService {
-  private meteorEarnableBadgeSubscription: any;
 
   //pass null as collection name, it will create
   //local only collection
-  earnableBadges = new Mongo.Collection(null);
+  earnableBadges;
   badges = [];
   numberOfBadges;
 
@@ -43,70 +42,74 @@ export class SearchService {
   constructor( public zone: NgZone,
                public router: Router) {
 
-                 this.meteorEarnableBadgeSubscription = MeteorObservable.call('getEarnableBadges').subscribe((response) => {
-
-                   if (response != undefined || response != "") {
-                     console.log(response);
-                     // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
-                     var localBadgeList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch();
-
-                     for (let key in response) {
-                       for (let i in localBadgeList) {
-                         if (response[key].badge_id === localBadgeList[i].badge_id) {
-                           localBadgeList[i]["badge_image"] = response[key].badge_image;
-                           localBadgeList[i]["name"] = response[key].name;
-                           localBadgeList[i]["id"] = response[key].id;
-                           // this.earnableBadges.insert(localBadgeList[i]);
-                         }
-                       }
-                     }
-                     // adding course names in the collection instead of ID
-                     for (let key in localBadgeList) {
-                       for (let i in localBadgeList[key].courses) {
-                         localBadgeList[key].courses[i]= CourseDB.findOne({"_id": localBadgeList[key].courses[i]}).name;
-                       }
-                     }
-
-                     // adding competency name
-                     for (let key in localBadgeList) {
-                         localBadgeList[key]["competencyName"]= CompetencyDB.findOne({"_id": localBadgeList[key].competencyID}).name;
-                     }
-
-                     // adding level name
-                     for (let key in localBadgeList) {
-                         localBadgeList[key]["levelName"]= LevelDB.findOne({"_id": localBadgeList[key].levelID}).name;
-                     }
-
-                     // adding tools
-                     for (let key in localBadgeList) {
-                       for (let i in localBadgeList[key].tools) {
-                         localBadgeList[key].tools[i]= ToolDB.findOne({"_id": localBadgeList[key].tools[i]}).name;
-                       }
-                     }
-
-                     for (let key in localBadgeList) {
-                       this.earnableBadges.insert(localBadgeList[key]);
-                     }
-
-                     // getting all badges to display in template
-                     this.badges = this.earnableBadges.find().fetch();
-
-                     // console.log(this.badges);
-                     // getting the number of badges
-                     this.countTotalBadges();
-                     // getting all filter details
-                     this.setFilterDetails();
-
-                     this.dataIsLoading = false;
-
-                   }
-                   //  else {
-                   //   // TODO: handle error
-                   // }
-
-                });
 
   } // END of constructor
+
+  getEarnableBadges() {
+    this.earnableBadges = new Mongo.Collection(null);
+    MeteorObservable.call('getEarnableBadges').subscribe((response) => {
+
+      if (response != undefined || response != "") {
+        console.log(response);
+        // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
+        var localBadgeList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch();
+
+        for (let key in response) {
+          for (let i in localBadgeList) {
+            if (response[key].badge_id === localBadgeList[i].badge_id) {
+              localBadgeList[i]["badge_image"] = response[key].badge_image;
+              localBadgeList[i]["name"] = response[key].name;
+              localBadgeList[i]["id"] = response[key].id;
+              // this.earnableBadges.insert(localBadgeList[i]);
+            }
+          }
+        }
+        // adding course names in the collection instead of ID
+        for (let key in localBadgeList) {
+          for (let i in localBadgeList[key].courses) {
+            localBadgeList[key].courses[i]= CourseDB.findOne({"_id": localBadgeList[key].courses[i]}).name;
+          }
+        }
+
+        // adding competency name
+        for (let key in localBadgeList) {
+            localBadgeList[key]["competencyName"]= CompetencyDB.findOne({"_id": localBadgeList[key].competencyID}).name;
+        }
+
+        // adding level name
+        for (let key in localBadgeList) {
+            localBadgeList[key]["levelName"]= LevelDB.findOne({"_id": localBadgeList[key].levelID}).name;
+        }
+
+        // adding tools
+        for (let key in localBadgeList) {
+          for (let i in localBadgeList[key].tools) {
+            localBadgeList[key].tools[i]= ToolDB.findOne({"_id": localBadgeList[key].tools[i]}).name;
+          }
+        }
+
+        for (let key in localBadgeList) {
+          this.earnableBadges.insert(localBadgeList[key]);
+        }
+
+        // getting all badges to display in template
+        this.badges = this.earnableBadges.find().fetch();
+
+        console.log(this.badges);
+        // getting the number of badges
+        this.countTotalBadges();
+        // getting all filter details
+        this.setFilterDetails();
+
+        this.dataIsLoading = false;
+
+      }
+      //  else {
+      //   // TODO: handle error
+      // }
+
+   });
+  }
 
   countTotalBadges() {
     this.numberOfBadges = this.badges.length;
@@ -510,6 +513,21 @@ export class SearchService {
 
 
 
+
+  }
+
+  performStepByStepSearch() {
+    // step-1: user clicks campus
+    // we go to the next level is it has next level
+    // for example if a faculty doesn't have institute it ends there
+    // step-2: user clicks faculty
+    // step-3: user clicks institute
+    // step-4: user clicks course
+    this.slideinAnimationState = 'out';
+
+  }
+
+  resetStepByStepSearch() {
 
   }
 

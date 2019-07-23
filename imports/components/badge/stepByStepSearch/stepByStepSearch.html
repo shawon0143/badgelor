@@ -1,0 +1,38 @@
+<!-- ========================================== -->
+<!--    START OF step by step search UI ======= -->
+<!-- ========================================== -->
+<ng-container *ngIf="!badgeService.enableTextBasedSearch">
+
+  <div class="container stepByStepSearchContainer">
+
+      <!-- Step- 1 view campus -->
+      <ng-container *ngIf="stepOne">
+        <h2 class="h1 text-uppercase mb-4">Select Campus</h2>
+        <div class="row justify-content-md-center">
+          <ng-container *ngFor="let campus of campuses | async;">
+            <div class="col-xs-12 col-md-4">
+                <div class="card" (click)="searchService.performStepByStepSearch(); goToStepTwo()">
+                  <div class="body">
+                      <h2 class="text-capitalize">{{campus?.name}}</h2>
+                  </div>
+                </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <!-- END of step -1 view campus -->
+
+      <!-- Start of Step-2 view faculty -->
+
+      <!-- END of step-2 view faculty -->
+
+  </div>
+
+
+
+  <button type="button" *ngIf="!stepOne" class="btn btn-outline-success" (click)="searchService.resetStepByStepSearch()" >Start again</button>
+  <button type="button" class="btn btn-outline-primary" (click)="badgeService.hideStepByStepSearch(); searchService.collapseSideBar()" >Search by text</button>
+</ng-container>
+<!-- ========================================== -->
+<!--    END OF step by step search UI ======= -->
+<!-- ========================================== -->

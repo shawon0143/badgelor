@@ -2,9 +2,7 @@ import 'zone.js';
 import 'reflect-metadata';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Meteor } from 'meteor/meteor';
-import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { Accounts } from 'meteor/accounts-base';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { MeteorObservable } from "meteor-rxjs";
 import { AccountService } from '/imports/service/accountService';
 import { AutoLogoutService } from '/imports/service/autoLogout';
@@ -68,6 +66,8 @@ export class EarnableBadges implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.searchService.getEarnableBadges();
+
     localStorage.setItem('lastAction', Date.now().toString());
     // after routing from another page it remembers the previous window position
     // Code below is to solve that scrolling problem
@@ -85,6 +85,23 @@ export class EarnableBadges implements OnInit, OnDestroy {
     if (this.metadataSubscription) {
       this.metadataSubscription.unsubscribe();
     }
+
+    if (this.meteorSubscriptionCourse) {
+      this.meteorSubscriptionCourse.unsubscribe();
+    }
+
+    if (this.meteorSubscriptionTool) {
+      this.meteorSubscriptionTool .unsubscribe();
+    }
+
+    if (this.meteorSubscriptionCompetency) {
+      this.meteorSubscriptionCompetency.unsubscribe();
+    }
+
+    if (this.meteorSubscriptionLevel) {
+      this.meteorSubscriptionLevel.unsubscribe();
+    }
+
   }
 
 

@@ -1,9 +1,7 @@
-import { Injectable, NgZone, ApplicationRef } from '@angular/core';
-import { Accounts } from 'meteor/accounts-base';
-import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { Meteor } from 'meteor/meteor';
 import { MeteorObservable } from "meteor-rxjs";
-import { Observable } from "rxjs";
 import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB } from "/imports/api/index";
 
 
@@ -136,6 +134,10 @@ creatorSideMenuAnimationState: string = "hide";
 showSideMenu: boolean = false;
 selectedBadgeCreatorObfProfileURL: string = "";
 
+// search badge related variables
+enableTextBasedSearch: boolean = true;
+enableStepByStepSearch: boolean = false;
+
 constructor( public zone: NgZone,
              public router: Router) {
 
@@ -165,6 +167,14 @@ getAllCompetencies() {
 getAllTools() {
   return ToolDB.find({}).fetch();
 } // END OF getAllTools()  -------------
+
+showStepByStepSearch() {
+  this.enableTextBasedSearch = false;
+}
+
+hideStepByStepSearch() {
+  this.enableTextBasedSearch = true;
+}
 
 showSingleBadgeModal(badge_id) {
   this.singleBadge = "";
@@ -226,7 +236,7 @@ hideApplyBadgeModalOnUI() {
 // ========================================
 
 toggleDraft() {
-  this.newBadgeData.draft = this.newBadgeData.draft === false ? true : false;
+  this.newBadgeData.draft = !this.newBadgeData.draft;
 }
 
 // ======= methods for tool field ======
@@ -728,6 +738,15 @@ showSideMenuOnUI() {
   } // END OF getAllBadges()
   // ==============================================================
   // ===== END OF view all badges  related methods ================
+  // ==============================================================
+
+  // ==============================================================
+  // ===== START OF step by step search related methods ===========
+  // ==============================================================
+
+
+  // ==============================================================
+  // ===== END OF step by step search related methods ===========
   // ==============================================================
 
 

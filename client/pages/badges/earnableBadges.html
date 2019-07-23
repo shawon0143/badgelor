@@ -9,38 +9,45 @@
   </div>
 
   <div class="container text-center searchFormContainer">
-    <h2 class="h1 text-uppercase mb-4">GET RECOGNISED</h2>
+    <ng-container *ngIf="badgeService.enableTextBasedSearch">
+      <h2 class="h1 text-uppercase mb-4">GET RECOGNISED</h2>
 
-    <!-- Search Form -->
-    <form class="mx-auto">
-      <div class="form-group mb-2">
-        <div class="input-group rounded mb-3">
-          <input class="form-control border-right-0 pr-0"
-                 type="text"
-                 name="searchBadge"
-                 placeholder="What badge do you want to earn?"
-                 (keyup)="searchService.search()"
-                 (focus)="searchService.resetAllFilter()"
-                 [(ngModel)]="searchService.searchKeywords">
-          <div class="input-group-addon d-flex align-items-center">
-            <button class="btn btn-info" type="submit">
-              <i class="icon-magnifier"></i>
-            </button>
+      <!-- Search Form -->
+      <form class="mx-auto">
+        <div class="form-group mb-2">
+          <div class="input-group rounded mb-3">
+            <input class="form-control border-right-0 pr-0"
+                   type="text"
+                   name="searchBadge"
+                   placeholder="What badge do you want to earn?"
+                   (keyup)="searchService.search()"
+                   (focus)="searchService.resetAllFilter()"
+                   [(ngModel)]="searchService.searchKeywords">
+            <div class="input-group-addon d-flex align-items-center">
+              <button class="btn btn-info" type="submit">
+                <i class="icon-magnifier"></i>
+              </button>
+            </div>
           </div>
+          <h5 class="form-text">Search any keyword, badge name, course name and so on.</h5>
         </div>
-        <h5 class="form-text">Search any keyword, badge name, course name and so on.</h5>
-      </div>
-    </form>
-    <!-- End Search Form -->
-    <h4>Or</h4>
-    <!--  Step by Step Search -->
-    <button class="btn btn-outline-secondary" type="button">Search Step by Step</button>
-    <!-- END OF Step by Step Search -->
+      </form>
+      <!-- End Search Form -->
+      <h4>Or</h4>
+      <!--  Step by Step Search -->
+
+      <!-- END OF Step by Step Search -->
+      <button class="btn btn-outline-secondary" type="button" (click)="badgeService.showStepByStepSearch()">Search Step by Step</button>
+    </ng-container>
+    <stepByStep-search></stepByStep-search>  
+
   </div>
 </section>
 <!-- =================================== -->
 <!--     END TOP SEARCH INPUT AREA here  -->
 <!-- =================================== -->
+
+
 
 
 
