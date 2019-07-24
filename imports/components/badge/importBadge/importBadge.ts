@@ -35,9 +35,9 @@ export class ImportBadge implements OnInit, OnDestroy {
                private badgeService: BadgeService) {
 
                // getting all badges from OBF data base.
-               MeteorObservable.call('getAllBadges').subscribe((response) => {
+               MeteorObservable.call('getEarnableBadges').subscribe((response) => {
                  if (response != undefined || response != "") {
-                   // console.log(response);
+                   console.log(response);
                    for (let key in response) {
                      this.allBadges.push(response[key]);
                    }
@@ -77,7 +77,7 @@ export class ImportBadge implements OnInit, OnDestroy {
     if (localBadgeIdList !== undefined && this.allBadges.length > 0) {
       // filtering the badges that are not in badgelor db
       var filteredBadges = this.allBadges.filter((res) => {
-        return localBadgeIdList.indexOf(res.id) === -1;
+        return localBadgeIdList.indexOf(res.badge_id) === -1;
       } );
     }
     return filteredBadges;

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Meteor } from 'meteor/meteor';
 import { MeteorObservable } from "meteor-rxjs";
 import { Observable } from "rxjs";
-import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB } from "/imports/api/index";
+import { CourseDB, LevelDB, CompetencyDB, ToolDB, MetadataDB, CampusDB, FacultyDB, InstituteDB } from "/imports/api/index";
 
 
 @Injectable()
@@ -39,6 +39,12 @@ export class SearchService {
   // variable slideinout animation of filter sidebar
   slideinAnimationState: string = 'in';
 
+  // flag for step by step search
+  selectedCampusForStepByStepSearch;
+  selectedFacultyForStepByStepSearch;
+  selectedInstituteForStepByStepSearch;
+  selectedCourseForStepByStepSearch;
+
   constructor( public zone: NgZone,
                public router: Router) {
 
@@ -50,7 +56,7 @@ export class SearchService {
     MeteorObservable.call('getEarnableBadges').subscribe((response) => {
 
       if (response != undefined || response != "") {
-        console.log(response);
+        // console.log(response);
         // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
         var localBadgeList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch();
 
@@ -60,42 +66,28 @@ export class SearchService {
               localBadgeList[i]["badge_image"] = response[key].badge_image;
               localBadgeList[i]["name"] = response[key].name;
               localBadgeList[i]["id"] = response[key].id;
+               let courseDB = CourseDB.findOne({"_id": localBadgeList[i].courses[0]});
+               localBadgeList[i]["campusName"] = CampusDB.findOne({"_id": courseDB.campusID}).name;
+               localBadgeList[i]["facultyName"] = FacultyDB.findOne({"_id": courseDB.facultyID}).name;
+               localBadgeList[i]["instituteName"] = InstituteDB.findOne({"_id": courseDB.instituteID}).name;
               // this.earnableBadges.insert(localBadgeList[i]);
+              localBadgeList[i]["competencyName"]= CompetencyDB.findOne({"_id": localBadgeList[i].competencyID}).name;
+              localBadgeList[i]["levelName"]= LevelDB.findOne({"_id": localBadgeList[i].levelID}).name;
+              localBadgeList[i].courses[0]= CourseDB.findOne({"_id": localBadgeList[i].courses[0]}).name;
+              for (let j in localBadgeList[i].tools) {
+                localBadgeList[i].tools[j]= ToolDB.findOne({"_id": localBadgeList[i].tools[j]}).name;
+              }
+
+              this.earnableBadges.insert(localBadgeList[i]);
+
             }
           }
-        }
-        // adding course names in the collection instead of ID
-        for (let key in localBadgeList) {
-          for (let i in localBadgeList[key].courses) {
-            localBadgeList[key].courses[i]= CourseDB.findOne({"_id": localBadgeList[key].courses[i]}).name;
-          }
-        }
-
-        // adding competency name
-        for (let key in localBadgeList) {
-            localBadgeList[key]["competencyName"]= CompetencyDB.findOne({"_id": localBadgeList[key].competencyID}).name;
-        }
-
-        // adding level name
-        for (let key in localBadgeList) {
-            localBadgeList[key]["levelName"]= LevelDB.findOne({"_id": localBadgeList[key].levelID}).name;
-        }
-
-        // adding tools
-        for (let key in localBadgeList) {
-          for (let i in localBadgeList[key].tools) {
-            localBadgeList[key].tools[i]= ToolDB.findOne({"_id": localBadgeList[key].tools[i]}).name;
-          }
-        }
-
-        for (let key in localBadgeList) {
-          this.earnableBadges.insert(localBadgeList[key]);
         }
 
         // getting all badges to display in template
         this.badges = this.earnableBadges.find().fetch();
 
-        console.log(this.badges);
+        // console.log(this.badges);
         // getting the number of badges
         this.countTotalBadges();
         // getting all filter details
@@ -186,6 +178,7 @@ export class SearchService {
 
 
   resetAllFilter() {
+    this.slideinAnimationState = 'in';
     // first check if the search keywords are empty or not.
     // only resets if search keywords are empty
     if (this.searchKeywords === "") {
@@ -496,7 +489,10 @@ export class SearchService {
             { keywords: regex },
             { tools: regex },
             { competencyName: regex },
-            { levelName: regex }
+            { levelName: regex },
+            { campusName: regex },
+            { facultyName: regex },
+            { instituteName: regex }
           ]
         };
 
@@ -516,7 +512,7 @@ export class SearchService {
 
   }
 
-  performStepByStepSearch() {
+  performStepByStepSearch(searchString, step) {
     // step-1: user clicks campus
     // we go to the next level is it has next level
     // for example if a faculty doesn't have institute it ends there
@@ -525,10 +521,66 @@ export class SearchService {
     // step-4: user clicks course
     this.slideinAnimationState = 'out';
 
+
+    let query      = {},
+        projection = { limit: 10, sort: { name: 1 } };
+
+    if ( searchString ) {
+      // let regex = new RegExp( searchString, 'i' );
+
+      if(step === 'stepOne'){
+        this.selectedCampusForStepByStepSearch = searchString;
+        query = {
+          $or: [
+            { campusName: this.selectedCampusForStepByStepSearch }
+          ]
+        };
+      } else if(step === 'stepTwo'){
+        this.selectedFacultyForStepByStepSearch = searchString;
+        query = {
+          $and: [
+            { campusName: this.selectedCampusForStepByStepSearch },
+            { facultyName: this.selectedFacultyForStepByStepSearch }
+          ]
+        };
+      } else if(step === 'stepThree'){
+        this.selectedInstituteForStepByStepSearch = searchString;
+        query = {
+          $and: [
+            { campusName: this.selectedCampusForStepByStepSearch },
+            { facultyName: this.selectedFacultyForStepByStepSearch },
+            { instituteName: this.selectedInstituteForStepByStepSearch }
+          ]
+        };
+      } else if(step === 'stepFour'){
+        this.selectedCourseForStepByStepSearch = searchString;
+        query = {
+          $and: [
+            { campusName: this.selectedCampusForStepByStepSearch },
+            { facultyName: this.selectedFacultyForStepByStepSearch },
+            { instituteName: this.selectedInstituteForStepByStepSearch },
+            { courses: this.selectedCourseForStepByStepSearch }
+          ]
+        };
+      }
+
+      projection.limit = 100;
+
+      this.badges = this.earnableBadges.find( query, projection ).fetch();
+      this.countTotalBadges();
+
   }
+}
 
   resetStepByStepSearch() {
+    this.badges = this.earnableBadges.find().fetch();
+  }
 
+  resetStepByStepSearchBreadcrumb() {
+    this.selectedCampusForStepByStepSearch = undefined;
+    this.selectedFacultyForStepByStepSearch = undefined;
+    this.selectedInstituteForStepByStepSearch = undefined;
+    this.selectedCourseForStepByStepSearch = undefined;
   }
 
 

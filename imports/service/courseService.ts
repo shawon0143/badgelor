@@ -61,7 +61,11 @@ export class CourseService {
     return CourseDB.find({}).fetch();
   } // END OF getAllCourses --------
 
-
+  getCoursesOfSelectedInstitute(instituteID): Observable<any[]> {
+    return CourseDB.find({"instituteID": instituteID}).map(course => {
+      return course;
+    });
+  } // END OF getInstitutesOfSelectedFaculty --------
 
 
   // The course CRUD method does both add and update of course

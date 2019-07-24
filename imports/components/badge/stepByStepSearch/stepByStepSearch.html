@@ -11,7 +11,7 @@
         <div class="row justify-content-md-center">
           <ng-container *ngFor="let campus of campuses | async;">
             <div class="col-xs-12 col-md-4">
-                <div class="card" (click)="searchService.performStepByStepSearch(); goToStepTwo()">
+                <div class="card" (click)="searchService.performStepByStepSearch(campus.name, 'stepOne'); goToStepTwo(campus._id)">
                   <div class="body">
                       <h2 class="text-capitalize">{{campus?.name}}</h2>
                   </div>
@@ -23,15 +23,74 @@
       <!-- END of step -1 view campus -->
 
       <!-- Start of Step-2 view faculty -->
-
+      <ng-container *ngIf="stepTwo">
+        <h2 class="h1 text-uppercase mb-4">Select Faculty</h2>
+        <div class="row justify-content-md-center">
+          <ng-container *ngFor="let faculty of faculties">
+            <div class="col-xs-12 col-md-3">
+                <div class="card" (click)="searchService.performStepByStepSearch(faculty.name, 'stepTwo'); goToStepThree(faculty._id)">
+                  <div class="box">
+                    <h6 class="text-capitalize">{{faculty?.name}}</h6>
+                  </div>
+                </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
       <!-- END of step-2 view faculty -->
+
+      <!-- Start of Step-3 view Institute -->
+      <ng-container *ngIf="stepThree">
+        <h2 class="h1 text-uppercase mb-4">Select Institute</h2>
+        <div class="row justify-content-md-center">
+          <ng-container *ngFor="let institute of institutes">
+            <div class="col-xs-12 col-md-3">
+                <div class="card" (click)="searchService.performStepByStepSearch(institute.name, 'stepThree'); goToStepFour(institute._id)">
+                  <div class="box">
+                    <h6 class="text-capitalize">{{institute?.name}}</h6>
+                  </div>
+                </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <!-- END of Step-3 view Institute -->
+
+      <!-- Start of Step-4 view Course -->
+      <ng-container *ngIf="stepFour">
+        <h2 class="h1 text-uppercase mb-4">Select Course</h2>
+        <div class="row justify-content-md-center">
+          <ng-container *ngFor="let course of courses">
+            <div class="col-xs-12 col-md-3">
+                <div class="card" (click)="searchService.performStepByStepSearch(course.name, 'stepFour');">
+                  <div class="box">
+                    <h6 class="text-capitalize">{{course?.name}}</h6>
+                  </div>
+                </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <!-- END of Step-3 view Course -->
 
   </div>
 
+  <!-- <div class="alert alert-warning" role="alert" *ngIf="errorMsg !== ''">
+    {{errorMsg}}
+  </div> -->
 
+  <button type="button"
+          *ngIf="!stepOne"
+          class="btn btn-outline-success mt-4"
+          (click)="searchService.resetStepByStepSearch(); badgeService.showStepByStepSearch(); goToStepOne(); searchService.resetStepByStepSearchBreadcrumb()"
+  >Start again
+  </button>
+  <button type="button"
+          class="btn btn-outline-primary mt-4"
+          (click)="badgeService.hideStepByStepSearch(); searchService.resetAllFilter(); goToStepOne(); searchService.resetStepByStepSearchBreadcrumb()"
+  >Search by text
+  </button>
 
-  <button type="button" *ngIf="!stepOne" class="btn btn-outline-success" (click)="searchService.resetStepByStepSearch()" >Start again</button>
-  <button type="button" class="btn btn-outline-primary" (click)="badgeService.hideStepByStepSearch(); searchService.collapseSideBar()" >Search by text</button>
 </ng-container>
 <!-- ========================================== -->
 <!--    END OF step by step search UI ======= -->

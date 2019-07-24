@@ -28,7 +28,7 @@
           <li class="nav-item" *ngIf="accountService.isUserLoggedIn === false">
             <a class="nav-link" (click)= "accountService.showLoginAndSignupView()" (click) = "accountService.showLoginView()"><i class="fa fa-sign-in fa-fw"></i>Login</a>
           </li>
-          <li class="nav-item" routerLinkActive="active" [routerLink]="['/myprofile',accountService.currentUserId]" *ngIf="accountService.isUserLoggedIn && accountService.isUserTypeApplicant">
+          <li class="nav-item" routerLinkActive="active" [routerLink]="['/myprofile',accountService.currentUserId]" *ngIf="accountService.isUserLoggedIn">
             <a class="nav-link"><i class="fa fa-user fa-fw"></i>  My Profile</a>
           </li>
           <li class="nav-item" *ngIf="accountService.isUserLoggedIn">

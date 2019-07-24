@@ -45,7 +45,7 @@ facultyOfThisCampus: any;
                  this.allCampuses = this.campusService.getAllCampuses();
                });
 
-               this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllFaculties").subscribe(() => {
+               this.meteorSubscriptionFaculty = MeteorObservable.subscribe<any>("publishAllFaculties").subscribe(() => {
                  this.allFaculties = this.facultyService.getAllFaculties();
                });
 

@@ -30,6 +30,9 @@ export class EarnableBadges implements OnInit, OnDestroy {
   private meteorSubscriptionTool: any;
   private meteorSubscriptionCompetency: any;
   private meteorSubscriptionLevel: any;
+  private meteorSubscriptionCampus: any;
+  private meteorSubscriptionFaculty: any;
+  private meteorSubscriptionInstitute: any;
 
 
 
@@ -59,6 +62,18 @@ export class EarnableBadges implements OnInit, OnDestroy {
                  });
 
                  this.meteorSubscriptionLevel = MeteorObservable.subscribe<any>("publishAllLevels").subscribe(() => {
+
+                 });
+
+                 this.meteorSubscriptionCampus = MeteorObservable.subscribe<any>("publishAllCampuses").subscribe(() => {
+
+                 });
+
+                 this.meteorSubscriptionFaculty = MeteorObservable.subscribe<any>("publishAllFaculties").subscribe(() => {
+
+                 });
+
+                 this.meteorSubscriptionInstitute = MeteorObservable.subscribe<any>("publishAllInstitutes").subscribe(() => {
 
                  });
 

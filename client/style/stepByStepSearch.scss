@@ -3,7 +3,7 @@
 .stepByStepSearchContainer {
   .card {
     background: #fff;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     transition: .5s;
     border: 0;
     border-radius: .55rem;
@@ -36,6 +36,14 @@
       padding: 20px;
       font-weight: 400;
     } // END OF .body
+
+    .box {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
   } // END OF .card
 
   .card .header h2::before {
@@ -51,6 +59,9 @@
   .card:hover {
     cursor: pointer;
     .body {
+      color: $secondary;
+    }
+    .box {
       color: $secondary;
     }
   }

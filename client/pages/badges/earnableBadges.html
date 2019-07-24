@@ -39,7 +39,7 @@
       <!-- END OF Step by Step Search -->
       <button class="btn btn-outline-secondary" type="button" (click)="badgeService.showStepByStepSearch()">Search Step by Step</button>
     </ng-container>
-    <stepByStep-search></stepByStep-search>  
+    <stepByStep-search></stepByStep-search>
 
   </div>
 </section>
@@ -126,6 +126,35 @@
       <div class="col-lg-9">
       <!-- <div > -->
         <div class="searchResultBodyWrapper">
+          <!-- ======================== -->
+          <!-- ====  START Breadcrumb ======== -->
+          <!-- ======================== -->
+          <ng-container *ngIf="searchService.selectedCampusForStepByStepSearch !== undefined">
+            <div class="row">
+              <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                      {{searchService.selectedCampusForStepByStepSearch}}
+                    </li>
+                    <li class="breadcrumb-item active" *ngIf="searchService.selectedFacultyForStepByStepSearch !== undefined">
+                      {{searchService.selectedFacultyForStepByStepSearch}}
+                    </li>
+                    <li class="breadcrumb-item active" *ngIf="searchService.selectedInstituteForStepByStepSearch !== undefined">
+                      {{searchService.selectedInstituteForStepByStepSearch}}
+                    </li>
+                    <li class="breadcrumb-item active" *ngIf="searchService.selectedCourseForStepByStepSearch !== undefined">
+                      {{searchService.selectedCourseForStepByStepSearch}}
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- ======================== -->
+          <!-- ====  END Breadcrumb ======== -->
+          <!-- ======================== -->
           <!-- ==================== -->
           <!-- Top row result count -->
           <!-- ==================== -->
@@ -147,6 +176,7 @@
           <!-- =========================== -->
           <!-- END OF Top row result count -->
           <!-- =========================== -->
+
 
           <!-- ====================== -->
           <!-- Main search result row -->

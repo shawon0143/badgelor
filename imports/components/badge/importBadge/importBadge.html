@@ -40,10 +40,10 @@
            <ng-container *ngFor = "let badge of allImportBadges; let i=index ">
              <tr>
                <td>{{i+1}}</td>
-               <td><img class="img-fluid rounded border p-1" [src]="badge?.image | safe" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.id)"></td>
-               <td class="text-capitalize"><span class="badgeName">{{badge?.name}}</span></td>
+               <td><img class="img-fluid rounded border p-1" [src]="badge?.badge_image | safe" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.badge_id)"></td>
+               <td class="text-capitalize"><span class="badgeName">{{badge?.badge_name}}</span></td>
                <td>
-                 <button type="button" class="btn btn-sm btn-outline-primary" (click) = "importThisBadge(badge.id)"><i class="fa fa-cloud-download"></i> Import</button>
+                 <button type="button" class="btn btn-sm btn-outline-primary" (click) = "importThisBadge(badge.badge_id)"><i class="fa fa-cloud-download"></i> Import</button>
                </td>
              </tr>
            </ng-container>
