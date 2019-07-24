@@ -361,9 +361,6 @@ export class SearchService {
     }
 
 
-
-    console.log(this.badges);
-
     // how many scenarios can there be
     // 1. only level filter enabled
     // 2. only competency filter enabled

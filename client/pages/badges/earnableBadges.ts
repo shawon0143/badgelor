@@ -119,6 +119,15 @@ export class EarnableBadges implements OnInit, OnDestroy {
 
   }
 
+  applyForBadge(badgeID) {
+    if (this.accountService.isUserLoggedIn === true) {
+      this.badgeService.showApplyBadgeModal(badgeID);
+    }  else {
+      this.accountService.showLoginView();
+      this.accountService.showLoginAndSignupView();
+    }
+  }
+
 
 
 } // end of class EarnableBadges

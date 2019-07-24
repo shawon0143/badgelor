@@ -166,6 +166,7 @@ export class AccountService {
     document.body.classList.add('showBodyScroll');
   }
   showLoginView() {
+    console.log('showlogin called');
     this.showLoginViewOnUI = true;
     this.showSignupViewOnUI = false;
     this.signupData = JSON.parse(this.resetSignupData);
