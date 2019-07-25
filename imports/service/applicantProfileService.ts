@@ -57,18 +57,19 @@ export class ApplicantProfileService {
 
     for (let i = 0; i < this.earnableIDlist.length; i++) {
 
-      // MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], this.myProfile.emails[0].address).subscribe((response) => {
-      MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], "gektor@uni-koblenz.de").subscribe((response) => {
-        console.log(response);
-        if (response != undefined || response != "") {
-          this.getMyApplications(response);
-        }
-        // else {
-        //   // TODO: handle error
-        // }
+      if (this.myProfile !== undefined) {
+        MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], this.myProfile.emails[0].address).subscribe((response) => {
+        // MeteorObservable.call('getAllBadgeApplication', this.earnableIDlist[i], "gektor@uni-koblenz.de").subscribe((response) => {
+          // console.log(response);
+          if (response != undefined || response != "") {
+            this.getMyApplications(response);
+          }
+          // else {
+          //   // TODO: handle error
+          // }
 
-      });
-
+        });
+      }
     }
 
   } // END OF getAllBadgeApplications()

@@ -72,7 +72,7 @@
             <!-- ===== Step 1: badge data === -->
             <!-- ============================ -->
             <ng-container *ngIf = "badgeDataState === true">
-              <div class="row">
+              <div class="row mt-5">
                 <div class="col-md-3">
                   <!-- Badge image -->
                   <div class="badgeImage text-center">
@@ -239,7 +239,7 @@
                   <ng-container *ngIf= "this.badgeService.selectedToolNames.length > 0">
                     <div class="row">
                       <div class="col-3" *ngFor="let toolName of this.badgeService.selectedToolNames; let i=index">
-                        <div class="selectedOptionForMetadata text-capitalize" [@fadeInAnimation]>{{toolName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeToolToMetadata(i)"></i> </div>
+                        <div class="selectedOptionForMetadata text-capitalize text-truncate" [@fadeInAnimation]>{{toolName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeToolToMetadata(i)"></i> </div>
                       </div>
                     </div>
                   </ng-container>
@@ -285,7 +285,7 @@
                   <ng-container *ngIf= "this.badgeService.selectedCourseNames.length > 0">
                     <div class="row">
                       <div class="col-3" *ngFor="let courseName of this.badgeService.selectedCourseNames; let i=index">
-                        <div class="selectedOptionForMetadata text-capitalize" [@fadeInAnimation]>{{courseName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeCourseToMetadata(i)"></i> </div>
+                        <div class="selectedOptionForMetadata text-capitalize text-truncate" [@fadeInAnimation]>{{courseName}} <i class="fa fa-times pull-right" (click) = "badgeService.removeCourseToMetadata(i)"></i> </div>
                       </div>
                     </div>
                   </ng-container>
@@ -328,7 +328,7 @@
                   <ng-container  *ngIf= "this.badgeService.selectedIssuers.length > 0">
                     <div class="row">
                       <div class="col-3" *ngFor="let issuerEmail of this.badgeService.selectedIssuers; let i=index">
-                        <div class="selectedOptionForMetadata" [@fadeInAnimation]>
+                        <div class="selectedOptionForMetadata text-truncate" [@fadeInAnimation]>
                           {{issuerEmail}} <i class="fa fa-times pull-right" (click) = "badgeService.removeIssuerToMetadata(i)" *ngIf = "issuerEmail !== badgeService.metadata.creator"></i>
                         </div>
                       </div>
@@ -370,7 +370,7 @@
                   <ng-container *ngIf = "badgeService.selectedKeywords.length > 0">
                     <div class="row">
                       <div class="col-3" *ngFor="let keyword of this.badgeService.selectedKeywords; let i=index">
-                        <div class="selectedOptionForMetadata">
+                        <div class="selectedOptionForMetadata text-truncate">
                           {{keyword}} <i class="fa fa-times pull-right" (click) = "badgeService.removeKeywordToMetadata(i)" *ngIf = "keyword !== badgeService.newBadgeData.name"></i>
                         </div>
                       </div>

@@ -23,12 +23,12 @@
         Users
       </a>
     </li>
-    <li class="nav-item pl-md-2">
+    <!-- <li class="nav-item pl-md-2">
       <a class="nav-link">
         <i class="icon-paper-plane"></i>
         Issuer Tools
       </a>
-    </li>
+    </li> -->
 <!--    <li class="nav-item pl-md-2">-->
 <!--      <a class="nav-link">-->
 <!--        <i class="icon-chart"></i>-->
@@ -101,13 +101,13 @@
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
-      <a class="nav-link" [routerLink] = "['updateMetadata']">
+      <a class="nav-link" [routerLink] = "['updateMetadata']" (click)="hideBadgeEditForm()">
         <i class="icon-puzzle"></i>
         Update Metadata
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
-      <a class="nav-link" [routerLink] = "['viewAllBadges']">
+      <a class="nav-link" [routerLink] = "['viewAllBadges']" (click)="hideBadgeEditForm()">
         <i class="icon-folder"></i>
         View All
       </a>

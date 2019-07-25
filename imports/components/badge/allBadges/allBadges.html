@@ -3,7 +3,7 @@
   <addNewBadge-component></addNewBadge-component>
 </ng-container>
 
-<div class="importBadgeContainer">
+<div class="importBadgeContainer" *ngIf = "badgeService.showBadgeEditForm === false">
   <!-- =========================================================== -->
   <!-- ========= START OF ALL BADGELOR USERS TABLE =============== -->
   <!-- =========================================================== -->
@@ -46,7 +46,12 @@
              <tr>
                <td>{{i+1}}</td>
                <td><img class="img-fluid rounded border p-1" [src]="badge?.image | safe" alt="badgePic" (click) = "badgeService.showSingleBadgeModal(badge.id)"></td>
-               <td class="text-capitalize"><span class="badgeName">{{badge?.name}}</span></td>
+               <td class="text-capitalize">
+                 <span class="badgeName">{{badge?.name}}</span>
+                 <span class="badge badge-pill badge-warning text-capitalize ml-4" *ngIf="badge?.readyforissuing === false">
+                   Not earnable
+                 </span>
+               </td>
                <td>
                  <button type="button" class="btn btn-sm btn-outline-success" (click) = "badgeService.showSingleBadgeModal(badge.id)">View</button>
                  <button type="button" class="btn btn-sm btn-outline-info" (click) = "badgeService.editThisBadge(badge.id)">Edit</button>

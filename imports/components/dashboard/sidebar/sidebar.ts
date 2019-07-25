@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
 import { AccountService } from '/imports/service/accountService';
+import { BadgeService } from '/imports/service/badgeService';
 
 import template from './sidebar.html';
 
@@ -17,7 +18,7 @@ import template from './sidebar.html';
 
 export class DashboardSidebar implements OnInit {
 
-  constructor(public accountService: AccountService) {
+  constructor(public accountService: AccountService, public badgeService: BadgeService) {
 
 
   }
@@ -26,6 +27,10 @@ export class DashboardSidebar implements OnInit {
 
 
   } // end of ngOnInit
+
+  hideBadgeEditForm() {
+    this.badgeService.showBadgeEditForm = false;
+  }
 
 
 

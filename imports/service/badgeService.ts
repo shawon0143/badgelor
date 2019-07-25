@@ -85,15 +85,15 @@ listOfAllBadges: any = [];
 isTheSystemHasBadges: boolean = true;
 
 metadata = {
-  courses: '',
-  issuers: '',
-  keywords: '',
+  courses: [],
+  issuers: [],
+  keywords: [],
   levelID: '',
   competencyID: '',
-  tools: '',
+  tools: [],
   creator: '',
-  applicants: '',
-  earners: ''
+  applicants: [],
+  earners: []
 };
 metadataReset;
 newBadgeData = {
@@ -273,7 +273,7 @@ addToolToMetadata(tool) {
     this.selectedTools.push(tool._id);
   }
 
-} // END OF addCourseToMetadata(course)
+} // END OF addToolToMetadata(course)
 
 removeToolToMetadata(index) {
   this.selectedToolNames.splice(index, 1);
@@ -577,7 +577,7 @@ showSideMenuOnUI() {
     // the user is not mapped with obf so call that function
     // call a method to update
     MeteorObservable.call('insertUserObfID', this.newObfBadgeCreatorEmail,this.newObfBadgeCreatorObfID). subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       //successfully updated creator ObfID;
       if (response["code"] === 200) {
         this.newObfBadgeCreatorEmail = "";
@@ -603,12 +603,14 @@ showSideMenuOnUI() {
 
   importBadge(creatorEmail, badge_id) {
 
-    this.metadata.courses = this.selectedCourses;
-    this.metadata.issuers = this.selectedIssuers;
-    this.metadata.keywords = this.selectedKeywords;
-    this.metadata.applicants = this.applicantsOfThisBadge;
-    this.metadata.earners = this.earnersOfThisBadge;
-    this.metadata.tools = this.selectedTools;
+    this.metadata.courses = [];
+    this.metadata.issuers = [];
+    this.metadata.keywords = [];
+    this.metadata.applicants = [];
+    this.metadata.earners = [];
+    this.metadata.tools = [];
+    this.metadata.levelID = '';
+    this.metadata.competencyID = '';
     this.metadata.creator = creatorEmail;
     this.metadata["badge_id"] = badge_id;
 
@@ -673,16 +675,32 @@ showSideMenuOnUI() {
 
     this.showBadgeEditForm = true; // show badge edit form flag
     this.selectedBadgeIdForEdit = badge_id;
+    this.isLevelSelectedForNewBadge = true;
+    this.isCompetencySelectedForNewBadge = true;
+
 
     this.meteorSingleBadgeSubscription = MeteorObservable.call('getSingleBadge', badge_id).subscribe((response) => {
       if (response != undefined || response != "") {
+        // console.log(response);
+        this.selectedToolNames = [];
+        this.selectedCourseNames = [];
 
-        var userDB = Meteor.users.findOne({"obfID": response["lastmodifiedby"]});
-        if (userDB != undefined) {
-          this.selectedIssuers = []; // clearing the array in the beginning
-          this.metadata["creator"] =  userDB.emails[0].address;
-          this.selectedIssuers.push(userDB.emails[0].address);
+        this.selectedIssuers = response['metadata']['issuers'];
+        for (let key in response['metadata'].tools) {
+          let tool = ToolDB.findOne({"_id": response['metadata'].tools[key]});
+          if (tool !== undefined) {
+            this.addToolToMetadata(tool)
+          }
         }
+        for (let i in response['metadata'].courses) {
+          let course = CourseDB.findOne({"_id": response['metadata'].courses[i]});
+          if (course !== undefined) {
+            this.addCourseToMetadata(course)
+          }
+        }
+
+
+        this.metadata = response['metadata'];
         this.newBadgeData = {
           name: response["name"],
           description: response["description"],

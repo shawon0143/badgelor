@@ -555,7 +555,7 @@ export class AccountService {
           imageURL: "/images/avatar.png"
         }
         MeteorObservable.call("createMyProfile", profileData).subscribe((response) => {
-          console.log(response);
+          // console.log(response);
           console.log("new profile created")
         }, (err) => {
           // TODO: handle error
@@ -633,7 +633,7 @@ export class AccountService {
           imageURL: "/images/avatar.png"
         }
         MeteorObservable.call("createMyProfile", profileData).subscribe((response) => {
-          console.log(response);
+          // console.log(response);
           console.log("new profile created")
         }, (err) => {
           // TODO: handle error
