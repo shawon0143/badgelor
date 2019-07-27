@@ -14,13 +14,13 @@
     <li class="nav-item pl-md-2" routerLinkActive = "active" [routerLinkActiveOptions]="{exact: true}">
       <a class="nav-link" [routerLink] = "['overview']">
         <i class="icon-home"></i>
-        Overview
+        {{translatorService.selectedLanguage.overview}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['users']">
         <i class="icon-people"></i>
-        Users
+        {{translatorService.selectedLanguage.users}}
       </a>
     </li>
     <!-- <li class="nav-item pl-md-2">
@@ -38,7 +38,7 @@
   </ul>
 
   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-success">
-    <span>Metadata Management</span>
+    <span>{{translatorService.selectedLanguage.metadataManagement}}</span>
   </h6>
   <ul class="nav flex-column mb-2">
     <li class="nav-item pl-md-2"  routerLinkActive = "active">
@@ -50,66 +50,66 @@
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['faculty']">
         <i class="icon-organization"></i>
-        Faculty
+        {{translatorService.selectedLanguage.faculty}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['institutes']">
         <i class="icon-graduation"></i>
-        Institutes
+        {{translatorService.selectedLanguage.institutes}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['courses']">
         <i class="icon-layers"></i>
-        Courses
+        {{translatorService.selectedLanguage.courses}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['levels']">
         <i class="icon-equalizer"></i>
-        Levels
+        {{translatorService.selectedLanguage.levels}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['competencies']">
         <i class="icon-star"></i>
-        Competency
+        {{translatorService.selectedLanguage.competency}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['tools']">
         <i class="icon-wrench"></i>
-        Tools
+        {{translatorService.selectedLanguage.tools}}
       </a>
     </li>
   </ul>
   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-2 text-success">
-    <span>Badge Management</span>
+    <span>{{translatorService.selectedLanguage.badgeManagement}}</span>
   </h6>
   <ul class="nav flex-column mb-2">
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['newBadge']">
         <i class="icon-plus"></i>
-        New Badge
+        {{translatorService.selectedLanguage.newBadge}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['importBadge']">
         <i class="icon-cloud-download"></i>
-        Import Badges
+        {{translatorService.selectedLanguage.importBadges}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['updateMetadata']" (click)="hideBadgeEditForm()">
         <i class="icon-puzzle"></i>
-        Update Metadata
+        {{translatorService.selectedLanguage.updateMetadata}}
       </a>
     </li>
     <li class="nav-item pl-md-2" routerLinkActive = "active">
       <a class="nav-link" [routerLink] = "['viewAllBadges']" (click)="hideBadgeEditForm()">
         <i class="icon-folder"></i>
-        View All
+        {{translatorService.selectedLanguage.viewAll}}
       </a>
     </li>
   </ul>

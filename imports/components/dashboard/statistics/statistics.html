@@ -4,9 +4,9 @@
           <div class="card stasticsWidgetCard text-center">
               <div class="body">
                   <h6 class="mb-3"><i class="icon-user-following text-warning"></i></h6>
-                  <span>Total Users</span>
+                  <span>{{translatorService.selectedLanguage.totalUsers}}</span>
                   <h2 class="mb-1 number count-to" data-from="0" data-to="200" data-speed="2000" data-fresh-interval="700">{{totalUsers}}</h2>
-                  <small class="text-muted"> <a [routerLink]="['/dashboard/users']">View All</a></small>
+                  <small class="text-muted"> <a [routerLink]="['/dashboard/users']">{{translatorService.selectedLanguage.viewAll}}</a></small>
               </div>
           </div>
       </div>
@@ -14,9 +14,9 @@
           <div class="card stasticsWidgetCard text-center">
               <div class="body">
                   <h6 class="mb-3"><i class="icon-shield text-primary"></i></h6>
-                  <span>Total Badges</span>
+                  <span>{{translatorService.selectedLanguage.totalBadges}}</span>
                   <h2 class="mb-1 number count-to" data-from="0" data-to="123" data-speed="2000" data-fresh-interval="700">{{totalBadges}}</h2>
-                  <small class="text-muted"><a [routerLink]="['/dashboard/viewAllBadges']">View All</a></small>
+                  <small class="text-muted"><a [routerLink]="['/dashboard/viewAllBadges']">{{translatorService.selectedLanguage.viewAll}}</a></small>
               </div>
           </div>
       </div>
@@ -24,9 +24,10 @@
           <div class="card stasticsWidgetCard text-center">
               <div class="body">
                   <h6 class="mb-3"><i class="icon-cloud-download text-success"></i></h6>
-                  <span>Badges To Import</span>
+                  <span>{{translatorService.selectedLanguage.badgesToImport}}</span>
+                  <span *ngIf="loadingBadgesToImport"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span>
                   <h2 class="mb-1 number count-to" data-from="0" data-to="50" data-speed="2000" data-fresh-interval="700">{{totalImportBadgesCount}}</h2>
-                  <small class="text-muted"><a [routerLink]="['/dashboard/importBadge']">View All</a></small>
+                  <small class="text-muted"><a [routerLink]="['/dashboard/importBadge']">{{translatorService.selectedLanguage.viewAll}}</a></small>
               </div>
           </div>
       </div>
@@ -34,9 +35,9 @@
           <div class="card stasticsWidgetCard text-center">
               <div class="body">
                   <h6 class="mb-3"><i class="icon-puzzle text-info"></i></h6>
-                  <span>Missing Metadata</span>
+                  <span>{{translatorService.selectedLanguage.missingMetadata}}</span>
                   <h2 class="mb-1 number count-to" data-from="0" data-to="78" data-speed="2000" data-fresh-interval="700">{{totalMissingMetadata}}</h2>
-                  <small class="text-muted"> <a [routerLink]="['/dashboard/updateMetadata']">View All</a></small>
+                  <small class="text-muted"> <a [routerLink]="['/dashboard/updateMetadata']">{{translatorService.selectedLanguage.viewAll}}</a></small>
               </div>
           </div>
       </div>

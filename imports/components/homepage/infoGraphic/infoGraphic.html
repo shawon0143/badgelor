@@ -2,15 +2,38 @@
   <div class="container">
     <div class="row justify-center">
       <div class="col-md-6 pl-5 pr-5 text-center" [@scrollAnimation]="state">
-        <img src="images/rocketman.png" alt="" class="pl-4 pr-4 pt-4 pb-4 img-fluid">
+        <img
+          src="images/rocketman.png"
+          alt=""
+          class="pl-4 pr-4 pt-4 pb-4 img-fluid"
+        />
         <!-- <i class="icon-rocket"></i> -->
       </div>
       <div class="col-md-6 pl-5 pr-5 text-center text-md-left">
-        <h2 class="h1 text-primary mb-4 mt-4">{{translatorService.selectedLanguage.infoGraphicHeader}}</h2>
-        <h5 class="mb-4 mt-4">{{translatorService.selectedLanguage.infoGraphicText}}</h5>
+        <h2 class="h1 text-primary mb-4 mt-4">
+          {{translatorService.selectedLanguage.infoGraphicHeader}}
+        </h2>
+        <h5 class="mb-4 mt-4">
+          {{translatorService.selectedLanguage.infoGraphicText}}
+        </h5>
         <p>
-          <button *ngIf = "!accountService.isUserLoggedIn" class="btn btn-success mr-2" (click) = "signupNow()" type="button" >Signup Now</button>
-          <button class="btn btn-outline-primary" [ngClass]="{'btn-lg': accountService.isUserLoggedIn}" type="button" name="button" [routerLink]="['/earnableBadges']">Find Badge</button>
+          <button
+            *ngIf="!accountService.isUserLoggedIn"
+            class="btn btn-success mr-2"
+            (click)="signupNow()"
+            type="button"
+          >
+            {{translatorService.selectedLanguage.signupNow}}
+          </button>
+          <button
+            class="btn btn-outline-primary"
+            [ngClass]="{'btn-lg': accountService.isUserLoggedIn}"
+            type="button"
+            name="button"
+            [routerLink]="['/earnableBadges']"
+          >
+            {{translatorService.selectedLanguage.findBadge}}
+          </button>
         </p>
       </div>
     </div>

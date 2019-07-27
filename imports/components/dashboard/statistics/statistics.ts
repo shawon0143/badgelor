@@ -6,6 +6,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
 import { AccountService } from '/imports/service/accountService';
 import { BadgeService } from '/imports/service/badgeService';
+import { TranslatorService } from '/imports/service/translatorService';
 import { MetadataDB } from "/imports/api/index";
 
 import template from './statistics.html';
@@ -27,10 +28,12 @@ export class DashboardStatistics implements OnInit, OnDestroy {
   allBadges = [];
   allImportBadges = [];
   totalImportBadgesCount;
+  loadingBadgesToImport: boolean = true;
 
   constructor(public accountService: AccountService,
               public router: Router,
-              private badgeService: BadgeService) {
+              private badgeService: BadgeService,
+              public translatorService: TranslatorService) {
 
     this.meteorSubscriptionAllUser = MeteorObservable.subscribe<any>("publishAllUserForAdminStatistics").subscribe(() => {
       MeteorObservable.autorun().subscribe(() => {
@@ -101,6 +104,7 @@ export class DashboardStatistics implements OnInit, OnDestroy {
         return localBadgeIdList.indexOf(res.badge_id) === -1;
       } );
     }
+    this.loadingBadgesToImport = false;
     return filteredBadges.length;
   }
 

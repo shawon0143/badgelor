@@ -19,7 +19,7 @@
             <input class="form-control border-right-0 pr-0"
                    type="text"
                    name="searchBadge"
-                   placeholder="What badge do you want to earn?"
+                   placeholder={{translatorService.selectedLanguage.badgeSearchPlaceholder}}
                    (keyup)="searchService.search()"
                    (focus)="searchService.resetAllFilter()"
                    [(ngModel)]="searchService.searchKeywords">
@@ -29,7 +29,7 @@
               </button>
             </div>
           </div>
-          <h5 class="form-text">Search any keyword, badge name, course name and so on.</h5>
+          <h5 class="form-text">{{translatorService.selectedLanguage.searchHelpText}}</h5>
         </div>
       </form>
       <!-- End Search Form -->
@@ -62,7 +62,7 @@
       <!-- ======== Left Sidebar ======= -->
       <!-- ============================= -->
       <div class="pr-4" [@slideInOut] = 'searchService.slideinAnimationState' [ngClass] = "{'col-lg-3': slideinAnimationState === 'in'}">
-        <h2 class="h5 text-uppercase filterHeading">Level</h2>
+        <h2 class="h5 text-uppercase filterHeading">{{translatorService.selectedLanguage.level}}</h2>
         <hr>
         <form class="mb-4">
           <ng-container *ngFor = "let level of searchService.allLevels">
@@ -79,7 +79,7 @@
         </form>
 
 
-        <h2 class="h5 text-uppercase filterHeading">Competency</h2>
+        <h2 class="h5 text-uppercase filterHeading">{{translatorService.selectedLanguage.competency}}</h2>
         <hr>
         <form class="mb-4">
           <ng-container *ngFor = "let competency of searchService.allCompetencies">
@@ -98,7 +98,7 @@
           </ng-container>
         </form>
 
-        <h2 class="h5 text-uppercase filterHeading">Tool</h2>
+        <h2 class="h5 text-uppercase filterHeading">{{translatorService.selectedLanguage.tool}}</h2>
         <hr>
         <form class="mb-4">
           <ng-container *ngFor = "let tool of searchService.allTools">
@@ -195,12 +195,12 @@
                   <ul class="row list-inline pt-3 pb-3 m-0">
                     <li class="col p-sm-0 border-right">
                       <a class="text-muted viewLink" (click) = "badgeService.showSingleBadgeModal(badge.badge_id)">
-                        <i class="icon-size-fullscreen"></i> View
+                        <i class="icon-size-fullscreen"></i> {{translatorService.selectedLanguage.view}}
                       </a>
                     </li>
                     <li class="col p-sm-0">
                       <a class="text-muted shareLink" (click) = "applyForBadge(badge.id)">
-                        <i class="icon-note"></i> Apply
+                        <i class="icon-note"></i> {{translatorService.selectedLanguage.apply}}
                       </a>
                     </li>
                   </ul>

@@ -8,6 +8,7 @@ import { AccountService } from '/imports/service/accountService';
 import { AutoLogoutService } from '/imports/service/autoLogout';
 import { BadgeService } from '/imports/service/badgeService';
 import { SearchService } from '/imports/service/searchService';
+import { TranslatorService } from '/imports/service/translatorService';
 
 import { fadeInAnimation,slideInOut } from '/imports/service/animations';
 
@@ -41,7 +42,8 @@ export class EarnableBadges implements OnInit, OnDestroy {
                public accountService: AccountService,
                private autoLogoutService: AutoLogoutService,
                private badgeService: BadgeService,
-               private searchService: SearchService) {
+               private searchService: SearchService,
+               private translatorService: TranslatorService) {
 
 
                  this.metadataSubscription = MeteorObservable.subscribe<any>("publishAllMetadata").subscribe(() => {

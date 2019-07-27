@@ -206,6 +206,10 @@ export class AddNewBadge implements OnInit {
   // ======= END OF upload image methods =====
   // =========================================
 
+  hideBadgeEditForm() {
+    this.badgeService.showBadgeEditForm = false;
+  }
+
   ngOnDestroy() {
     if (this.meteorSubscriptionCourse) {
       this.meteorSubscriptionCourse.unsubscribe();

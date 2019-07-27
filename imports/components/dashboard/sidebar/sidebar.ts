@@ -5,6 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
 import { AccountService } from '/imports/service/accountService';
 import { BadgeService } from '/imports/service/badgeService';
+import { TranslatorService } from '/imports/service/translatorService';
 
 import template from './sidebar.html';
 
@@ -18,7 +19,9 @@ import template from './sidebar.html';
 
 export class DashboardSidebar implements OnInit {
 
-  constructor(public accountService: AccountService, public badgeService: BadgeService) {
+  constructor(public accountService: AccountService,
+              public badgeService: BadgeService,
+              public translatorService: TranslatorService) {
 
 
   }
