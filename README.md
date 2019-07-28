@@ -63,7 +63,7 @@ There are several ways to deploy a meteor application. Badgelor was deployed and
 ## Acknowledgments
 
 - Dr. Peter Ferdinand
-- Dr Ingo Dahn
+- Dr. Ingo Dahn
 - Dr. Andreas Kämper
 - Sergei Pachtchenko
 - Marco Brack

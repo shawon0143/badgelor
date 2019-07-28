@@ -54,7 +54,7 @@ export class SearchService {
     this.earnableBadges = new Mongo.Collection(null);
     MeteorObservable.call("getEarnableBadges").subscribe(response => {
       if (response != undefined || response != "") {
-        // console.log(response);
+        console.log(response);
         // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
         var localBadgeList = MetadataDB.find({
           levelID: { $nin: [""] }
@@ -66,31 +66,44 @@ export class SearchService {
               localBadgeList[i]["badge_image"] = response[key].badge_image;
               localBadgeList[i]["name"] = response[key].name;
               localBadgeList[i]["id"] = response[key].id;
-              let courseDB = CourseDB.findOne({
-                _id: localBadgeList[i].courses[0]
-              });
-              localBadgeList[i]["campusName"] = CampusDB.findOne({
-                _id: courseDB.campusID
-              }).name;
-              localBadgeList[i]["facultyName"] = FacultyDB.findOne({
-                _id: courseDB.facultyID
-              }).name;
-              localBadgeList[i]["instituteName"] = InstituteDB.findOne({
-                _id: courseDB.instituteID
-              }).name;
-              localBadgeList[i]["competencyName"] = CompetencyDB.findOne({
-                _id: localBadgeList[i].competencyID
-              }).name;
-              localBadgeList[i]["levelName"] = LevelDB.findOne({
-                _id: localBadgeList[i].levelID
-              }).name;
-              localBadgeList[i].courses[0] = CourseDB.findOne({
-                _id: localBadgeList[i].courses[0]
-              }).name;
+
+              // get course name
+              let courseDB = CourseDB.findOne({_id: localBadgeList[i].courses[0]});
+              if (courseDB !== undefined) {
+                localBadgeList[i].courses[0] = courseDB["name"];
+              }
+              // get campus name
+              let campusDB = CampusDB.findOne({_id: courseDB.campusID});
+              if (campusDB !== undefined) {
+                localBadgeList[i]["campusName"] = campusDB["name"];
+              }
+              // get faculty name
+              let facultyDB = FacultyDB.findOne({_id: courseDB.facultyID});
+              if (facultyDB !== undefined) {
+                localBadgeList[i]["facultyName"] = facultyDB["name"];
+              }
+              // get institute name
+              let instituteDB = InstituteDB.findOne({_id: courseDB.instituteID});
+              if (instituteDB !== undefined) {
+                localBadgeList[i]["instituteName"] = instituteDB["name"];
+              }
+              // get competency name
+              let competencyDB = CompetencyDB.findOne({_id: localBadgeList[i].competencyID});
+              if (competencyDB !== undefined) {
+                localBadgeList[i]["competencyName"] = competencyDB["name"];
+              }
+              // get level name
+              let levelDB = LevelDB.findOne({_id: localBadgeList[i].levelID});
+              if (levelDB !== undefined) {
+                localBadgeList[i]["levelName"] = levelDB["name"];
+              }
+
+              // get tool names
               for (let j in localBadgeList[i].tools) {
-                localBadgeList[i].tools[j] = ToolDB.findOne({
-                  _id: localBadgeList[i].tools[j]
-                }).name;
+                let toolDB = ToolDB.findOne({_id: localBadgeList[i].tools[j]});
+                if (toolDB !== undefined) {
+                  localBadgeList[i].tools[j] = toolDB["name"];
+                }
               }
 
               this.earnableBadges.insert(localBadgeList[i]);

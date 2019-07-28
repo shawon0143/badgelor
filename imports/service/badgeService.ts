@@ -684,23 +684,27 @@ showSideMenuOnUI() {
         // console.log(response);
         this.selectedToolNames = [];
         this.selectedCourseNames = [];
+        this.selectedIssuers = [];
 
-        this.selectedIssuers = response['metadata']['issuers'];
-        for (let key in response['metadata'].tools) {
-          let tool = ToolDB.findOne({"_id": response['metadata'].tools[key]});
-          if (tool !== undefined) {
-            this.addToolToMetadata(tool)
+        if (response['metadata'] !== undefined && response['metadata'] !== null) {
+          this.selectedIssuers = response['metadata']['issuers'];
+          for (let key in response['metadata'].tools) {
+            let tool = ToolDB.findOne({"_id": response['metadata'].tools[key]});
+            if (tool !== undefined) {
+              this.addToolToMetadata(tool)
+            }
           }
-        }
-        for (let i in response['metadata'].courses) {
-          let course = CourseDB.findOne({"_id": response['metadata'].courses[i]});
-          if (course !== undefined) {
-            this.addCourseToMetadata(course)
+          for (let i in response['metadata'].courses) {
+            let course = CourseDB.findOne({"_id": response['metadata'].courses[i]});
+            if (course !== undefined) {
+              this.addCourseToMetadata(course)
+            }
           }
+
+
+          this.metadata = response['metadata'];
+
         }
-
-
-        this.metadata = response['metadata'];
         this.newBadgeData = {
           name: response["name"],
           description: response["description"],
@@ -709,6 +713,8 @@ showSideMenuOnUI() {
           draft: response["draft"],
           metadata: this.metadata
         };
+
+
         window.scrollTo(0,0);// jump the window position to the top.
         // console.log(this.newBadgeData)
 
