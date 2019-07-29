@@ -85,7 +85,7 @@ if (Meteor.isServer) {
       // filtered by their email address
 
       'getAllBadgeApplication'(earnableID, userEmail) {
-        console.log(userEmail);
+        // console.log(userEmail);
         this.unblock();
         var badgelorAppConfig = new AppConfig();
 
@@ -129,7 +129,7 @@ if (Meteor.isServer) {
 
 
           return response;
-        
+
 
       },
 

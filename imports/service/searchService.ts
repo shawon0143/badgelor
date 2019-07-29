@@ -54,7 +54,7 @@ export class SearchService {
     this.earnableBadges = new Mongo.Collection(null);
     MeteorObservable.call("getEarnableBadges").subscribe(response => {
       if (response != undefined || response != "") {
-        console.log(response);
+        // console.log(response);
         // var localBadgeIdList = MetadataDB.find({"levelID": { "$nin": [ "" ] }}).fetch().map(function(it) { return it.badge_id});
         var localBadgeList = MetadataDB.find({
           levelID: { $nin: [""] }
