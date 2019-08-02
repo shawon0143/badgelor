@@ -6,7 +6,7 @@ set -e
 SERVER=root@hatbazaruk.com
 APP_DIR=/var/www/badgelor
 KEYFILE=
-REMOTE_SCRIPT_PATH=/tmp/deploy-badgelor.sh
+REMOTE_SCRIPT_PATH=/tmp/deploy-myapp.sh
 
 
 ### Library ###
