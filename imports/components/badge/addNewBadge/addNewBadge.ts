@@ -48,7 +48,8 @@ export class AddNewBadge implements OnInit {
 
   constructor(public accountService: AccountService,
               public badgeService: BadgeService,
-              private editorService: TuiService) {
+              private editorService: TuiService,
+              public router: Router) {
 
               // Subscribe all courses
               this.meteorSubscriptionCourse = MeteorObservable.subscribe<any>("publishAllCourses").subscribe(() => {
@@ -160,15 +161,14 @@ export class AddNewBadge implements OnInit {
   // add creator and issuer value as admin email
   addIssuerAndCreatorEmail() {
     // we assign the logged in admin/creator to badgeService.newBadgeData.creator and badgeService.metadata.selectedIssuer
-    if (this.badgeService.showBadgeEditForm === false) {
+    let str = this.router.url;
+    let currentRoute = str.substring(str.lastIndexOf("/") + 1, str.length);
+    if (currentRoute === 'updateMetadata') {
       if (this.accountService.isUserLoggedIn && this.accountService.currentUser) {
-        if (this.badgeService.selectedIssuers.length <= 0) {
           this.badgeService.selectedIssuers.push(this.accountService.currentUser.emails[0].address);
           this.badgeService.metadata.creator = this.accountService.currentUser.emails[0].address;
-        }
       }
     }
-
   }
 
   // =================================

@@ -673,11 +673,19 @@ showSideMenuOnUI() {
 
   editThisBadge(badge_id) {
 
+
     this.showBadgeEditForm = true; // show badge edit form flag
     this.selectedBadgeIdForEdit = badge_id;
-    this.isLevelSelectedForNewBadge = true;
-    this.isCompetencySelectedForNewBadge = true;
-
+    // handle isLevelSelectedForNewBadge and isCompetencySelectedForNewBadge
+    // because they won't be 'true' if we come for metadata update
+    // they will be 'true' if we just come for updating badge(because those badge already has metadata).
+    let str = this.router.url;
+    let currentRoute = str.substring(str.lastIndexOf("/") + 1, str.length);
+    // console.log(this.currentRoute);
+    if (currentRoute !== 'updateMetadata') {
+      this.isLevelSelectedForNewBadge = true;
+      this.isCompetencySelectedForNewBadge = true;
+    }
 
     this.meteorSingleBadgeSubscription = MeteorObservable.call('getSingleBadge', badge_id).subscribe((response) => {
       if (response != undefined || response != "") {
@@ -685,26 +693,31 @@ showSideMenuOnUI() {
         this.selectedToolNames = [];
         this.selectedCourseNames = [];
         this.selectedIssuers = [];
-
-        if (response['metadata'] !== undefined && response['metadata'] !== null) {
-          this.selectedIssuers = response['metadata']['issuers'];
-          for (let key in response['metadata'].tools) {
-            let tool = ToolDB.findOne({"_id": response['metadata'].tools[key]});
-            if (tool !== undefined) {
-              this.addToolToMetadata(tool)
+        // for metadata input we don't retrieve previous metadata instead we enter new metadata.
+        // we are facing errors because we are entering data from different system
+        // so when we read the _id, it doesn't match.
+        if (currentRoute !== 'updateMetadata') {
+          if (response['metadata'] !== undefined && response['metadata'] !== null) {
+            this.selectedIssuers = response['metadata']['issuers'];
+            for (let key in response['metadata'].tools) {
+              let tool = ToolDB.findOne({"_id": response['metadata'].tools[key]});
+              if (tool !== undefined) {
+                this.addToolToMetadata(tool)
+              }
             }
-          }
-          for (let i in response['metadata'].courses) {
-            let course = CourseDB.findOne({"_id": response['metadata'].courses[i]});
-            if (course !== undefined) {
-              this.addCourseToMetadata(course)
+            for (let i in response['metadata'].courses) {
+              let course = CourseDB.findOne({"_id": response['metadata'].courses[i]});
+              if (course !== undefined) {
+                this.addCourseToMetadata(course)
+              }
             }
+
+
+            this.metadata = response['metadata'];
+
           }
-
-
-          this.metadata = response['metadata'];
-
         }
+
         this.newBadgeData = {
           name: response["name"],
           description: response["description"],
@@ -735,7 +748,7 @@ showSideMenuOnUI() {
   getAllBadges() {
     this.dataIsLoading = true; // show loading animation
     this.isTheSystemHasBadges = false;
-    var localBadgeIdList = MetadataDB.find().fetch().map(function(it) { return it.badge_id});
+    var localBadgeIdList = MetadataDB.find({levelID: { $nin: [""] }}).fetch().map(function(it) { return it.badge_id});
 
     if (localBadgeIdList.length > 0) {
 

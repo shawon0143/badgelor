@@ -247,7 +247,7 @@ if (Meteor.isServer) {
     },
 
     'getNumberOfBadges'() {
-      return MetadataDB.collection.find().count();
+      return MetadataDB.collection.find({levelID: { $nin: [""] }}).count();
     },
 
     'missingMetadataCount'() {

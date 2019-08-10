@@ -60,6 +60,9 @@ There are several ways to deploy a meteor application. Badgelor was deployed and
 3. <https://github.com/zodern/meteor-up>
 4. <https://www.phusionpassenger.com/library/>
 
+## (Feature <-> Role) mapping
+![Role image](public/images/roles.png)
+
 ## Acknowledgments
 
 - Dr. Peter Ferdinand
