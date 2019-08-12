@@ -564,7 +564,7 @@ export class AccountService {
 
       } // if (response["firstName"])
 
-      if (response["feedback"] === "Invalid password") {
+      if (response["error"] === "Invalid password") {
         this.isUserCredentialsWrong = true;
       }
     });// MeteorObservable.call("bindAndSearch")
@@ -645,7 +645,7 @@ export class AccountService {
       // if user is not a landau miterbeiter
       // we send request to student database
       // ==============================================
-      if (response["feedback"] === "Invalid password") {
+      if (response["error"] === "Invalid password") {
         var dataForLdap = {
           username: username,
           password: this.signupData.password,
@@ -710,7 +710,7 @@ export class AccountService {
               console.log(err);
             });
           } // if (response["name"])
-          if (response["feedback"] === "Invalid password") {
+          if (response["error"] === "Invalid password") {
             this.isUserCredentialsWrong = true;
           }
         });
