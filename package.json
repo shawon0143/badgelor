@@ -27,7 +27,7 @@
     "fibers": "^2.0.2",
     "font-awesome": "^4.7.0",
     "hoek": "^5.0.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ldapjs": "^1.0.2",
     "mem": "^5.1.1",
     "meteor-node-stubs": "^0.3.3",
