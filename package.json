@@ -32,7 +32,7 @@
     "mem": "^5.1.1",
     "meteor-node-stubs": "^0.3.3",
     "meteor-rxjs": "^0.4.14",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ngx-tui-editor": "^0.3.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^5.5.12",
